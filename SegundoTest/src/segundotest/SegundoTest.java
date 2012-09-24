@@ -2,18 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ahoraaaaaa;
+package segundotest;
 
 /**
  *
- * @author JORGE
+ * @author mat.aules
  */
-public class Ahoraaaaaa {
+public class SegundoTest {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        //hola
     }
 }
