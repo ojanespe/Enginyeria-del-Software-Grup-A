@@ -33,6 +33,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.TextureKey;
 import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
@@ -40,15 +41,23 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Sphere;
+import com.jme3.scene.shape.Sphere.TextureMode;
+import com.jme3.texture.Texture;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
@@ -56,6 +65,10 @@ import com.jme3.scene.Spatial;
 public class testJoc extends SimpleApplication
         implements ActionListener {
 
+  private Material stone_mat;
+  private RigidBodyControl    ball_phy;
+  private static final Sphere sphere;
+  
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
@@ -68,6 +81,10 @@ public class testJoc extends SimpleApplication
     app.start();
   }
 
+  static{
+      sphere = new Sphere(32, 32, 0.4f, true, false);
+      sphere.setTextureMode(TextureMode.Projected);
+  }
   public void simpleInitApp() {
     /** Set up Physics */
     bulletAppState = new BulletAppState();
@@ -81,8 +98,7 @@ public class testJoc extends SimpleApplication
     setUpLight();
 
     // We load the scene from the zip file and adjust its size.
-    assetManager.registerLocator("openBox.zip", ZipLocator.class);
-    sceneModel = assetManager.loadModel("openBox.scene");
+    sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
 
     Spatial cube1 = assetManager.loadModel("Models/cube.mesh.xml");
@@ -105,6 +121,7 @@ public class testJoc extends SimpleApplication
     
     RigidBodyControl cube2Control = new RigidBodyControl(1f);
     cube2.addControl(cube2Control);
+    
     // We set up collision detection for the player by creating
     // a capsule collision shape and a CharacterControl.
     // The CharacterControl offers extra settings for
@@ -126,6 +143,10 @@ public class testJoc extends SimpleApplication
     bulletAppState.getPhysicsSpace().add(player);
     bulletAppState.getPhysicsSpace().add(cubeControl);
     bulletAppState.getPhysicsSpace().add(cube2Control);
+    
+    initMaterials();
+
+    initCrossHairs();
   }
 
   private void setUpLight() {
@@ -144,11 +165,13 @@ public class testJoc extends SimpleApplication
   /** We over-write some navigational key mappings here, so we can
    * add physics-controlled walking and jumping: */
   private void setUpKeys() {
+    inputManager.addMapping("shoot", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
     inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
     inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
     inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
     inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
     inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+    inputManager.addListener(this, "shoot");
     inputManager.addListener(this, "Left");
     inputManager.addListener(this, "Right");
     inputManager.addListener(this, "Up");
@@ -169,9 +192,51 @@ public class testJoc extends SimpleApplication
       if (value) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
       player.jump();
+    }else if (binding.equals("shoot") ) {
+        makeCannonBall();
     }
   }
+  
+  public void initMaterials(){
+    stone_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+    TextureKey key2 = new TextureKey("Textures/Terrain/Rock/Rock.PNG");
+    key2.setGenerateMips(true);
+    Texture tex2 = assetManager.loadTexture(key2);
+    stone_mat.setTexture("ColorMap", tex2);
+    }
 
+  
+  public void makeCannonBall() {
+    /** Create a cannon ball geometry and attach to scene graph. */
+    Geometry ball_geo = new Geometry("cannon ball", sphere);
+    ball_geo.setMaterial(stone_mat);
+    rootNode.attachChild(ball_geo);
+    /** Position the cannon ball  */
+    ball_geo.setLocalTranslation(cam.getLocation());
+    /** Make the ball physcial with a mass > 0.0f */
+    ball_phy = new RigidBodyControl(1f);
+    /** Add physical ball to physics space. */
+    ball_geo.addControl(ball_phy);
+    bulletAppState.getPhysicsSpace().add(ball_phy);
+    /** Accelerate the physcial ball to shoot it. */
+      System.out.println(cam.getDirection());
+      System.out.println(cam.getLocation());
+      System.out.println("---------");
+    ball_phy.setLinearVelocity(cam.getDirection().mult(25));
+  }
+ 
+  /** A plus sign used as crosshairs to help the player with aiming.*/
+  protected void initCrossHairs() {
+    guiNode.detachAllChildren();
+    guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+    BitmapText ch = new BitmapText(guiFont, false);
+    ch.setSize(guiFont.getCharSet().getRenderedSize() * 2);
+    ch.setText("+");        // fake crosshairs :)
+    ch.setLocalTranslation( // center
+      settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
+      settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
+    guiNode.attachChild(ch);
+  }
   /**
    * This is the main event loop--walking happens here.
    * We check in which direction the player is walking by interpreting
