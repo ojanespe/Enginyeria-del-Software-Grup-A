@@ -101,9 +101,9 @@ public class testJoc extends SimpleApplication
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
 
-    Spatial cube1 = assetManager.loadModel("Models/cube.mesh.xml");
-    cube1.setLocalScale(2f);
-    cube1.setLocalTranslation(0f, 20f, -30f);
+    Spatial cube1 = assetManager.loadModel("Models/BarrettM82/barette.50.j3o");
+    cube1.setLocalScale(0.5f);
+    cube1.setLocalTranslation(10f, 10f, 0f);
     
     Spatial cube2 = assetManager.loadModel("Models/cube2.mesh.xml");
     cube2.setLocalScale(2f);
@@ -219,9 +219,9 @@ public class testJoc extends SimpleApplication
     ball_geo.addControl(ball_phy);
     bulletAppState.getPhysicsSpace().add(ball_phy);
     /** Accelerate the physcial ball to shoot it. */
-      System.out.println(cam.getDirection());
-      System.out.println(cam.getLocation());
-      System.out.println("---------");
+//      System.out.println(cam.getDirection());
+//      System.out.println(cam.getLocation());
+//      System.out.println("---------");
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
   }
  
