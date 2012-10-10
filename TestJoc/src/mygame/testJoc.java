@@ -101,7 +101,7 @@ public class testJoc extends SimpleApplication
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
 
-    Spatial cube1 = assetManager.loadModel("Models/BarrettM82/barette.50.j3o");
+   Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
     cube1.setLocalScale(0.5f);
     cube1.setLocalTranslation(10f, 10f, 0f);
     
