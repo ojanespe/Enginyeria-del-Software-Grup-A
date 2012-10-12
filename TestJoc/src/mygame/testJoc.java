@@ -58,12 +58,15 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
+import sound.SoundManager;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
  */
 public class testJoc extends SimpleApplication
         implements ActionListener {
+    
+  private SoundManager soundManager;
 
   private Material stone_mat;
   private RigidBodyControl    ball_phy;
@@ -86,6 +89,9 @@ public class testJoc extends SimpleApplication
       sphere.setTextureMode(TextureMode.Projected);
   }
   public void simpleInitApp() {
+    // Set up the sound
+    soundManager = new SoundManager(assetManager, rootNode);
+    
     /** Set up Physics */
     bulletAppState = new BulletAppState();
     stateManager.attach(bulletAppState);
@@ -194,6 +200,8 @@ public class testJoc extends SimpleApplication
       player.jump();
     }else if (binding.equals("shoot") ) {
         makeCannonBall();
+        //soundManager.play(gun.getShootSound());
+        soundManager.play("sounds/shot_m9.wav");
     }
   }
   
