@@ -96,6 +96,7 @@ public class testJoc extends SimpleApplication
     flyCam.setMoveSpeed(100);
     setUpKeys();
     setUpLight();
+    //Test
 
     // We load the scene from the zip file and adjust its size.
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
