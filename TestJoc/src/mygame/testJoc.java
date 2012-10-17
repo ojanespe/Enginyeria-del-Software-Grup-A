@@ -96,6 +96,9 @@ public class testJoc extends SimpleApplication
     flyCam.setMoveSpeed(100);
     setUpKeys();
     setUpLight();
+    setUpLight();
+    setUpLight();
+    
 
     //test
     
