@@ -72,19 +72,21 @@ public class testJoc extends SimpleApplication
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
-  private CharacterControl player;
+  //private CharacterControl player;
+  private Soldado s;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
-
+  
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();
   }
 
   static{
-      sphere = new Sphere(32, 32, 0.4f, true, false);
+      sphere = new Sphere(24, 24, 0.1f, true, false);
       sphere.setTextureMode(TextureMode.Projected);
   }
+  
   public void simpleInitApp() {
     /** Set up Physics */
     bulletAppState = new BulletAppState();
@@ -101,7 +103,7 @@ public class testJoc extends SimpleApplication
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
 
-   Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
+    Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
     cube1.setLocalScale(0.5f);
     cube1.setLocalTranslation(10f, 10f, 0f);
     
@@ -127,12 +129,13 @@ public class testJoc extends SimpleApplication
     // The CharacterControl offers extra settings for
     // size, stepheight, jumping, falling, and gravity.
     // We also put the player in its starting position.
-    CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+    /*CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
     player = new CharacterControl(capsuleShape, 0.05f);
     player.setJumpSpeed(20);
     player.setFallSpeed(60);
     player.setGravity(60);
-    player.setPhysicsLocation(new Vector3f(0, 10, 0));
+    player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
+    s = new Soldado();
 
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
@@ -140,12 +143,11 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(cube1);
     rootNode.attachChild(cube2);
     bulletAppState.getPhysicsSpace().add(landscape);
-    bulletAppState.getPhysicsSpace().add(player);
+    bulletAppState.getPhysicsSpace().add(s.getPlayer());
     bulletAppState.getPhysicsSpace().add(cubeControl);
     bulletAppState.getPhysicsSpace().add(cube2Control);
     
     initMaterials();
-
     initCrossHairs();
   }
 
@@ -191,9 +193,12 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("Down")) {
       if (value) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
-      player.jump();
-    }else if (binding.equals("shoot") ) {
-        makeCannonBall();
+      s.getPlayer().jump();
+    } else if (binding.equals("shoot")) {
+      s.incremenDisparos();
+      System.out.println("Disparos efectuados: "+s.getDisparos());
+      makeCannonBall();
+      
     }
   }
   
@@ -201,9 +206,9 @@ public class testJoc extends SimpleApplication
     stone_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
     TextureKey key2 = new TextureKey("Textures/Terrain/Rock/Rock.PNG");
     key2.setGenerateMips(true);
-    Texture tex2 = assetManager.loadTexture(key2);
+    Texture tex2 = assetManager.loadTexture(key2);    
     stone_mat.setTexture("ColorMap", tex2);
-    }
+  }
 
   
   public void makeCannonBall() {
@@ -219,9 +224,6 @@ public class testJoc extends SimpleApplication
     ball_geo.addControl(ball_phy);
     bulletAppState.getPhysicsSpace().add(ball_phy);
     /** Accelerate the physcial ball to shoot it. */
-//      System.out.println(cam.getDirection());
-//      System.out.println(cam.getLocation());
-//      System.out.println("---------");
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
   }
  
@@ -230,13 +232,21 @@ public class testJoc extends SimpleApplication
     guiNode.detachAllChildren();
     guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
     BitmapText ch = new BitmapText(guiFont, false);
-    ch.setSize(guiFont.getCharSet().getRenderedSize() * 2);
+    ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
     ch.setText("+");        // fake crosshairs :)
     ch.setLocalTranslation( // center
       settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
       settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
     guiNode.attachChild(ch);
-  }
+    
+    /** Write text on the screen (HUD) */
+    BitmapText contDisp = new BitmapText(guiFont, false);
+    contDisp.setSize(guiFont.getCharSet().getRenderedSize()*3);
+    contDisp.setText("Disparos: "+ s.getDisparos());
+    contDisp.setLocalTranslation(300, contDisp.getLineHeight(), 0);
+    guiNode.attachChild(contDisp);
+  }        
+  
   /**
    * This is the main event loop--walking happens here.
    * We check in which direction the player is walking by interpreting
@@ -244,6 +254,7 @@ public class testJoc extends SimpleApplication
    * The setWalkDirection() command is what lets a physics-controlled player walk.
    * We also make sure here that the camera moves with player.
    */
+  
   @Override
   public void simpleUpdate(float tpf) {
     Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
@@ -253,7 +264,7 @@ public class testJoc extends SimpleApplication
     if (right) { walkDirection.addLocal(camLeft.negate()); }
     if (up)    { walkDirection.addLocal(camDir); }
     if (down)  { walkDirection.addLocal(camDir.negate()); }
-    player.setWalkDirection(walkDirection);
-    cam.setLocation(player.getPhysicsLocation());
+    s.getPlayer().setWalkDirection(walkDirection);
+    cam.setLocation(s.getPlayer().getPhysicsLocation());
   }
 }
