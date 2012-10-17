@@ -197,9 +197,9 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("shoot")) {
       s.incremenDisparos();
       System.out.println("Disparos efectuados: "+s.getDisparos());
-      makeCannonBall();
-      
+      makeCannonBall();      
     }
+    refrexCrossHairs();
   }
   
   public void initMaterials(){
@@ -240,6 +240,25 @@ public class testJoc extends SimpleApplication
     guiNode.attachChild(ch);
     
     /** Write text on the screen (HUD) */
+    BitmapText contDisp = new BitmapText(guiFont, false);
+    contDisp.setSize(guiFont.getCharSet().getRenderedSize()*3);
+    contDisp.setText("Disparos: 0");
+    contDisp.setLocalTranslation(300, contDisp.getLineHeight(), 0);
+    guiNode.attachChild(contDisp);
+  }
+  
+  protected void refrexCrossHairs() {
+    guiNode.detachAllChildren();
+    guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
+    
+    BitmapText ch = new BitmapText(guiFont, false);
+    ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
+    ch.setText("+");        // fake crosshairs :)
+    ch.setLocalTranslation( // center
+      settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
+      settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
+    guiNode.attachChild(ch);
+    
     BitmapText contDisp = new BitmapText(guiFont, false);
     contDisp.setSize(guiFont.getCharSet().getRenderedSize()*3);
     contDisp.setText("Disparos: "+ s.getDisparos());
