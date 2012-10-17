@@ -32,6 +32,9 @@
 
 package mygame;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
 import com.jme3.asset.plugins.ZipLocator;
@@ -63,12 +66,14 @@ import com.jme3.texture.Texture;
  * Carrega del openBox amb els dos tipus de cub solids.
  */
 public class testJoc extends SimpleApplication
-        implements ActionListener {
+        implements AnimEventListener,ActionListener {
 
   private Material stone_mat;
   private RigidBodyControl    ball_phy;
   private static final Sphere sphere;
-  
+  private Spatial cube2;
+  int z = 10;
+  RigidBodyControl cube2Control;
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
@@ -76,9 +81,14 @@ public class testJoc extends SimpleApplication
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
 
+  
+  private AnimControl bot;
+  
+  
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();
+
   }
 
   static{
@@ -103,11 +113,18 @@ public class testJoc extends SimpleApplication
 
    Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
     cube1.setLocalScale(0.5f);
-    cube1.setLocalTranslation(10f, 10f, 0f);
+    cube1.setLocalTranslation(10f, 1000f, 0f);
     
-    Spatial cube2 = assetManager.loadModel("Models/cube2.mesh.xml");
-    cube2.setLocalScale(2f);
-    cube2.setLocalTranslation(10f, 25f, -30f);
+    cube2 = assetManager.loadModel("Models/soldier/soldier.j3o");
+    cube2.setLocalScale(0.03f);
+    cube2.setLocalTranslation(10f, 1000f, -10f);
+    
+    
+    Node botNode = (Node) assetManager.loadModel("Models/soldier/soldier.j3o"); // load a model
+    bot = botNode.getControl(AnimControl.class); // get control over this model
+    bot.addListener(this); // add listener
+    
+    
     // We set up collision detection for the scene by creating a
     // compound collision shape and a static RigidBodyControl with mass zero.
     CollisionShape sceneShape =
@@ -119,14 +136,16 @@ public class testJoc extends SimpleApplication
     RigidBodyControl cubeControl = new RigidBodyControl(5f);
     cube1.addControl(cubeControl);
     
-    RigidBodyControl cube2Control = new RigidBodyControl(1f);
-    cube2.addControl(cube2Control);
+    cube2Control = new RigidBodyControl(10f);
     
+    cube2.addControl(cube2Control);
+    //cube2Control.setLinearVelocity(new Vector3f(0,0,10));
     // We set up collision detection for the player by creating
     // a capsule collision shape and a CharacterControl.
     // The CharacterControl offers extra settings for
     // size, stepheight, jumping, falling, and gravity.
     // We also put the player in its starting position.
+    
     CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
     player = new CharacterControl(capsuleShape, 0.05f);
     player.setJumpSpeed(20);
@@ -134,7 +153,7 @@ public class testJoc extends SimpleApplication
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
 
-    // We attach the scene and the player to the rootnode and the physics space,
+    // We attach the scene and the player tthe rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cube1);
@@ -191,9 +210,10 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("Down")) {
       if (value) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
-      player.jump();
+      player.jump();moverCubo();
     }else if (binding.equals("shoot") ) {
         makeCannonBall();
+        
     }
   }
   
@@ -223,6 +243,14 @@ public class testJoc extends SimpleApplication
 //      System.out.println(cam.getLocation());
 //      System.out.println("---------");
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
+  }
+  
+  public void moverCubo(){
+      
+          cube2Control.setLinearVelocity(new Vector3f(10,0,z));
+          
+          
+      
   }
  
   /** A plus sign used as crosshairs to help the player with aiming.*/
@@ -254,6 +282,16 @@ public class testJoc extends SimpleApplication
     if (up)    { walkDirection.addLocal(camDir); }
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     player.setWalkDirection(walkDirection);
-    cam.setLocation(player.getPhysicsLocation());
+    Vector3f camara3p = player.getPhysicsLocation();
+    //camara3p.z-=30;
+    cam.setLocation(camara3p);
   }
+
+    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
