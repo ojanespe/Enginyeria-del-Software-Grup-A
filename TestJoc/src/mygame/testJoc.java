@@ -107,7 +107,7 @@ public class testJoc extends SimpleApplication
                     channel_walk.setAnim("Walk", 0.5f);
                     channel_walk.setSpeed(1.5f);
                     jambo.setWalkDirection(new Vector3f(0,0,0.1f));
-                    jambo.setViewDirection(new Vector3f(0,0,-1f));
+                    jambo.setViewDirection(new Vector3f(0,0,1f));
                     
                 }
             }
@@ -138,31 +138,29 @@ public class testJoc extends SimpleApplication
 
     // We load the scene from the zip file and adjust its size.
     assetManager.registerLocator("openBox.zip", ZipLocator.class);
-    sceneModel = assetManager.loadModel("openBox.scene");
+    sceneModel = assetManager.loadModel("Cube.mesh.xml");
     sceneModel.setLocalScale(8f);
     sceneModel.setName("caja");
     assetManager.registerLocator("oto.zip", ZipLocator.class);
-    Spatial cube1 = assetManager.loadModel("Models/cube2.j3o");
-    cube1.setLocalScale(0.5f);
-    //cube1.setLocalTranslation(10f, 10f, 0f);
     
     
-    CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(1.5f, 2f, 1);
-    jambo = new CharacterControl(capsuleShape2, 0.05f);
+    
+    CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(3f, 3f, 0);
+    jambo = new CharacterControl(capsuleShape2, 0.5f);
     
     Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
     robot.setName("jamboloco");
     robot.setLocalScale(0.5f);
     robot.addControl(jambo);
     
-    jambo.setPhysicsLocation(new Vector3f(10f, 20f, 0f));
+    jambo.setPhysicsLocation(new Vector3f(10f, 6.5f, 0f));
     rootNode.attachChild(robot);
     bulletAppState.getPhysicsSpace().add(jambo);
     
     
-    BotTest = assetManager.loadModel("Oto.mesh.xml");
+    /*BotTest = assetManager.loadModel("Oto.mesh.xml");
     BotTest.setLocalScale(0.5f);
-    BotTest.setLocalTranslation(10f, 6.5f, 10f);
+    BotTest.setLocalTranslation(10f, 6.5f, 10f);*/
     
     bot = robot.getControl(AnimControl.class);
     
@@ -170,7 +168,7 @@ public class testJoc extends SimpleApplication
     channel_walk = bot.createChannel();
     
     channel_walk.setAnim("stand");
-    geom = (Geometry)((Node)BotTest).getChild(0);
+    /*geom = (Geometry)((Node)BotTest).getChild(0);
     SkeletonControl skeletonControl = BotTest.getControl(SkeletonControl.class);
     Box b = new Box(.25f,3f,.25f);
     Geometry item = new Geometry("Item", b);
@@ -180,18 +178,22 @@ public class testJoc extends SimpleApplication
     n.attachChild(item);
     botControl = new RigidBodyControl(10f);
     
-    BotTest.addControl(botControl);
+    BotTest.addControl(botControl);*/
 
     
     
     
     
     
+    Spatial cube1 = assetManager.loadModel("Models/cube.j3o");
+    cube1.setName("cube1");
+    cube1.setLocalScale(3f);
+    cube1.setLocalTranslation(10f, 7f, 20f);
     
-    
-    cube2 = assetManager.loadModel("Models/soldier/soldier.j3o");
-    cube2.setLocalScale(0.03f);
-    cube2.setLocalTranslation(10f, 0f, -10f);
+    cube2 = assetManager.loadModel("Models/cube.j3o");
+    cube2.setName("cube2");
+    cube2.setLocalScale(3f);
+    cube2.setLocalTranslation(10f, 7f, -20f);
     
     
     /*Node botNode = (Node) assetManager.loadModel("Oto.mesh.xml"); // load a model
@@ -210,7 +212,7 @@ public class testJoc extends SimpleApplication
     sceneModel.addControl(landscape);
     
     
-    RigidBodyControl cubeControl = new RigidBodyControl(5f);
+    RigidBodyControl cubeControl = new RigidBodyControl(10f);
     cube1.addControl(cubeControl);
     
     cube2Control = new RigidBodyControl(10f);
@@ -235,7 +237,7 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cube1);
     rootNode.attachChild(cube2);
-    rootNode.attachChild(BotTest);
+    //rootNode.attachChild(BotTest);
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(player);
     bulletAppState.getPhysicsSpace().add(cubeControl);
@@ -289,7 +291,7 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("Down")) {
       if (value) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
-      player.jump();moverCubo();
+      player.jump();
     }else if (binding.equals("shoot") ) {
         makeCannonBall();
         
@@ -382,10 +384,15 @@ public class testJoc extends SimpleApplication
 
     public void collision(PhysicsCollisionEvent event) {
         try{
-        if("caja".equals(event.getNodeA().getName()) || "caja".equals(event.getNodeB().getName())){
+        if("cube1".equals(event.getNodeA().getName()) || "cube1".equals(event.getNodeB().getName()) || "cube2".equals(event.getNodeA().getName()) || "cube2".equals(event.getNodeB().getName())){
             if("jamboloco".equals(event.getNodeA().getName()) || "jamboloco".equals(event.getNodeB().getName())){
-                System.out.println("PENEEEEEEEEEE");
-                fpsText.setText("PENEEEEEEEEEEE");
+                if(jambo.getWalkDirection().z == 0.1f){
+                    jambo.setWalkDirection(new Vector3f(0,0,-0.1f));
+                    jambo.setViewDirection(new Vector3f(0,0,-1f));
+                }else{
+                    jambo.setWalkDirection(new Vector3f(0,0,0.1f));
+                    jambo.setViewDirection(new Vector3f(0,0,1f));
+                }
         }
         
     }
