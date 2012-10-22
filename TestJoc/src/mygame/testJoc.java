@@ -99,6 +99,12 @@ public class testJoc extends SimpleApplication
     setUpKeys();
     setUpLight();
 
+    
+
+    
+    
+    
+    
     // We load the scene from the zip file and adjust its size.
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
