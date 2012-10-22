@@ -35,10 +35,14 @@ package mygame;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
+import com.jme3.animation.LoopMode;
+import com.jme3.animation.SkeletonControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
 import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionEvent;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.CharacterControl;
@@ -58,15 +62,18 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
  */
 public class testJoc extends SimpleApplication
-        implements AnimEventListener,ActionListener {
+        implements AnimEventListener,ActionListener, PhysicsCollisionListener {
 
   private Material stone_mat;
   private RigidBodyControl    ball_phy;
@@ -74,16 +81,38 @@ public class testJoc extends SimpleApplication
   private Spatial cube2;
   int z = 10;
   RigidBodyControl cube2Control;
+  RigidBodyControl botControl;
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
   private CharacterControl player;
+  private CharacterControl jambo;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
 
-  
+  private AnimChannel channel_walk;
   private AnimControl bot;
+  private Geometry geom;
+  Spatial BotTest;
   
+
+  
+  
+  private ActionListener actionListener = new ActionListener() {
+
+        public void onAction(String name, boolean keyPressed, float tpf) {
+            if(name.equals("Walk") && !keyPressed){
+                if(!channel_walk.getAnimationName().equals("Walk")){
+                    channel_walk.setLoopMode(LoopMode.Loop);
+                    channel_walk.setAnim("Walk", 0.5f);
+                    channel_walk.setSpeed(1.5f);
+                    jambo.setWalkDirection(new Vector3f(0,0,0.1f));
+                    jambo.setViewDirection(new Vector3f(0,0,-1f));
+                    
+                }
+            }
+        }
+    };
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -108,23 +137,71 @@ public class testJoc extends SimpleApplication
     setUpLight();
 
     // We load the scene from the zip file and adjust its size.
-    sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
+    assetManager.registerLocator("openBox.zip", ZipLocator.class);
+    sceneModel = assetManager.loadModel("openBox.scene");
     sceneModel.setLocalScale(8f);
-
-   Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
+    sceneModel.setName("caja");
+    assetManager.registerLocator("oto.zip", ZipLocator.class);
+    Spatial cube1 = assetManager.loadModel("Models/cube2.j3o");
     cube1.setLocalScale(0.5f);
-    cube1.setLocalTranslation(10f, 1000f, 0f);
+    //cube1.setLocalTranslation(10f, 10f, 0f);
+    
+    
+    CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(1.5f, 2f, 1);
+    jambo = new CharacterControl(capsuleShape2, 0.05f);
+    
+    Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+    robot.setName("jamboloco");
+    robot.setLocalScale(0.5f);
+    robot.addControl(jambo);
+    
+    jambo.setPhysicsLocation(new Vector3f(10f, 20f, 0f));
+    rootNode.attachChild(robot);
+    bulletAppState.getPhysicsSpace().add(jambo);
+    
+    
+    BotTest = assetManager.loadModel("Oto.mesh.xml");
+    BotTest.setLocalScale(0.5f);
+    BotTest.setLocalTranslation(10f, 6.5f, 10f);
+    
+    bot = robot.getControl(AnimControl.class);
+    
+    bot.addListener(this);
+    channel_walk = bot.createChannel();
+    
+    channel_walk.setAnim("stand");
+    geom = (Geometry)((Node)BotTest).getChild(0);
+    SkeletonControl skeletonControl = BotTest.getControl(SkeletonControl.class);
+    Box b = new Box(.25f,3f,.25f);
+    Geometry item = new Geometry("Item", b);
+    item.move(0, 1.5f, 0);
+    item.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
+    Node n = skeletonControl.getAttachmentsNode("hand.right");
+    n.attachChild(item);
+    botControl = new RigidBodyControl(10f);
+    
+    BotTest.addControl(botControl);
+
+    
+    
+    
+    
+    
+    
     
     cube2 = assetManager.loadModel("Models/soldier/soldier.j3o");
     cube2.setLocalScale(0.03f);
-    cube2.setLocalTranslation(10f, 1000f, -10f);
+    cube2.setLocalTranslation(10f, 0f, -10f);
     
     
-    Node botNode = (Node) assetManager.loadModel("Models/soldier/soldier.j3o"); // load a model
+    /*Node botNode = (Node) assetManager.loadModel("Oto.mesh.xml"); // load a model
     bot = botNode.getControl(AnimControl.class); // get control over this model
+    
     bot.addListener(this); // add listener
+    channel_walk = bot.createChannel();*/
     
-    
+    inputManager.addMapping("Walk", new KeyTrigger(KeyInput.KEY_U));
+    inputManager.addListener(actionListener, "Walk");
     // We set up collision detection for the scene by creating a
     // compound collision shape and a static RigidBodyControl with mass zero.
     CollisionShape sceneShape =
@@ -158,10 +235,12 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cube1);
     rootNode.attachChild(cube2);
+    rootNode.attachChild(BotTest);
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(player);
     bulletAppState.getPhysicsSpace().add(cubeControl);
     bulletAppState.getPhysicsSpace().add(cube2Control);
+    bulletAppState.getPhysicsSpace().addCollisionListener(this);
     
     initMaterials();
 
@@ -288,10 +367,30 @@ public class testJoc extends SimpleApplication
   }
 
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (animName.equals("penis")){
+            channel.setAnim("stand", 0.50f);
+            channel.setLoopMode(LoopMode.DontLoop);
+            channel.setSpeed(1f);
+            jambo.setWalkDirection(new Vector3f(0,0,0));
+        }
+
     }
 
     public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+    }
+
+    public void collision(PhysicsCollisionEvent event) {
+        try{
+        if("caja".equals(event.getNodeA().getName()) || "caja".equals(event.getNodeB().getName())){
+            if("jamboloco".equals(event.getNodeA().getName()) || "jamboloco".equals(event.getNodeB().getName())){
+                System.out.println("PENEEEEEEEEEE");
+                fpsText.setText("PENEEEEEEEEEEE");
+        }
+        
+    }
+    }catch(Exception e){
+        
+    }
     }
 }
