@@ -260,7 +260,7 @@ public class testJoc extends SimpleApplication
     guiNode.attachChild(ps.getcruzPuntero());
     
     // Texto disparos
-    ps.setTextDisparos(s.getDisparos());
+    //ps.setTextDisparos(s.getDisparos());
     guiNode.attachChild(ps.getDisparos());
     
     //Texto vida
