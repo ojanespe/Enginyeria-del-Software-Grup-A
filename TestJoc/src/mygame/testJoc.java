@@ -58,6 +58,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
+import com.jme3.ui.Picture;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
@@ -74,6 +75,7 @@ public class testJoc extends SimpleApplication
   private RigidBodyControl landscape;
   //private CharacterControl player;
   private Soldado s;
+  private PantallaJuegoSoldado ps;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
   
@@ -98,12 +100,6 @@ public class testJoc extends SimpleApplication
     flyCam.setMoveSpeed(100);
     setUpKeys();
     setUpLight();
-
-    
-
-    
-    
-    
     
     // We load the scene from the zip file and adjust its size.
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
@@ -142,6 +138,9 @@ public class testJoc extends SimpleApplication
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
     s = new Soldado();
+    
+    // Pantalla
+    ps = new PantallaJuegoSoldado(assetManager, settings, guiFont);
 
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
@@ -155,6 +154,7 @@ public class testJoc extends SimpleApplication
     
     initMaterials();
     initCrossHairs();
+    
   }
 
   private void setUpLight() {
@@ -205,7 +205,6 @@ public class testJoc extends SimpleApplication
       System.out.println("Disparos efectuados: "+s.getDisparos());
       makeCannonBall();      
     }
-    refrexCrossHairs();
   }
   
   public void initMaterials(){
@@ -257,19 +256,29 @@ public class testJoc extends SimpleApplication
     guiNode.detachAllChildren();
     guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
     
-    BitmapText ch = new BitmapText(guiFont, false);
-    ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
-    ch.setText("+");        // fake crosshairs :)
-    ch.setLocalTranslation( // center
-      settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
-      settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
-    guiNode.attachChild(ch);
+    // Texto puntero
+    guiNode.attachChild(ps.getcruzPuntero());
     
-    BitmapText contDisp = new BitmapText(guiFont, false);
-    contDisp.setSize(guiFont.getCharSet().getRenderedSize()*3);
-    contDisp.setText("Disparos: "+ s.getDisparos());
-    contDisp.setLocalTranslation(300, contDisp.getLineHeight(), 0);
-    guiNode.attachChild(contDisp);
+    // Texto disparos
+    ps.setTextDisparos(s.getDisparos());
+    guiNode.attachChild(ps.getDisparos());
+    
+    //Texto vida
+    ps.setTextVida(s.getVida());
+    guiNode.attachChild(ps.getVida());
+    
+    //Texto escudo
+    ps.setTextEscudo(s.getEscudo());
+    guiNode.attachChild(ps.getDisparos());
+        
+    //Imagen Cruz Vida
+    guiNode.attachChild(ps.getPicVida());
+    
+    //Imagen Escudo
+    guiNode.attachChild(ps.getPicEscudo());
+    
+    //Imagen Bala
+    guiNode.attachChild(ps.getPicBala());
   }        
   
   /**
@@ -291,5 +300,6 @@ public class testJoc extends SimpleApplication
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     s.getPlayer().setWalkDirection(walkDirection);
     cam.setLocation(s.getPlayer().getPhysicsLocation());
+    refrexCrossHairs();
   }
 }

@@ -19,7 +19,7 @@ import com.jme3.scene.shape.Sphere;
 public class Soldado {
     private CharacterControl player;
         
-    private int disparos;
+    private int disparos, vida, escudo;
     
    
     public Soldado(){
@@ -30,6 +30,8 @@ public class Soldado {
         player.setGravity(60);
         player.setPhysicsLocation(new Vector3f(0, 10, 0));
         disparos = 0;
+        vida = 100;
+        escudo = 0;
     }
 
     public CharacterControl getPlayer() {
@@ -43,6 +45,22 @@ public class Soldado {
     void incremenDisparos(){
         disparos++;
     }
-      
+    
+    int getVida(){
+        return vida;
+    }
+    
+    void setVida(int life){
+        vida=life;
+    }
+    
+    int getEscudo(){
+        return escudo;
+    }
+    
+    void setEscudo(int s){
+        escudo=s;
+    }
+    
     
 }
