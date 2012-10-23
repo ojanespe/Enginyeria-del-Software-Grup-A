@@ -91,6 +91,7 @@ public class testJoc extends SimpleApplication
   public void simpleInitApp() {
     // Set up the sound
     soundManager = new SoundManager(assetManager, rootNode);
+    soundManager.playAmbientSound("Sounds/Ambient/fog_bound.ogg", 3);
     
     /** Set up Physics */
     bulletAppState = new BulletAppState();
@@ -107,7 +108,7 @@ public class testJoc extends SimpleApplication
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
 
-   Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
+    Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
     cube1.setLocalScale(0.5f);
     cube1.setLocalTranslation(10f, 10f, 0f);
     
@@ -188,8 +189,12 @@ public class testJoc extends SimpleApplication
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
   public void onAction(String binding, boolean value, float tpf) {
+    if (!binding.equals("shoot") & !binding.equals("Jump")) {
+        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 2);
+    }
+      
     if (binding.equals("Left")) {
-      if (value) { left = true; } else { left = false; }
+        if (value) { left = true; } else { left = false; }
     } else if (binding.equals("Right")) {
       if (value) { right = true; } else { right = false; }
     } else if (binding.equals("Up")) {
@@ -198,10 +203,10 @@ public class testJoc extends SimpleApplication
       if (value) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
       player.jump();
-    }else if (binding.equals("shoot") ) {
+    } else if (binding.equals("shoot") ) {
         makeCannonBall();
-        //soundManager.play(gun.getShootSound());
-        soundManager.play("sounds/shot_m9.wav");
+        //soundManager.play(gun.getShotSound(), 1);
+        soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
     }
   }
   
@@ -211,7 +216,7 @@ public class testJoc extends SimpleApplication
     key2.setGenerateMips(true);
     Texture tex2 = assetManager.loadTexture(key2);
     stone_mat.setTexture("ColorMap", tex2);
-    }
+  }
 
   
   public void makeCannonBall() {
