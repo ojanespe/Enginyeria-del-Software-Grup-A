@@ -55,7 +55,7 @@ public class PantallaJuegoSoldado {
 
         //Texto escudo
         escudo = new BitmapText(guiFont, false);
-        escudo.setSize(guiFont.getCharSet().getRenderedSize()*6);
+        escudo.setSize(guiFont.getCharSet().getRenderedSize());
         escudo.setText("Escudo:\n0");
         escudo.setColor(ColorRGBA.Black);
         escudo.setLocalTranslation(escudo.getLineWidth()+50, escudo.getLineHeight()*2, 0);
