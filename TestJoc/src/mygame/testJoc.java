@@ -87,11 +87,14 @@ public class testJoc extends SimpleApplication
   private RigidBodyControl landscape;
   private CharacterControl player;
   private CharacterControl jambo;
+  private CharacterControl jambo2;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
 
   private AnimChannel channel_walk;
+  private AnimChannel channel_walk2;
   private AnimControl bot;
+  private AnimControl bot2;
   private Geometry geom;
   Spatial BotTest;
   
@@ -151,16 +154,39 @@ public class testJoc extends SimpleApplication
     Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
     robot.setName("jamboloco");
     robot.setLocalScale(0.5f);
-    robot.addControl(jambo);
+    //robot.addControl(jambo);
     
     jambo.setPhysicsLocation(new Vector3f(10f, 6.5f, 0f));
     rootNode.attachChild(robot);
     bulletAppState.getPhysicsSpace().add(jambo);
     
+    assetManager.registerLocator("character.zip", ZipLocator.class);
+    
+    CapsuleCollisionShape capsuleShape3 = new CapsuleCollisionShape(3f, 3f, 0);
+    jambo2 = new CharacterControl(capsuleShape3, 0.5f);
+    
+    Node Modelo2 = (Node) assetManager.loadModel("character.mesh.xml");
+    Modelo2.setName("jamboloco2");
+    Modelo2.setLocalScale(2f);
+    
+    
+    jambo2.setPhysicsLocation(new Vector3f(20f, 20f, 0f));
+    jambo2.setViewDirection(new Vector3f(0,1f,0));
+    rootNode.attachChild(Modelo2);
+    bulletAppState.getPhysicsSpace().add(jambo2);
+    
+      
     
     /*BotTest = assetManager.loadModel("Oto.mesh.xml");
     BotTest.setLocalScale(0.5f);
     BotTest.setLocalTranslation(10f, 6.5f, 10f);*/
+    bot2 = Modelo2.getControl(AnimControl.class);
+    bot2.addListener(this);
+    channel_walk2 = bot2.createChannel();
+    channel_walk2.setAnim("run_01");
+    
+     //for (String anim : bot2.getAnimationNames()){
+     //       System.out.println(anim);}
     
     bot = robot.getControl(AnimControl.class);
     
@@ -231,6 +257,7 @@ public class testJoc extends SimpleApplication
     player.setFallSpeed(60);
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
+    robot.addControl(player);
 
     // We attach the scene and the player tthe rootnode and the physics space,
     // to make them appear in the game world.
@@ -363,8 +390,10 @@ public class testJoc extends SimpleApplication
     if (up)    { walkDirection.addLocal(camDir); }
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     player.setWalkDirection(walkDirection);
+    player.setViewDirection(player.getWalkDirection());
+    fpsText.setText(player.getWalkDirection().toString());
     Vector3f camara3p = player.getPhysicsLocation();
-    //camara3p.z-=30;
+    camara3p.z-=10;
     cam.setLocation(camara3p);
   }
 
