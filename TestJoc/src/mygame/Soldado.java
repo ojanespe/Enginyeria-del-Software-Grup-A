@@ -6,19 +6,14 @@ package mygame;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Sphere;
 
 /**
  *
  * @author JORGE
  */
 public class Soldado {
-    private CharacterControl player;
-        
+    private CharacterControl player;        
     private int disparos, vida, escudo;
     
    
@@ -38,27 +33,27 @@ public class Soldado {
         return player;
     }
 
-    int getDisparos() {
+    public int getDisparos() {
         return disparos;
     }
     
-    void incremenDisparos(){
+    public void incremenDisparos(){
         disparos++;
     }
     
-    int getVida(){
+    public int getVida(){
         return vida;
     }
     
-    void setVida(int life){
+    public void setVida(int life){
         vida=life;
     }
     
-    int getEscudo(){
+    public int getEscudo(){
         return escudo;
     }
     
-    void setEscudo(int s){
+    public void setEscudo(int s){
         escudo=s;
     }
     
