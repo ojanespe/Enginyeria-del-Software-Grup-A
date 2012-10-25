@@ -15,15 +15,23 @@ public class SoundManager {
     
     private Node rootNode;
     
-    
-    
-    
-
+    /**
+     * Constructor
+     * 
+     * @param assetManager
+     * @param rootNode 
+     */
     public SoundManager(AssetManager assetManager, Node rootNode) {
         this.rootNode = rootNode;
         this.assetManager = assetManager;
     }
     
+    /**
+     * playSituationalSound: 
+     * 
+     * @param path
+     * @param volume 
+     */
     public void playSituationalSound(String path, int volume) {
         AudioNode audio = new AudioNode(assetManager, path, false);
         rootNode.attachChild(audio);
@@ -31,11 +39,16 @@ public class SoundManager {
         audio.playInstance();
     }
     
+    /**
+     * playAmbientSound: 
+     * 
+     * @param path
+     * @param volume 
+     */
     public void playAmbientSound(String path, int volume) {
         AudioNode audio = new AudioNode(assetManager, path, false);
         audio.setVolume(volume);
         audio.setLooping(true);
         audio.play();
     }
-    
 }

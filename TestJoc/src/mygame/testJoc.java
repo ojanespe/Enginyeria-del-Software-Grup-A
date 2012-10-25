@@ -189,10 +189,6 @@ public class testJoc extends SimpleApplication
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
   public void onAction(String binding, boolean value, float tpf) {
-    if (!binding.equals("shoot") & !binding.equals("Jump")) {
-        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 2);
-    }
-      
     if (binding.equals("Left")) {
         if (value) { left = true; } else { left = false; }
     } else if (binding.equals("Right")) {
@@ -266,6 +262,11 @@ public class testJoc extends SimpleApplication
     if (right) { walkDirection.addLocal(camLeft.negate()); }
     if (up)    { walkDirection.addLocal(camDir); }
     if (down)  { walkDirection.addLocal(camDir.negate()); }
+    
+    if (up || down) {
+        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 1);
+    }
+            
     player.setWalkDirection(walkDirection);
     cam.setLocation(player.getPhysicsLocation());
   }
