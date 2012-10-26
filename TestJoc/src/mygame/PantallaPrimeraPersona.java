@@ -5,31 +5,22 @@
 package mygame;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.DesktopAssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
-import java.awt.Color;
 
 /**
  *
  * @author JORGE
  */
-public class PantallaJuegoSoldado {
-    final Color[] coloresVida = {Color.green, Color.yellow,  Color.red};
-    final Color[] coloresEscudo = {Color.blue, Color.yellow,  Color.red};
+public class PantallaPrimeraPersona {
     int indiceVida, indiceEscudo;
-    BitmapText ch;
-    BitmapText contDisp;
-    BitmapText life;    
-    BitmapText escudo;
-    Picture picCruz = new Picture("HUD Picture");
-    Picture picEscudo = new Picture("HUD Picture");    
-    Picture picBala = new Picture("HUD Picture");
+    BitmapText ch, contDisp, life, escudo;
+    Picture picCruz, picEscudo, picBala;
     
-    public PantallaJuegoSoldado(AssetManager assetManager, AppSettings settings, BitmapFont guiFont) {
+    public PantallaPrimeraPersona(AssetManager assetManager, AppSettings settings, BitmapFont guiFont) {
         // Texto puntero
         ch = new BitmapText(guiFont, false);
         ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
@@ -58,19 +49,22 @@ public class PantallaJuegoSoldado {
         escudo.setSize(guiFont.getCharSet().getRenderedSize());
         escudo.setText("Escudo:\n0");
         escudo.setColor(ColorRGBA.Black);
-        escudo.setLocalTranslation(escudo.getLineWidth()+50, escudo.getLineHeight()*2, 0);
+        escudo.setLocalTranslation(escudo.getLineWidth(), escudo.getLineHeight(), 0);
 
-        //Imagen Cruz Vida        
+        //Imagen Cruz Vida
+        picCruz = new Picture("HUD Picture");
         picCruz.setImage(assetManager, "Icons/cruzvida.png", true);
         picCruz.scale(20);
         picCruz.setPosition(10, life.getLineHeight()*2);
 
         //Imagen Escudo
+        picEscudo = new Picture("HUD Picture"); 
         picEscudo.setImage(assetManager, "Icons/escudo.png", true);
         picEscudo.scale(20);
         picEscudo.setPosition(escudo.getLineWidth()+50, escudo.getLineHeight()*2);
 
         //Imagen Bala
+        picBala = new Picture("HUD Picture");
         picBala.setImage(assetManager, "Icons/bala.png", true);
         picBala.scale(20);
         picBala.setPosition(settings.getWidth() - contDisp.getLineWidth(), contDisp.getLineHeight()*2);

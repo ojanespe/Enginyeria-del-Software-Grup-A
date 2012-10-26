@@ -74,8 +74,8 @@ public class testJoc extends SimpleApplication
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
   //private CharacterControl player;
-  private Soldado s;
-  private PantallaJuegoSoldado ps;
+  private Jugador s;
+  private PantallaPrimeraPersona ps;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
   
@@ -137,10 +137,10 @@ public class testJoc extends SimpleApplication
     player.setFallSpeed(60);
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
-    s = new Soldado();
+    s = new Jugador();
     
     // Pantalla
-    ps = new PantallaJuegoSoldado(assetManager, settings, guiFont);
+    ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
 
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
@@ -243,13 +243,7 @@ public class testJoc extends SimpleApplication
       settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
       settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
     guiNode.attachChild(ch);
-    
-    /** Write text on the screen (HUD) */
-    BitmapText contDisp = new BitmapText(guiFont, false);
-    contDisp.setSize(guiFont.getCharSet().getRenderedSize()*3);
-    contDisp.setText("Disparos: 0");
-    contDisp.setLocalTranslation(300, contDisp.getLineHeight(), 0);
-    guiNode.attachChild(contDisp);
+
   }
   
   protected void refrexCrossHairs() {
@@ -260,7 +254,7 @@ public class testJoc extends SimpleApplication
     guiNode.attachChild(ps.getcruzPuntero());
     
     // Texto disparos
-    //ps.setTextDisparos(s.getDisparos());
+    ps.setTextDisparos(s.getDisparos());
     guiNode.attachChild(ps.getDisparos());
     
     //Texto vida
