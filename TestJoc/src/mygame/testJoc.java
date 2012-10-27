@@ -147,6 +147,10 @@ public class testJoc extends SimpleApplication
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
 
+    cam.setLocation(new Vector3f(0,1,-5));
+    cam.lookAt(arma.getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+    
+    //Rotate the camNode to look at the target:
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);

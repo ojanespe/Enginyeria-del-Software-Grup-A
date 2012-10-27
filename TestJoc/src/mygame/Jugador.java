@@ -27,8 +27,8 @@ public class Jugador {
         escudo = 0;
         
         posX = 0;
-        posY = 10;
-        posZ = 0;
+        posY = 100;
+        posZ = 10;
         
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);

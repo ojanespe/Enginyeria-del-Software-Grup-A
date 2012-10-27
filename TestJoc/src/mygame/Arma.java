@@ -18,7 +18,7 @@ public class Arma {
     public Arma(AssetManager assetManager){
         gun = assetManager.loadModel("Models/Glock/Glock.j3o");
         gun.setLocalScale(0.5f);
-        gun.setLocalTranslation(10f, 10f, 0f);
+        gun.setLocalTranslation(1, 1, -3);
     }
     
     public Spatial getGun(){
