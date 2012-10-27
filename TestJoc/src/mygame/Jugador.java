@@ -30,12 +30,13 @@ public class Jugador {
         posY = 100;
         posZ = 10;
         
+    
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
         player.setJumpSpeed(20);
         player.setFallSpeed(60);
         player.setGravity(60);
-        player.setPhysicsLocation(new Vector3f(posX, posY, posZ));
+        player.setPhysicsLocation(new Vector3f(0,10,0));
         
         character = new Node();
         character.addControl(player);
