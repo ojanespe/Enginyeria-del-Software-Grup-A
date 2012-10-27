@@ -46,6 +46,9 @@ public class Jugador {
         character.attachChild(gun);
     }
 
+    public Node getNode(){
+        return character;
+    }
     public CharacterControl getPlayer() {
         return player;
     }

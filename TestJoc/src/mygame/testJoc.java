@@ -150,12 +150,9 @@ public class testJoc extends SimpleApplication
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
-    rootNode.attachChild(cube1);
-    rootNode.attachChild(cube2);
+    rootNode.attachChild(s.getNode());
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getPlayer());
-    bulletAppState.getPhysicsSpace().add(cubeControl);
-    bulletAppState.getPhysicsSpace().add(cube2Control);
     
     initMaterials();
     initCrossHairs();
