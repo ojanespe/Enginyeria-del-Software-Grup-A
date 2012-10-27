@@ -40,6 +40,7 @@ public class Jugador {
         
         character = new Node();
         character.addControl(player);
+        player.setPhysicsLocation(new Vector3f(0,10,0));
         
     }
     

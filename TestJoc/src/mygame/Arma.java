@@ -5,6 +5,7 @@
 package mygame;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 
 /**
@@ -18,7 +19,7 @@ public class Arma {
     public Arma(AssetManager assetManager){
         gun = assetManager.loadModel("Models/Glock/Glock.j3o");
         gun.setLocalScale(0.5f);
-        gun.setLocalTranslation(1, 1, -3);
+        gun.setLocalTranslation(-0.7f, -0.7f, 1.8f);
     }
     
     public Spatial getGun(){
@@ -30,5 +31,9 @@ public class Arma {
     
     void setBales(int balas){
         nBalas = balas;
+    }
+    
+    public void updateGun(Vector3f player_pos){
+        gun.setLocalTranslation(player_pos.add(0, -10, 0).add(-0.7f, -0.7f, 1.8f));
     }
 }

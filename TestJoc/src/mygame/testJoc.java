@@ -299,6 +299,7 @@ public class testJoc extends SimpleApplication
     if (up)    { walkDirection.addLocal(camDir); }
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     s.getPlayer().setWalkDirection(walkDirection);
+    //arma.updateGun(s.getPlayer().getPhysicsLocation());
     cam.setLocation(s.getPlayer().getPhysicsLocation());
     refrexCrossHairs();
   }
