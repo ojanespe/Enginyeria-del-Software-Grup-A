@@ -7,6 +7,8 @@ package mygame;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  *
@@ -17,6 +19,7 @@ public class Jugador {
     private int disparos, vida, escudo, posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas;
+    private Node character;
    
     public Jugador(){
         disparos = 0;
@@ -34,6 +37,13 @@ public class Jugador {
         player.setGravity(60);
         player.setPhysicsLocation(new Vector3f(posX, posY, posZ));
         
+        character = new Node();
+        character.addControl(player);
+        
+    }
+    
+    public void setgun(Spatial gun){
+        character.attachChild(gun);
     }
 
     public CharacterControl getPlayer() {

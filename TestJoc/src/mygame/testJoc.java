@@ -79,6 +79,8 @@ public class testJoc extends SimpleApplication
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
   
+  private Arma arma;
+  
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();
@@ -138,6 +140,9 @@ public class testJoc extends SimpleApplication
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
     s = new Jugador();
+    arma = new Arma(assetManager);
+    s.setgun(arma.getGun());
+    
     
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
