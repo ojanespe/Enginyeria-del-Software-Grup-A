@@ -49,6 +49,7 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.font.BitmapText;
+import com.jme3.input.ChaseCamera;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -59,9 +60,11 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
@@ -97,7 +100,10 @@ public class testJoc extends SimpleApplication
   private AnimControl bot2;
   private Geometry geom;
   Spatial BotTest;
+  Vector3f vista;
   
+  
+  private ChaseCamera chaseCam;
 
   
   
@@ -136,6 +142,10 @@ public class testJoc extends SimpleApplication
     // We re-use the flyby camera for rotation, while positioning is handled by physics
     viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
     flyCam.setMoveSpeed(100);
+    //flyCam.setEnabled(false);
+    vista = new Vector3f(Vector3f.UNIT_Y);
+    
+    
     setUpKeys();
     setUpLight();
 
@@ -263,7 +273,10 @@ public class testJoc extends SimpleApplication
     channel_walk.setAnim("stand");
     
     robot.addControl(player);
-
+    
+    chaseCam = new ChaseCamera(cam, robot, inputManager);
+    chaseCam.setSmoothMotion(true);
+    chaseCam.setToggleRotationTrigger(new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
     // We attach the scene and the player tthe rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
@@ -400,9 +413,11 @@ public class testJoc extends SimpleApplication
     
     Vector3f camara3p = player.getPhysicsLocation();
     camara3p.z-=10;
-    cam.setLocation(camara3p);
-    //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
-    fpsText.setText(cam.getDirection()+"");
+    
+    
+    //cam.setLocation(camara3p);
+    //cam.lookAt(camara3p, player.getViewDirection());
+    fpsText.setText(vista+"");
     
   }
 
