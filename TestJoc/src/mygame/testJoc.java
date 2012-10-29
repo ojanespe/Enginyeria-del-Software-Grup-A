@@ -100,6 +100,7 @@ public class testJoc extends SimpleApplication
   private AnimControl bot2;
   private Geometry geom;
   Spatial BotTest;
+  Node robot;
   Vector3f vista;
   
   
@@ -115,8 +116,8 @@ public class testJoc extends SimpleApplication
                     channel_walk.setLoopMode(LoopMode.Loop);
                     channel_walk.setAnim("Walk", 0.5f);
                     channel_walk.setSpeed(1.5f);
-                    jambo.setWalkDirection(new Vector3f(0,0,0.1f));
-                    jambo.setViewDirection(new Vector3f(0,0,1f));
+                    //player.setWalkDirection(new Vector3f(0,0,0.1f));
+                    //jambo.setViewDirection(new Vector3f(0,0,1f));
                     
                 }
             }
@@ -135,6 +136,7 @@ public class testJoc extends SimpleApplication
   }
   public void simpleInitApp() {
     /** Set up Physics */
+    
     bulletAppState = new BulletAppState();
     stateManager.attach(bulletAppState);
     //bulletAppState.getPhysicsSpace().enableDebug(assetManager);
@@ -261,7 +263,7 @@ public class testJoc extends SimpleApplication
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
     
-    Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+    robot = (Node)assetManager.loadModel("Oto.mesh.xml");
     robot.setName("jamboloco");
     robot.setLocalScale(0.5f);
     robot.setLocalTranslation(new Vector3f(0, 10, 0));
@@ -274,9 +276,9 @@ public class testJoc extends SimpleApplication
     
     robot.addControl(player);
     
-    chaseCam = new ChaseCamera(cam, robot, inputManager);
-    chaseCam.setSmoothMotion(true);
-    chaseCam.setToggleRotationTrigger(new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
+    
+    
+    //chaseCam.setToggleRotationTrigger(new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
     // We attach the scene and the player tthe rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
@@ -317,6 +319,8 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
     inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
     inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+    inputManager.addMapping("Die", new KeyTrigger(KeyInput.KEY_M));
+    inputManager.addListener(this, "Die");
     inputManager.addListener(this, "shoot");
     inputManager.addListener(this, "Left");
     inputManager.addListener(this, "Right");
@@ -339,7 +343,10 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("Jump")) {
       player.jump();
     }else if (binding.equals("shoot") ) {
-        makeCannonBall();
+        makeCannonBall();vistaMorirse();
+        
+    }else if (binding.equals("Die") ) {
+        vistaMorirse();
         
     }
   }
@@ -412,11 +419,9 @@ public class testJoc extends SimpleApplication
     player.setViewDirection(player.getWalkDirection());
     
     Vector3f camara3p = player.getPhysicsLocation();
-    camara3p.z-=10;
-    
-    
-    //cam.setLocation(camara3p);
-    //cam.lookAt(camara3p, player.getViewDirection());
+    camara3p.y+=4;
+    cam.setLocation(camara3p);
+    //cam.lookAt(camara3p, Vector3f.UNIT_Y);
     fpsText.setText(vista+"");
     
   }
@@ -452,5 +457,11 @@ public class testJoc extends SimpleApplication
     }catch(Exception e){
         
     }
+    }
+    
+    public void vistaMorirse(){
+        chaseCam = new ChaseCamera(cam, robot, inputManager);
+        chaseCam.setSmoothMotion(true);
+        chaseCam.setDragToRotate(true); 
     }
 }
