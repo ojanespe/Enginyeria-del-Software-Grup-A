@@ -60,11 +60,9 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
@@ -92,7 +90,7 @@ public class testJoc extends SimpleApplication
   private CharacterControl jambo;
   private CharacterControl jambo2;
   private Vector3f walkDirection = new Vector3f();
-  private boolean left = false, right = false, up = false, down = false;
+  private boolean left = false, right = false, up = false, down = false, change = false;
 
   private AnimChannel channel_walk;
   private AnimChannel channel_walk2;
@@ -100,10 +98,7 @@ public class testJoc extends SimpleApplication
   private AnimControl bot2;
   private Geometry geom;
   Spatial BotTest;
-  Vector3f vista;
   
-  
-  private ChaseCamera chaseCam;
 
   
   
@@ -142,10 +137,6 @@ public class testJoc extends SimpleApplication
     // We re-use the flyby camera for rotation, while positioning is handled by physics
     viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
     flyCam.setMoveSpeed(100);
-    //flyCam.setEnabled(false);
-    vista = new Vector3f(Vector3f.UNIT_Y);
-    
-    
     setUpKeys();
     setUpLight();
 
@@ -273,10 +264,7 @@ public class testJoc extends SimpleApplication
     channel_walk.setAnim("stand");
     
     robot.addControl(player);
-    
-    chaseCam = new ChaseCamera(cam, robot, inputManager);
-    chaseCam.setSmoothMotion(true);
-    chaseCam.setToggleRotationTrigger(new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
+
     // We attach the scene and the player tthe rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
@@ -317,12 +305,14 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
     inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
     inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+    inputManager.addMapping("ChangeCam", new KeyTrigger(KeyInput.KEY_C));
     inputManager.addListener(this, "shoot");
     inputManager.addListener(this, "Left");
     inputManager.addListener(this, "Right");
     inputManager.addListener(this, "Up");
     inputManager.addListener(this, "Down");
     inputManager.addListener(this, "Jump");
+    inputManager.addListener(this, "ChangeCam");
   }
 
   /** These are our custom actions triggered by key presses.
@@ -340,7 +330,9 @@ public class testJoc extends SimpleApplication
       player.jump();
     }else if (binding.equals("shoot") ) {
         makeCannonBall();
-        
+    }else if (binding.equals("ChangeCam") ) {
+        changeCamara();   
+        change = true;
     }
   }
   
@@ -413,11 +405,9 @@ public class testJoc extends SimpleApplication
     
     Vector3f camara3p = player.getPhysicsLocation();
     camara3p.z-=10;
-    
-    
-    //cam.setLocation(camara3p);
-    //cam.lookAt(camara3p, player.getViewDirection());
-    fpsText.setText(vista+"");
+    cam.setLocation(camara3p);
+    //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
+    fpsText.setText(cam.getDirection()+"");
     
   }
 
@@ -437,20 +427,28 @@ public class testJoc extends SimpleApplication
 
     public void collision(PhysicsCollisionEvent event) {
         try{
-        if("cube1".equals(event.getNodeA().getName()) || "cube1".equals(event.getNodeB().getName()) || "cube2".equals(event.getNodeA().getName()) || "cube2".equals(event.getNodeB().getName())){
-            if("jamboloco".equals(event.getNodeA().getName()) || "jamboloco".equals(event.getNodeB().getName())){
-                if(jambo.getWalkDirection().z == 0.1f){
-                    jambo.setWalkDirection(new Vector3f(0,0,-0.1f));
-                    jambo.setViewDirection(new Vector3f(0,0,-1f));
-                }else{
-                    jambo.setWalkDirection(new Vector3f(0,0,0.1f));
-                    jambo.setViewDirection(new Vector3f(0,0,1f));
-                }
-        }
+            if("cube1".equals(event.getNodeA().getName()) || "cube1".equals(event.getNodeB().getName()) || "cube2".equals(event.getNodeA().getName()) || "cube2".equals(event.getNodeB().getName())){
+                if("jamboloco".equals(event.getNodeA().getName()) || "jamboloco".equals(event.getNodeB().getName())){
+                    if(jambo.getWalkDirection().z == 0.1f){
+                        jambo.setWalkDirection(new Vector3f(0,0,-0.1f));
+                        jambo.setViewDirection(new Vector3f(0,0,-1f));
+                    }else{
+                        jambo.setWalkDirection(new Vector3f(0,0,0.1f));
+                        jambo.setViewDirection(new Vector3f(0,0,1f));
+                    }
+                }  
+            }
+        }catch(Exception e){
         
+        }    
     }
-    }catch(Exception e){
-        
-    }
+
+    private void changeCamara() {
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+        // Disable the default flyby cam
+        flyCam.setEnabled(false);
+        // Enable a chase cam for this target (typically the player).
+        ChaseCamera chaseCam = new ChaseCamera(cam, cube2, inputManager);
+        chaseCam.setSmoothMotion(true);
     }
 }
