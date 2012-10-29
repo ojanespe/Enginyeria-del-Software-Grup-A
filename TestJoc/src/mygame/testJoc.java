@@ -148,22 +148,20 @@ public class testJoc extends SimpleApplication
     
     
     
-    CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(3f, 3f, 0);
+    /*CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(3f, 3f, 0);
     jambo = new CharacterControl(capsuleShape2, 0.5f);
     
-    Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
-    robot.setName("jamboloco");
-    robot.setLocalScale(0.5f);
+    
     //robot.addControl(jambo);
     
     jambo.setPhysicsLocation(new Vector3f(10f, 6.5f, 0f));
-    rootNode.attachChild(robot);
+    
     bulletAppState.getPhysicsSpace().add(jambo);
     
     assetManager.registerLocator("character.zip", ZipLocator.class);
     
     CapsuleCollisionShape capsuleShape3 = new CapsuleCollisionShape(3f, 3f, 0);
-    jambo2 = new CharacterControl(capsuleShape3, 0.5f);
+    /*jambo2 = new CharacterControl(capsuleShape3, 0.5f);
     
     Node Modelo2 = (Node) assetManager.loadModel("character.mesh.xml");
     Modelo2.setName("jamboloco2");
@@ -173,27 +171,22 @@ public class testJoc extends SimpleApplication
     jambo2.setPhysicsLocation(new Vector3f(20f, 20f, 0f));
     jambo2.setViewDirection(new Vector3f(0,1f,0));
     rootNode.attachChild(Modelo2);
-    bulletAppState.getPhysicsSpace().add(jambo2);
+    bulletAppState.getPhysicsSpace().add(jambo2);*/
     
       
     
     /*BotTest = assetManager.loadModel("Oto.mesh.xml");
     BotTest.setLocalScale(0.5f);
-    BotTest.setLocalTranslation(10f, 6.5f, 10f);*/
+    BotTest.setLocalTranslation(10f, 6.5f, 10f)
     bot2 = Modelo2.getControl(AnimControl.class);
     bot2.addListener(this);
     channel_walk2 = bot2.createChannel();
-    channel_walk2.setAnim("run_01");
+    channel_walk2.setAnim("run_01");;*/
     
      //for (String anim : bot2.getAnimationNames()){
      //       System.out.println(anim);}
     
-    bot = robot.getControl(AnimControl.class);
     
-    bot.addListener(this);
-    channel_walk = bot.createChannel();
-    
-    channel_walk.setAnim("stand");
     /*geom = (Geometry)((Node)BotTest).getChild(0);
     SkeletonControl skeletonControl = BotTest.getControl(SkeletonControl.class);
     Box b = new Box(.25f,3f,.25f);
@@ -257,6 +250,18 @@ public class testJoc extends SimpleApplication
     player.setFallSpeed(60);
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
+    
+    Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+    robot.setName("jamboloco");
+    robot.setLocalScale(0.5f);
+    robot.setLocalTranslation(new Vector3f(0, 10, 0));
+    bot = robot.getControl(AnimControl.class);
+    
+    bot.addListener(this);
+    channel_walk = bot.createChannel();
+    
+    channel_walk.setAnim("stand");
+    
     robot.addControl(player);
 
     // We attach the scene and the player tthe rootnode and the physics space,
@@ -264,6 +269,7 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cube1);
     rootNode.attachChild(cube2);
+    rootNode.attachChild(robot);
     //rootNode.attachChild(BotTest);
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(player);
@@ -391,10 +397,13 @@ public class testJoc extends SimpleApplication
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     player.setWalkDirection(walkDirection);
     player.setViewDirection(player.getWalkDirection());
-    fpsText.setText(player.getWalkDirection().toString());
+    
     Vector3f camara3p = player.getPhysicsLocation();
     camara3p.z-=10;
     cam.setLocation(camara3p);
+    //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
+    fpsText.setText(cam.getDirection()+"");
+    
   }
 
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
