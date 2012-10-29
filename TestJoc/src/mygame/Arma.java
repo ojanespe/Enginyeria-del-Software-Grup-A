@@ -15,11 +15,14 @@ import com.jme3.scene.Spatial;
 public class Arma {
     int nBalas;
     private Spatial gun;
+    private Vector3f location;
     
-    public Arma(AssetManager assetManager){
-        gun = assetManager.loadModel("Models/Glock/Glock.j3o");
-        gun.setLocalScale(0.5f);
-        gun.setLocalTranslation(-0.7f, -0.7f, 1.8f);
+    public Arma(AssetManager assetManager, String rootArma, Vector3f p_location){
+        gun = assetManager.loadModel(rootArma);
+        location=p_location;
+        gun.setLocalScale(0.25f);
+        gun.rotate(0.0f, 330.0f, 0.0f);
+        gun.setLocalTranslation(location);
     }
     
     public Spatial getGun(){
@@ -34,6 +37,6 @@ public class Arma {
     }
     
     public void updateGun(Vector3f player_pos){
-        gun.setLocalTranslation(player_pos.add(0, -10, 0).add(-0.7f, -0.7f, 1.8f));
+        gun.setLocalTranslation(player_pos.add(0, -10, 0).add(location));
     }
 }

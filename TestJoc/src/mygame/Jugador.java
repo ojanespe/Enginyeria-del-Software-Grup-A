@@ -18,9 +18,12 @@ public class Jugador {
     private CharacterControl player;        
     private int disparos, vida, escudo, posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
-    private Arma[] armas;
+    private int TOTAL_GUNS=10;
+    private Arma[] armas= new Arma[TOTAL_GUNS];
+    private int gun=0;
+    private int actualGuns=0;
     private Node character;
-   
+
     public Jugador(){
         disparos = 0;
         vida = 100;
@@ -44,8 +47,25 @@ public class Jugador {
         
     }
     
-    public void setgun(Spatial gun){
-        character.attachChild(gun);
+    public void setGun(Arma gun){
+        if(actualGuns<TOTAL_GUNS)
+        {
+            armas[actualGuns]=gun;
+            actualGuns++;
+        }
+    }
+    
+    public void chooseGun(int numGun)
+    {
+        //S'ha de borrar l'anterior i posar la nova arma
+        //character.removeControl(player);
+        gun=numGun;
+        character.attachChild(armas[numGun].getGun());
+    }
+    
+    public Spatial getGun()
+    {
+        return armas[gun].getGun();
     }
 
     public Node getNode(){

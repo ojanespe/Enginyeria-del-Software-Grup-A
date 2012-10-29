@@ -67,6 +67,9 @@ public class testJoc extends SimpleApplication
         implements ActionListener {
 
   private Material stone_mat;
+  private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
+  private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
+  private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
   private RigidBodyControl    ball_phy;
   private static final Sphere sphere;
   
@@ -107,13 +110,13 @@ public class testJoc extends SimpleApplication
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
 
-    Spatial cube1 = assetManager.loadModel("Models/Glock/Glock.j3o");
+    /*Spatial cube1 = assetManager.loadModel("Models/Psg/PSG_ANIMADA.j3o");
     cube1.setLocalScale(0.5f);
-    cube1.setLocalTranslation(10f, 10f, 0f);
+    cube1.setLocalTranslation(10f, 10f, 0f);*/
     
-    Spatial cube2 = assetManager.loadModel("Models/cube2.mesh.xml");
-    cube2.setLocalScale(2f);
-    cube2.setLocalTranslation(10f, 25f, -30f);
+    //Spatial cube2 = assetManager.loadModel("Models/cube2.mesh.xml");
+    //cube2.setLocalScale(2f);
+    //cube2.setLocalTranslation(10f, 25f, -30f);
     // We set up collision detection for the scene by creating a
     // compound collision shape and a static RigidBodyControl with mass zero.
     CollisionShape sceneShape =
@@ -122,11 +125,11 @@ public class testJoc extends SimpleApplication
     sceneModel.addControl(landscape);
     
     
-    RigidBodyControl cubeControl = new RigidBodyControl(5f);
-    cube1.addControl(cubeControl);
+   // RigidBodyControl cubeControl = new RigidBodyControl(5f);
+    //cube1.addControl(cubeControl);
     
-    RigidBodyControl cube2Control = new RigidBodyControl(1f);
-    cube2.addControl(cube2Control);
+    //RigidBodyControl cube2Control = new RigidBodyControl(1f);
+    //cube2.addControl(cube2Control);
     
     // We set up collision detection for the player by creating
     // a capsule collision shape and a CharacterControl.
@@ -140,14 +143,28 @@ public class testJoc extends SimpleApplication
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
     s = new Jugador();
-    arma = new Arma(assetManager);
-    s.setgun(arma.getGun());
+    //Creem arma i donem localització
     
+    //Posició de la glock
+    //gun.setLocalTranslation(-0.7f, -0.7f, 1.8f);
+    
+    Vector3f location=new Vector3f();
+    location.x=-2.0f;
+    location.y=-1.5f;
+    location.z=5.5f;
+    
+    arma = new Arma(assetManager, psgWeapon, location);
+    s.setGun(arma);
+    s.chooseGun(0);
     
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
-
-    cam.setLocation(new Vector3f(0,1,-5));
+    
+    //Glock cam location
+    //cam.setLocation(new Vector3f(0,3,-5));
+    
+    //Mlp location
+    cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
     cam.lookAt(arma.getGun().getLocalTranslation(), Vector3f.UNIT_Y);
     
     //Rotate the camNode to look at the target:
@@ -209,7 +226,7 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("shoot")) {
       s.incremenDisparos();
       System.out.println("Disparos efectuados: "+s.getDisparos());
-      makeCannonBall();      
+      //makeCannonBall();      
     }
   }
   
