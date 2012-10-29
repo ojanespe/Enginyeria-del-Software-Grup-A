@@ -79,10 +79,7 @@ public class testJoc extends SimpleApplication
   private Material stone_mat;
   private RigidBodyControl    ball_phy;
   private static final Sphere sphere;
-  private Spatial cube2;
-  int z = 10;
-  RigidBodyControl cube2Control;
-  RigidBodyControl botControl;
+  
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
@@ -92,6 +89,11 @@ public class testJoc extends SimpleApplication
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false, change = false;
 
+  private  Node robot;
+  private Spatial cube2;
+  int z = 10;
+  RigidBodyControl cube2Control;
+  RigidBodyControl botControl;
   private AnimChannel channel_walk;
   private AnimChannel channel_walk2;
   private AnimControl bot;
@@ -110,8 +112,8 @@ public class testJoc extends SimpleApplication
                     channel_walk.setLoopMode(LoopMode.Loop);
                     channel_walk.setAnim("Walk", 0.5f);
                     channel_walk.setSpeed(1.5f);
-                    jambo.setWalkDirection(new Vector3f(0,0,0.1f));
-                    jambo.setViewDirection(new Vector3f(0,0,1f));
+                    //jambo.setWalkDirection(new Vector3f(0,0,0.1f));
+                    //jambo.setViewDirection(new Vector3f(0,0,1f));
                     
                 }
             }
@@ -239,12 +241,7 @@ public class testJoc extends SimpleApplication
     
     cube2.addControl(cube2Control);
     //cube2Control.setLinearVelocity(new Vector3f(0,0,10));
-    // We set up collision detection for the player by creating
-    // a capsule collision shape and a CharacterControl.
-    // The CharacterControl offers extra settings for
-    // size, stepheight, jumping, falling, and gravity.
-    // We also put the player in its starting position.
-    
+      
     CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
     player = new CharacterControl(capsuleShape, 0.05f);
     player.setJumpSpeed(20);
@@ -252,7 +249,7 @@ public class testJoc extends SimpleApplication
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
     
-    Node robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+    robot = (Node)assetManager.loadModel("Oto.mesh.xml");
     robot.setName("jamboloco");
     robot.setLocalScale(0.5f);
     robot.setLocalTranslation(new Vector3f(0, 10, 0));
@@ -384,6 +381,7 @@ public class testJoc extends SimpleApplication
       settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
     guiNode.attachChild(ch);
   }
+  
   /**
    * This is the main event loop--walking happens here.
    * We check in which direction the player is walking by interpreting
@@ -439,16 +437,15 @@ public class testJoc extends SimpleApplication
                 }  
             }
         }catch(Exception e){
-        
+            System.out.println(e.getMessage());
         }    
     }
 
-    private void changeCamara() {
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+    private void changeCamara() {        
         // Disable the default flyby cam
         flyCam.setEnabled(false);
         // Enable a chase cam for this target (typically the player).
-        ChaseCamera chaseCam = new ChaseCamera(cam, cube2, inputManager);
-        chaseCam.setSmoothMotion(true);
+        ChaseCamera chaseCam = new ChaseCamera(cam, robot, inputManager);
+        //chaseCam.setSmoothMotion(true);
     }
 }
