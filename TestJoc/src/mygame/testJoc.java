@@ -226,6 +226,7 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("shoot")) {
       s.incremenDisparos();
       System.out.println("Disparos efectuados: "+s.getDisparos());
+      s.setVida(s.getVida()-1);
       //makeCannonBall();      
     }
   }
@@ -289,7 +290,7 @@ public class testJoc extends SimpleApplication
     guiNode.attachChild(ps.getDisparos());
         
     //Imagen Cruz Vida
-    guiNode.attachChild(ps.getPicVida());
+    guiNode.attachChild(ps.getPicVida(s.getVida(), assetManager));
     
     //Imagen Escudo
     guiNode.attachChild(ps.getPicEscudo());
@@ -318,6 +319,10 @@ public class testJoc extends SimpleApplication
     s.getPlayer().setWalkDirection(walkDirection);
     //arma.updateGun(s.getPlayer().getPhysicsLocation());
     cam.setLocation(s.getPlayer().getPhysicsLocation());
+    
+    
+    
+    
     refrexCrossHairs();
   }
 }

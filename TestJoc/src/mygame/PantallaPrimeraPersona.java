@@ -37,12 +37,25 @@ public class PantallaPrimeraPersona {
         contDisp.setColor(ColorRGBA.Black);
         contDisp.setLocalTranslation(settings.getWidth() - contDisp.getLineWidth(), contDisp.getLineHeight()*2, 0);
 
+        //Imagen Bala
+        picBala = new Picture("HUD Picture");
+        picBala.setImage(assetManager, "Icons/bala.png", true);
+        picBala.scale(20);
+        picBala.setLocalTranslation(settings.getWidth() - (contDisp.getLineWidth()/2), contDisp.getLineHeight(), 0);
+        
         //Texto vida
         life = new BitmapText(guiFont, false); 
         life.setSize(guiFont.getCharSet().getRenderedSize());
-        life.setText("Vida:\n100");
+        //life.setText("Vida:\n100");
         life.setColor(ColorRGBA.Black);
-        life.setLocalTranslation(10, life.getLineHeight()*2, 0);
+        life.setLocalTranslation(500, life.getLineHeight()*2, 0);
+        
+        //Imagen Cruz Vida
+        picCruz = new Picture("HUD Picture");
+        picCruz.setImage(assetManager, "Icons/barravida/barravida100.png", true);
+        //picCruz.scale(160);
+        picCruz.scale(160,20, 0);
+        picCruz.setPosition(20, life.getLineHeight());
 
         //Texto escudo
         escudo = new BitmapText(guiFont, false);
@@ -50,24 +63,13 @@ public class PantallaPrimeraPersona {
         escudo.setText("Escudo:\n0");
         escudo.setColor(ColorRGBA.Black);
         escudo.setLocalTranslation(escudo.getLineWidth(), escudo.getLineHeight(), 0);
-
-        //Imagen Cruz Vida
-        picCruz = new Picture("HUD Picture");
-        picCruz.setImage(assetManager, "Icons/cruzvida.png", true);
-        picCruz.scale(20);
-        picCruz.setPosition(10, life.getLineHeight()*2);
-
+        
         //Imagen Escudo
         picEscudo = new Picture("HUD Picture"); 
         picEscudo.setImage(assetManager, "Icons/escudo.png", true);
         picEscudo.scale(20);
-        picEscudo.setPosition(escudo.getLineWidth()+50, escudo.getLineHeight()*2);
-
-        //Imagen Bala
-        picBala = new Picture("HUD Picture");
-        picBala.setImage(assetManager, "Icons/bala.png", true);
-        picBala.scale(20);
-        picBala.setPosition(settings.getWidth() - contDisp.getLineWidth(), contDisp.getLineHeight()*2);
+        picEscudo.setPosition(escudo.getLineWidth()+350, escudo.getLineHeight());
+        
     }    
     
     public BitmapText getcruzPuntero(){
@@ -79,7 +81,8 @@ public class PantallaPrimeraPersona {
     }
     
     public void setTextDisparos(int disp){
-        contDisp.setText("Disparos:\n"+ disp);
+        //contDisp.setText("Disparos:\n"+ disp);
+        contDisp.setText(disp+"");
     }
     
     public BitmapText getVida(){
@@ -87,7 +90,10 @@ public class PantallaPrimeraPersona {
     }
     
     public void setTextVida(int vida){
-        life.setText("Vida:\n"+ vida);
+        // Cambiar text por una imagen
+        //life.setText("Vida:\n"+ vida);
+        //life.setText(vida+"");
+        
     }
     
     public BitmapText getEscudo(){
@@ -98,7 +104,29 @@ public class PantallaPrimeraPersona {
         escudo.setText("Escudo:\n"+ proc);
     }
     
-    public Picture getPicVida(){
+    public Picture getPicVida(int vida, AssetManager assetManager){
+        
+        if (vida > 95) picCruz.setImage(assetManager, "Icons/barravida/barravida100.png", true);
+        else if (vida > 90) picCruz.setImage(assetManager, "Icons/barravida/barravida95.png", true);
+        else if (vida > 85) picCruz.setImage(assetManager, "Icons/barravida/barravida90.png", true);
+        else if (vida > 80) picCruz.setImage(assetManager, "Icons/barravida/barravida85.png", true);
+        else if (vida > 75) picCruz.setImage(assetManager, "Icons/barravida/barravida80.png", true);
+        else if (vida > 70) picCruz.setImage(assetManager, "Icons/barravida/barravida75.png", true);
+        else if (vida > 65) picCruz.setImage(assetManager, "Icons/barravida/barravida70.png", true);
+        else if (vida > 60) picCruz.setImage(assetManager, "Icons/barravida/barravida65.png", true);
+        else if (vida > 55) picCruz.setImage(assetManager, "Icons/barravida/barravida60.png", true);
+        else if (vida > 50) picCruz.setImage(assetManager, "Icons/barravida/barravida55.png", true);
+        else if (vida > 45) picCruz.setImage(assetManager, "Icons/barravida/barravida50.png", true);
+        else if (vida > 40) picCruz.setImage(assetManager, "Icons/barravida/barravida45.png", true);
+        else if (vida > 35) picCruz.setImage(assetManager, "Icons/barravida/barravida40.png", true);
+        else if (vida > 30) picCruz.setImage(assetManager, "Icons/barravida/barravida35.png", true);
+        else if (vida > 25) picCruz.setImage(assetManager, "Icons/barravida/barravida30.png", true);
+        else if (vida > 20) picCruz.setImage(assetManager, "Icons/barravida/barravida25.png", true);
+        else if (vida > 15) picCruz.setImage(assetManager, "Icons/barravida/barravida20.png", true);
+        else if (vida > 10) picCruz.setImage(assetManager, "Icons/barravida/barravida15.png", true);
+        else if (vida > 5) picCruz.setImage(assetManager, "Icons/barravida/barravida10.png", true);
+        else picCruz.setImage(assetManager, "Icons/barravida/barravida5.png", true);
+        
         return picCruz;
     }
     
