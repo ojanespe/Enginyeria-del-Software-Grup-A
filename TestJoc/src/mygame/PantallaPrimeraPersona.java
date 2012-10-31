@@ -12,8 +12,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
 
-
-
 /**
  *
  * @author JORGE

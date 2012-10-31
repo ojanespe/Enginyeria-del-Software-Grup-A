@@ -34,14 +34,14 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
-import com.jme3.asset.plugins.ZipLocator;
+//import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
+//import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.CharacterControl;
+//import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.font.BitmapText;
+//import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -58,7 +58,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
-import com.jme3.ui.Picture;
+//import com.jme3.ui.Picture;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
@@ -67,9 +67,9 @@ public class testJoc extends SimpleApplication
         implements ActionListener {
 
   private Material stone_mat;
-  private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
-  private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
-  private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
+  //private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
+  //private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
+  //private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
   private RigidBodyControl    ball_phy;
   private static final Sphere sphere;
   
@@ -82,7 +82,7 @@ public class testJoc extends SimpleApplication
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
   
-  private Arma arma;
+  //private Arma arma;
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -142,20 +142,20 @@ public class testJoc extends SimpleApplication
     player.setFallSpeed(60);
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
-    s = new Jugador();
+    s = new Jugador(assetManager);
     //Creem arma i donem localització
     
     //Posició de la glock
     //gun.setLocalTranslation(-0.7f, -0.7f, 1.8f);
     
-    Vector3f location=new Vector3f();
+    /*Vector3f location=new Vector3f();
     location.x=-2.0f;
     location.y=-1.5f;
-    location.z=5.5f;
+    location.z=5.5f;*/
     
-    arma = new Arma(assetManager, psgWeapon, location);
+    /*arma = new Arma(assetManager, psgWeapon, location);
     s.setGun(arma);
-    s.chooseGun(0);
+    s.chooseGun(0);*/
     
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
@@ -165,7 +165,7 @@ public class testJoc extends SimpleApplication
     
     //Mlp location
     cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
-    cam.lookAt(arma.getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+    cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
     
     //Rotate the camNode to look at the target:
     // We attach the scene and the player to the rootnode and the physics space,
@@ -176,7 +176,7 @@ public class testJoc extends SimpleApplication
     bulletAppState.getPhysicsSpace().add(s.getPlayer());
     
     initMaterials();
-    initCrossHairs();
+    //initCrossHairs();
     
   }
 
@@ -202,12 +202,14 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
     inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
     inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+    inputManager.addMapping("Change", new KeyTrigger(KeyInput.KEY_Q));
     inputManager.addListener(this, "shoot");
     inputManager.addListener(this, "Left");
     inputManager.addListener(this, "Right");
     inputManager.addListener(this, "Up");
     inputManager.addListener(this, "Down");
     inputManager.addListener(this, "Jump");
+    inputManager.addListener(this, "Change");
   }
 
   /** These are our custom actions triggered by key presses.
@@ -225,9 +227,12 @@ public class testJoc extends SimpleApplication
       s.getPlayer().jump();
     } else if (binding.equals("shoot")) {
       s.incremenDisparos();
-      System.out.println("Disparos efectuados: "+s.getDisparos());
       s.setVida(s.getVida()-1);
       //makeCannonBall();      
+    } else if (binding.equals("Change")) {
+       s.changeArm();       
+       //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
+       cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
     }
   }
   
@@ -237,6 +242,9 @@ public class testJoc extends SimpleApplication
     key2.setGenerateMips(true);
     Texture tex2 = assetManager.loadTexture(key2);    
     stone_mat.setTexture("ColorMap", tex2);
+    
+    guiNode.detachAllChildren();
+    guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
   }
 
   
@@ -258,7 +266,7 @@ public class testJoc extends SimpleApplication
  
   /** A plus sign used as crosshairs to help the player with aiming.*/
   protected void initCrossHairs() {
-    guiNode.detachAllChildren();
+    /*guiNode.detachAllChildren();
     guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
     BitmapText ch = new BitmapText(guiFont, false);
     ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
@@ -266,13 +274,11 @@ public class testJoc extends SimpleApplication
     ch.setLocalTranslation( // center
       settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
       settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
-    guiNode.attachChild(ch);
+    guiNode.attachChild(ch);*/
 
   }
   
   protected void refrexCrossHairs() {
-    guiNode.detachAllChildren();
-    guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
     
     // Texto puntero
     guiNode.attachChild(ps.getcruzPuntero());
@@ -323,11 +329,8 @@ public class testJoc extends SimpleApplication
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     s.getPlayer().setWalkDirection(walkDirection);
     //arma.updateGun(s.getPlayer().getPhysicsLocation());
-    cam.setLocation(s.getPlayer().getPhysicsLocation());
-    
-    
-    
-    
+    cam.setLocation(s.getPlayer().getPhysicsLocation());    
     refrexCrossHairs();
+    
   }
 }

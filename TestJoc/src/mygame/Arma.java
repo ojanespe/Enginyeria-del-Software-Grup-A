@@ -23,6 +23,7 @@ public class Arma {
         gun.setLocalScale(0.25f);
         gun.rotate(0.0f, 330.0f, 0.0f);
         gun.setLocalTranslation(location);
+        nBalas = 0;
     }
     
     public Spatial getGun(){
