@@ -17,7 +17,7 @@ import com.jme3.scene.Spatial;
  */
 public class Jugador {
     private CharacterControl player;        
-    private int disparos, vida, escudo, posX, posY, posZ;
+    private int vida, escudo, posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
     private int TOTAL_GUNS=10;
     private Arma[] armas= new Arma[TOTAL_GUNS];
@@ -30,7 +30,6 @@ public class Jugador {
     private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
 
     public Jugador(AssetManager assetManager){
-        disparos = 0;
         vida = 100;
         escudo = 0;
         
@@ -99,11 +98,11 @@ public class Jugador {
     }
 
     public int getDisparos() {
-        return disparos;
+        return armas[gun].getBales();
     }
     
     public void incremenDisparos(){
-        disparos++;
+        armas[gun].setBales(armas[gun].getBales()+1);
     }
     
     public int getVida(){
