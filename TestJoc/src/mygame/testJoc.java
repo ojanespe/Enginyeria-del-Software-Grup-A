@@ -297,6 +297,11 @@ public class testJoc extends SimpleApplication
     
     //Imagen Bala
     guiNode.attachChild(ps.getPicBala());
+    
+    //Imagen Bala
+    guiNode.attachChild(ps.getBlood());
+    
+    
   }        
   
   /**

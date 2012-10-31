@@ -8,8 +8,11 @@ import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
+import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
+
+
 
 /**
  *
@@ -18,9 +21,10 @@ import com.jme3.ui.Picture;
 public class PantallaPrimeraPersona {
     int indiceVida, indiceEscudo;
     BitmapText ch, contDisp, life, escudo;
-    Picture picCruz, picEscudo, picBala;
+    Picture picCruz, picEscudo, picBala, puntero, blood;
     
     public PantallaPrimeraPersona(AssetManager assetManager, AppSettings settings, BitmapFont guiFont) {
+        /*
         // Texto puntero
         ch = new BitmapText(guiFont, false);
         ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
@@ -29,7 +33,21 @@ public class PantallaPrimeraPersona {
         ch.setLocalTranslation( 
           settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
           settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
-
+*/
+        
+        puntero = new Picture("HUD Picture");
+        puntero.setImage(assetManager, "Icons/puntdemira.png", true);
+        puntero.scale(40);
+        puntero.setLocalTranslation( 
+          settings.getWidth() / 2 - 20,
+          settings.getHeight() / 2 - 20, 0);
+        
+        blood = new Picture("HUD Picture");
+        blood.setImage(assetManager, "Icons/res.png", true);
+        blood.scale(settings.getWidth(),settings.getHeight(),0);
+        blood.setLocalTranslation(0,0,0);
+        
+        
         // Texto disparos
         contDisp = new BitmapText(guiFont, false);
         contDisp.setSize(guiFont.getCharSet().getRenderedSize());
@@ -72,8 +90,8 @@ public class PantallaPrimeraPersona {
         
     }    
     
-    public BitmapText getcruzPuntero(){
-        return ch;
+    public Picture getcruzPuntero(){
+        return puntero;
     }
     
     public BitmapText getDisparos(){
@@ -124,7 +142,10 @@ public class PantallaPrimeraPersona {
         else if (vida > 20) picCruz.setImage(assetManager, "Icons/barravida/barravida25.png", true);
         else if (vida > 15) picCruz.setImage(assetManager, "Icons/barravida/barravida20.png", true);
         else if (vida > 10) picCruz.setImage(assetManager, "Icons/barravida/barravida15.png", true);
-        else if (vida > 5) picCruz.setImage(assetManager, "Icons/barravida/barravida10.png", true);
+        else if (vida > 5)  {
+            picCruz.setImage(assetManager, "Icons/barravida/barravida10.png", true);
+            blood.setImage(assetManager, "Icons/blood.png", true);       
+        }
         else picCruz.setImage(assetManager, "Icons/barravida/barravida5.png", true);
         
         return picCruz;
@@ -137,4 +158,10 @@ public class PantallaPrimeraPersona {
     public Picture getPicBala(){
         return picBala;
     }
+
+    Spatial getBlood() {
+        return blood;
+    }
+    
+    
 }
