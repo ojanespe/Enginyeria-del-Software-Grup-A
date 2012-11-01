@@ -136,26 +136,10 @@ public class testJoc extends SimpleApplication
     // The CharacterControl offers extra settings for
     // size, stepheight, jumping, falling, and gravity.
     // We also put the player in its starting position.
-    /*CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
-    player = new CharacterControl(capsuleShape, 0.05f);
-    player.setJumpSpeed(20);
-    player.setFallSpeed(60);
-    player.setGravity(60);
-    player.setPhysicsLocation(new Vector3f(0, 10, 0));*/
     s = new Jugador(assetManager);
-    //Creem arma i donem localització
-    
-    //Posició de la glock
-    //gun.setLocalTranslation(-0.7f, -0.7f, 1.8f);
-    
-    /*Vector3f location=new Vector3f();
-    location.x=-2.0f;
-    location.y=-1.5f;
-    location.z=5.5f;*/
-    
-    /*arma = new Arma(assetManager, psgWeapon, location);
-    s.setGun(arma);
-    s.chooseGun(0);*/
+
+    // Cargamos el arma
+    s.chooseGun(0);
     
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
@@ -175,9 +159,7 @@ public class testJoc extends SimpleApplication
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getPlayer());
     
-    initMaterials();
-    //initCrossHairs();
-    
+    initMaterials();    
   }
 
   private void setUpLight() {
@@ -278,8 +260,7 @@ public class testJoc extends SimpleApplication
 
   }
   
-  protected void refrexCrossHairs() {
-    
+  protected void refrexCrossHairs() {    
     // Texto puntero
     guiNode.attachChild(ps.getcruzPuntero());
     
@@ -305,8 +286,7 @@ public class testJoc extends SimpleApplication
     guiNode.attachChild(ps.getPicBala());
     
     //Imagen Bala
-    guiNode.attachChild(ps.getBlood());
-    
+    guiNode.attachChild(ps.getBlood());   
     
   }        
   
@@ -328,7 +308,7 @@ public class testJoc extends SimpleApplication
     if (up)    { walkDirection.addLocal(camDir); }
     if (down)  { walkDirection.addLocal(camDir.negate()); }
     s.getPlayer().setWalkDirection(walkDirection);
-    //arma.updateGun(s.getPlayer().getPhysicsLocation());
+    //s.getArma().updateGun(s.getPlayer().getPhysicsLocation());
     cam.setLocation(s.getPlayer().getPhysicsLocation());    
     refrexCrossHairs();
     

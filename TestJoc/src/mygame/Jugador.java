@@ -23,8 +23,7 @@ public class Jugador {
     private Arma[] armas= new Arma[TOTAL_GUNS];
     private int gun=0;
     private int actualGuns=0;
-    private Node character;
-    
+    private Node character;    
     private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
     private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
     private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
@@ -47,12 +46,7 @@ public class Jugador {
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-        Vector3f location=new Vector3f();
-        location.x=-2.0f;
-        location.y=-1.5f;
-        location.z=5.5f;
-    
-        armas[0] = new Arma(assetManager, psgWeapon, location);
+        armas[0] = new Arma(assetManager, psgWeapon, new Vector3f(-2.0f,-1.5f,5.5f));
         armas[0].rotate(0.0f, 330.0f, 0.0f);
         armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
         armas[2] = new Arma(assetManager, glockWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
@@ -67,15 +61,15 @@ public class Jugador {
         }
     }
     
-    public void chooseGun(int numGun)
-    {
-        //S'ha de borrar l'anterior i posar la nova arma
-        //character.removeControl(player);
-        gun=numGun;
-        character.attachChild(armas[numGun].getGun());
+    public void chooseGun(int numGun) {
+        character.detachAllChildren();
+        if (armas[numGun] != null) {
+            gun=numGun;
+        }
+        character.attachChild(armas[gun].getGun());
     }
     
-    public void changeArm(){
+    public void changeArm() {
         if (armas[gun+1] == null) {
             gun = 0;
         }
@@ -86,14 +80,14 @@ public class Jugador {
         character.attachChild(armas[gun].getGun());
     }
     
-    public Spatial getGun()
-    {
+    public Spatial getGun() {
         return armas[gun].getGun();
     }
 
     public Node getNode(){
         return character;
     }
+    
     public CharacterControl getPlayer() {
         return player;
     }
