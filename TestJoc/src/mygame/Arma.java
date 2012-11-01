@@ -21,7 +21,6 @@ public class Arma {
         gun = assetManager.loadModel(rootArma);
         location=p_location;
         gun.setLocalScale(0.25f);
-        gun.rotate(0.0f, 330.0f, 0.0f);
         gun.setLocalTranslation(location);
         nBalas = 0;
     }
@@ -39,5 +38,9 @@ public class Arma {
     
     public void updateGun(Vector3f player_pos){
         gun.setLocalTranslation(player_pos.add(0, -10, 0).add(location));
+    }
+    
+    public void rotate(float x, float y, float z){
+        gun.rotate(x, y, z);
     }
 }

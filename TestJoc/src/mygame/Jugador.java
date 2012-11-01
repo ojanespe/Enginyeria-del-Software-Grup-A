@@ -53,8 +53,9 @@ public class Jugador {
         location.z=5.5f;
     
         armas[0] = new Arma(assetManager, psgWeapon, location);
-        armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f)); //rotar 180º en z
-        armas[2] = new Arma(assetManager, glockWeapon,  new Vector3f(-1f, -1f, 1.5f)); //rotar 180º en z
+        armas[0].rotate(0.0f, 330.0f, 0.0f);
+        armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
+        armas[2] = new Arma(assetManager, glockWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
         
     }
     
