@@ -54,13 +54,15 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
+import sound.SoundManager;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
  */
 public class testJoc extends SimpleApplication
         implements ActionListener {
-
+    
+  private SoundManager soundManager;
   private Material stone_mat;
   private RigidBodyControl ball_phy;
   private static final Sphere sphere;
@@ -84,6 +86,10 @@ public class testJoc extends SimpleApplication
   }
   
   public void simpleInitApp() {
+    // Set up the sound
+    soundManager = new SoundManager(assetManager, rootNode);
+    soundManager.playAmbientSound("Sounds/Ambient/fog_bound.ogg", 3);
+    
     /** Set up Physics */
     bulletAppState = new BulletAppState();
     stateManager.attach(bulletAppState);
@@ -199,11 +205,14 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("shoot")) {
       s.incremenDisparos();
       s.setVida(s.getVida()-1);
-      //makeCannonBall();      
+      //makeCannonBall();
+      //soundManager.play(gun.getShotSound(), 1);
+      soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
     } else if (binding.equals("Change")) {
        s.changeArm();       
        //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
        cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+       // Sound of weapon change
     }
   }
   
@@ -301,5 +310,9 @@ public class testJoc extends SimpleApplication
     cam.setLocation(s.getPlayer().getPhysicsLocation());    
     refrexCrossHairs();
     
+    // Movement sound
+    if (up || down) {
+        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 1);
+    }
   }
 }
