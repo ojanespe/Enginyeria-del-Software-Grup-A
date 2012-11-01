@@ -6,6 +6,7 @@ package mygame;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
@@ -32,12 +33,17 @@ public class Arma {
         return nBalas;
     }
     
+    public Vector3f getLocation()
+    {
+        return location;
+    }
+    
     void setBales(int balas){
         nBalas = balas;
     }
     
     public void updateGun(Vector3f player_pos){
-        gun.setLocalTranslation(player_pos.add(0, -10, 0).add(location));
+        gun.setLocalTranslation(player_pos);
     }
     
     public void rotate(float x, float y, float z){

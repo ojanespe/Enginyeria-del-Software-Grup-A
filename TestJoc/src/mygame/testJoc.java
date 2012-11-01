@@ -42,15 +42,20 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
@@ -64,14 +69,13 @@ public class testJoc extends SimpleApplication
   private Material stone_mat;
   private RigidBodyControl ball_phy;
   private static final Sphere sphere;
-  
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
   private Jugador s;
   private PantallaPrimeraPersona ps;
   private Vector3f walkDirection = new Vector3f();
-  private boolean left = false, right = false, up = false, down = false;
+  private boolean left = false, right = false, up = false, down = false, rotate=false;
  
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -98,6 +102,8 @@ public class testJoc extends SimpleApplication
     // We load the scene from the zip file and adjust its size.
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
     sceneModel.setLocalScale(8f);
+    
+
 
     /*Spatial cube1 = assetManager.loadModel("Models/Psg/PSG_ANIMADA.j3o");
     cube1.setLocalScale(0.5f);
@@ -135,7 +141,7 @@ public class testJoc extends SimpleApplication
     
     //Glock cam location
     //cam.setLocation(new Vector3f(0,3,-5));
-    
+
     //Mlp location
     cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
     cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
@@ -161,7 +167,6 @@ public class testJoc extends SimpleApplication
     dl.setColor(ColorRGBA.White);
     dl.setDirection(new Vector3f(2.8f, -2.8f, -2.8f).normalizeLocal());
     rootNode.addLight(dl); /** Add fog to a scene */
-    
   }
 
   /** We over-write some navigational key mappings here, so we can
@@ -174,6 +179,8 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
     inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
     inputManager.addMapping("Change", new KeyTrigger(KeyInput.KEY_Q));
+    inputManager.addMapping("rotateRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
+    inputManager.addMapping("rotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
     inputManager.addListener(this, "shoot");
     inputManager.addListener(this, "Left");
     inputManager.addListener(this, "Right");
@@ -181,11 +188,22 @@ public class testJoc extends SimpleApplication
     inputManager.addListener(this, "Down");
     inputManager.addListener(this, "Jump");
     inputManager.addListener(this, "Change");
+    inputManager.addListener(this, "rotateRight", "rotateLeft");
   }
 
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
   public void onAction(String binding, boolean value, float tpf) {
+    if (binding.equals("rotateRight")) {
+        /*Vector3f vec1= new Vector3f();
+        vec1.x=s.getArma().getLocation().x + walkDirection.x;
+        vec1.y=s.getArma().getLocation().y;
+        vec1.z=s.getArma().getLocation().z;
+      s.getArma().updateGun(vec1);*/
+    }
+    if (binding.equals("rotateLeft")) {
+      //s.getArma().getGun().setLocalTranslation(s.getArma().getLocation().x + walkDirection.x,s.getArma().getLocation().y + walkDirection.y,s.getArma().getLocation().z + walkDirection.z);
+    }
     if (binding.equals("Left")) {
       if (value) { left = true; } else { left = false; }
     } else if (binding.equals("Right")) {
@@ -204,8 +222,12 @@ public class testJoc extends SimpleApplication
        s.changeArm();       
        //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
        cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+       
     }
+
   }
+  
+  
   
   public void initMaterials(){
     stone_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
@@ -295,10 +317,12 @@ public class testJoc extends SimpleApplication
     if (left)  { walkDirection.addLocal(camLeft); }
     if (right) { walkDirection.addLocal(camLeft.negate()); }
     if (up)    { walkDirection.addLocal(camDir); }
-    if (down)  { walkDirection.addLocal(camDir.negate()); }
+    if (down)  { walkDirection.addLocal(camDir.negate());}
+    //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
     s.getPlayer().setWalkDirection(walkDirection);
-    //s.getArma().updateGun(s.getPlayer().getPhysicsLocation());
-    cam.setLocation(s.getPlayer().getPhysicsLocation());    
+    
+    cam.setLocation(s.getPlayer().getPhysicsLocation()); 
+
     refrexCrossHairs();
     
   }
