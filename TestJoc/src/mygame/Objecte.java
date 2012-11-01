@@ -9,8 +9,12 @@ package mygame;
  * @author JORGE
  */
 public class Objecte {
-    int posX, posY, posZ;
+    float posX, posY, posZ;
     
-    
+    public Objecte (float x, float y, float z){
+        posX = x;
+        posY = y;
+        posZ = z;
+    }
     
 }

@@ -34,14 +34,10 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
-//import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
-//import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-//import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
-//import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -58,7 +54,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
-//import com.jme3.ui.Picture;
 
 /**
  * Carrega del openBox amb els dos tipus de cub solids.
@@ -67,23 +62,17 @@ public class testJoc extends SimpleApplication
         implements ActionListener {
 
   private Material stone_mat;
-  //private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
-  //private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
-  //private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
-  private RigidBodyControl    ball_phy;
+  private RigidBodyControl ball_phy;
   private static final Sphere sphere;
   
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
-  //private CharacterControl player;
   private Jugador s;
   private PantallaPrimeraPersona ps;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
-  
-  //private Arma arma;
-  
+ 
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();

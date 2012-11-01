@@ -17,12 +17,10 @@ import com.jme3.scene.Spatial;
  */
 public class Jugador {
     private CharacterControl player;        
-    private int vida, escudo, posX, posY, posZ;
+    private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
+    private float posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
-    private int TOTAL_GUNS=10;
     private Arma[] armas= new Arma[TOTAL_GUNS];
-    private int gun=0;
-    private int actualGuns=0;
     private Node character;    
     private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
     private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
@@ -32,9 +30,9 @@ public class Jugador {
         vida = 100;
         escudo = 0;
         
-        posX = 0;
-        posY = 10;
-        posZ = 0;
+        posX = 0.0f;
+        posY = 10.0f;
+        posZ = 0.0f;
             
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
@@ -65,7 +63,7 @@ public class Jugador {
         character.detachAllChildren();
         if (armas[numGun] != null) {
             gun=numGun;
-        }
+        }        
         character.attachChild(armas[gun].getGun());
     }
     
@@ -76,7 +74,7 @@ public class Jugador {
         else {
             gun++;
         }
-        character.detachAllChildren();
+        character.detachAllChildren();        
         character.attachChild(armas[gun].getGun());
     }
     
