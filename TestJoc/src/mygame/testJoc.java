@@ -78,6 +78,7 @@ public class testJoc extends SimpleApplication
   private PantallaPrimeraPersona ps;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false, rotate=false;
+  private CameraNode cameraNode;
  
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -152,13 +153,15 @@ public class testJoc extends SimpleApplication
     cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
     cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
     
+    cameraNode = new CameraNode("camera", cam);
+    cameraNode.attachChild(s.getNode());
     //Rotate the camNode to look at the target:
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
-    rootNode.attachChild(s.getNode());
+    rootNode.attachChild(cameraNode);
     bulletAppState.getPhysicsSpace().add(landscape);
-    bulletAppState.getPhysicsSpace().add(s.getPlayer());
+    bulletAppState.getPhysicsSpace().add(s.getNode());
     
     initMaterials();    
   }
@@ -329,8 +332,13 @@ public class testJoc extends SimpleApplication
     //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
     s.getPlayer().setWalkDirection(walkDirection);
     
+    s.getGun().lookAt(s.getPlayer().getWalkDirection(), cam.getUp());
+    cameraNode.setLocalRotation(cam.getRotation());
+    cameraNode.setLocalTranslation(s.getPlayer().getPhysicsLocation());
+    
     cam.setLocation(s.getPlayer().getPhysicsLocation()); 
-
+    //System.out.println(cam.getDirection());
+    //s.getGun().rotateUpTo(cam.getDirection());
     refrexCrossHairs();
     
     // Movement sound
