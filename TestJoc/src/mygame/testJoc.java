@@ -332,7 +332,6 @@ public class testJoc extends SimpleApplication
     //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
     s.getPlayer().setWalkDirection(walkDirection);
     
-    s.getGun().lookAt(s.getPlayer().getWalkDirection(), cam.getUp());
     cameraNode.setLocalRotation(cam.getRotation());
     cameraNode.setLocalTranslation(s.getPlayer().getPhysicsLocation());
     
