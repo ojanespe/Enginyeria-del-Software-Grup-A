@@ -255,7 +255,10 @@ public class testJoc extends SimpleApplication
       s.getPlayer().jump();
     } else if (binding.equals("shoot")) {
       s.incremenDisparos();
-      s.setVida(s.getVida()-1);
+      
+      if (s.getEscudo() > 0) s.setEscudo((s.getEscudo()-1));
+      else s.setVida(s.getVida()-1);
+      
       //makeCannonBall();
       //soundManager.play(gun.getShotSound(), 1);
       soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
@@ -332,7 +335,7 @@ public class testJoc extends SimpleApplication
     guiNode.attachChild(ps.getPicVida(s.getVida(), assetManager));
     
     //Imagen Escudo
-    guiNode.attachChild(ps.getPicEscudo());
+    guiNode.attachChild(ps.getPicEscudo(s.getEscudo(), assetManager));
     
     //Imagen Bala
     guiNode.attachChild(ps.getPicBala());

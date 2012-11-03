@@ -83,9 +83,9 @@ public class PantallaPrimeraPersona {
         
         //Imagen Escudo
         picEscudo = new Picture("HUD Picture"); 
-        picEscudo.setImage(assetManager, "Icons/escudo.png", true);
-        picEscudo.scale(20);
-        picEscudo.setPosition(escudo.getLineWidth()+350, escudo.getLineHeight());
+        picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo100.png", true);
+        picEscudo.scale(160,20,0);
+        picEscudo.setPosition(220, escudo.getLineHeight());
         
         
         String sauce;
@@ -167,7 +167,29 @@ public class PantallaPrimeraPersona {
         return picCruz;
     }
     
-    public Picture getPicEscudo(){
+    public Picture getPicEscudo(int escudo, AssetManager assetManager){
+        if (escudo > 95) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo100.png", true);
+        else if (escudo > 90) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo95.png", true);
+        else if (escudo > 85) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo90.png", true);
+        else if (escudo > 80) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo85.png", true);
+        else if (escudo > 75) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo80.png", true);
+        else if (escudo > 70) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo75.png", true);
+        else if (escudo > 65) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo70.png", true);
+        else if (escudo > 60) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo65.png", true);
+        else if (escudo > 55) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo60.png", true);
+        else if (escudo > 50) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo55.png", true);
+        else if (escudo > 45) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo50.png", true);
+        else if (escudo > 40) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo45.png", true);
+        else if (escudo > 35) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo40.png", true);
+        else if (escudo > 30) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo35.png", true);
+        else if (escudo > 25) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo30.png", true);
+        else if (escudo > 20) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo25.png", true);
+        else if (escudo > 15) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo20.png", true);
+        else if (escudo > 10) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo15.png", true);
+        else if (escudo > 5) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo10.png", true);
+        else if (escudo > 0) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo5.png", true);
+        else picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo0.png", true);
+        
         return picEscudo;
     }
     

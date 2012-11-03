@@ -30,7 +30,7 @@ public class Jugador {
 
     public Jugador(AssetManager assetManager){
         vida = 100;
-        escudo = 0;
+        escudo = 100;
         
         posX = 0.0f;
         posY = 10.0f;
