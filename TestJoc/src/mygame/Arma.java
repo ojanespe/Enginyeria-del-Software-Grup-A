@@ -17,6 +17,8 @@ public class Arma {
     int nBalas;
     private Spatial gun;
     private Vector3f location;
+    private String weaponType;
+    
     
     public Arma(AssetManager assetManager, String rootArma, Vector3f p_location){
         gun = assetManager.loadModel(rootArma);
@@ -24,6 +26,15 @@ public class Arma {
         gun.setLocalScale(0.25f);
         gun.setLocalTranslation(location);
         nBalas = 0;
+        weaponType = "null";
+    }
+    
+    public void setWeaponType(String type){
+        this.weaponType = type;
+    }
+    
+    public String getWeaponType() {
+        return this.weaponType;
     }
     
     public Spatial getGun(){

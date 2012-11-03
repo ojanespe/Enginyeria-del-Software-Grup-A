@@ -20,6 +20,7 @@ public class PantallaPrimeraPersona {
     int indiceVida, indiceEscudo;
     BitmapText ch, contDisp, life, escudo;
     Picture picCruz, picEscudo, picBala, puntero, blood;
+    Picture picScope;
     
     public PantallaPrimeraPersona(AssetManager assetManager, AppSettings settings, BitmapFont guiFont) {
         /*
@@ -86,7 +87,24 @@ public class PantallaPrimeraPersona {
         picEscudo.scale(20);
         picEscudo.setPosition(escudo.getLineWidth()+350, escudo.getLineHeight());
         
+        
+        String sauce;
+        float r = (float)settings.getWidth()/(float)settings.getHeight();
+        System.out.println(r);
+        if(r <= 1.29) { sauce = "Icons/Scope1_25.png"; }
+        else if(r <= 1.4) { sauce = "Icons/Scope1_33.png"; }
+        else if(r <= 1.6) { sauce = "Icons/Scope1_5.png"; }
+        else { sauce = "Icons/Scope1_77.png"; }
+        picScope = new Picture("Scope");
+        picScope.setImage(assetManager, sauce, true);
+        picScope.setWidth(settings.getWidth());
+        picScope.setHeight(settings.getHeight());
+        picScope.setPosition(0, 0);
     }    
+    
+    public Picture getScope() {
+        return picScope;
+    }
     
     public Picture getcruzPuntero(){
         return puntero;

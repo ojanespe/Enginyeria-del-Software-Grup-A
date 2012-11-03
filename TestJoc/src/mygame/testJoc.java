@@ -182,6 +182,7 @@ public class testJoc extends SimpleApplication
    * add physics-controlled walking and jumping: */
   private void setUpKeys() {
     inputManager.addMapping("shoot", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+    inputManager.addMapping("scope", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
     inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
     inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
     inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
@@ -191,6 +192,7 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("rotateRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
     inputManager.addMapping("rotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
     inputManager.addListener(this, "shoot");
+    inputManager.addListener(this, "scope");
     inputManager.addListener(this, "Left");
     inputManager.addListener(this, "Right");
     inputManager.addListener(this, "Up");
@@ -202,8 +204,36 @@ public class testJoc extends SimpleApplication
 
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
-  public void onAction(String binding, boolean value, float tpf) {
-    if (binding.equals("rotateRight")) {
+  public void onAction(String binding, boolean isPressed, float tpf) {
+      if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
+          if (!s.getSniperMode()) {
+              guiNode.attachChild(ps.getScope());
+              s.setSniperMode(true);
+              float b = cam.getFrustumBottom();
+              float t = cam.getFrustumTop();
+              float l = cam.getFrustumLeft();
+              float r = cam.getFrustumRight();
+              float n = cam.getFrustumNear();
+              float f = cam.getFrustumFar();
+              //System.out.println(b + " " + t + " " + l + " " + r + " " + n + " " + f);
+              cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
+          } 
+          else {
+              guiNode.detachChild(ps.getScope());
+              s.setSniperMode(false);
+              float b = cam.getFrustumBottom();
+              float t = cam.getFrustumTop();
+              float l = cam.getFrustumLeft();
+              float r = cam.getFrustumRight();
+              float n = cam.getFrustumNear();
+              float f = cam.getFrustumFar();
+              //System.out.println(b + " " + t + " " + l + " " + r + " " + n + " " + f);
+              cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+          }
+      }
+      
+      
+      if (binding.equals("rotateRight")) {
         /*Vector3f vec1= new Vector3f();
         vec1.x=s.getArma().getLocation().x + walkDirection.x;
         vec1.y=s.getArma().getLocation().y;
@@ -214,13 +244,13 @@ public class testJoc extends SimpleApplication
       //s.getArma().getGun().setLocalTranslation(s.getArma().getLocation().x + walkDirection.x,s.getArma().getLocation().y + walkDirection.y,s.getArma().getLocation().z + walkDirection.z);
     }
     if (binding.equals("Left")) {
-      if (value) { left = true; } else { left = false; }
+      if (isPressed) { left = true; } else { left = false; }
     } else if (binding.equals("Right")) {
-      if (value) { right = true; } else { right = false; }
+      if (isPressed) { right = true; } else { right = false; }
     } else if (binding.equals("Up")) {
-      if (value) { up = true; } else { up = false; }
+      if (isPressed) { up = true; } else { up = false; }
     } else if (binding.equals("Down")) {
-      if (value) { down = true; } else { down = false; }
+      if (isPressed) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
       s.getPlayer().jump();
     } else if (binding.equals("shoot")) {
@@ -309,6 +339,11 @@ public class testJoc extends SimpleApplication
     
     //Imagen Bala
     guiNode.attachChild(ps.getBlood());   
+    
+    //Scope
+    if(s.getSniperMode()) {
+        guiNode.attachChild(ps.getScope());
+    }
     
   }        
   

@@ -25,6 +25,8 @@ public class Jugador {
     private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
     private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
     private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
+    
+    private boolean sniperMode = false;
 
     public Jugador(AssetManager assetManager){
         vida = 100;
@@ -45,6 +47,7 @@ public class Jugador {
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
         armas[0] = new Arma(assetManager, psgWeapon, new Vector3f(-2.0f,-1.5f,5.5f));
+        armas[0].setWeaponType("sniper");
         armas[0].rotate(0.0f, 330.0f, 0.0f);
         armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
         armas[2] = new Arma(assetManager, glockWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
@@ -116,6 +119,14 @@ public class Jugador {
     
     public Arma getArma() {
        return armas[gun];
+    }
+    
+    public void setSniperMode(boolean b) {
+        this.sniperMode = b;
+    }
+    
+    public boolean getSniperMode() {
+        return this.sniperMode;
     }
     
 }
