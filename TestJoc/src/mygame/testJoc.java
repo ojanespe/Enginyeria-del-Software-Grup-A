@@ -32,6 +32,9 @@
 
 package mygame;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
@@ -66,7 +69,9 @@ import sound.SoundManager;
  */
 public class testJoc extends SimpleApplication
         implements ActionListener {
-    
+  
+  private AnimChannel channel;
+  private AnimControl control;
   private SoundManager soundManager;
   private Material stone_mat;
   private RigidBodyControl ball_phy;
@@ -141,16 +146,16 @@ public class testJoc extends SimpleApplication
     s = new Jugador(assetManager);
 
     // Cargamos el arma
-    s.chooseGun(0);
+    s.chooseGun(2);
     
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
     
     //Glock cam location
-    //cam.setLocation(new Vector3f(0,3,-5));
+    cam.setLocation(new Vector3f(0,3,-5));
 
     //Mlp location
-    cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
+    //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
     cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
     
     cameraNode = new CameraNode("camera", cam);
@@ -162,6 +167,10 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(cameraNode);
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getNode());
+    
+    control = s.getArma().getGun().getControl(AnimControl.class);
+    channel = control.createChannel();
+    //channel.setAnim("Walk");
     
     initMaterials();    
   }
@@ -232,16 +241,11 @@ public class testJoc extends SimpleApplication
           }
       }
       
-      
       if (binding.equals("rotateRight")) {
-        /*Vector3f vec1= new Vector3f();
-        vec1.x=s.getArma().getLocation().x + walkDirection.x;
-        vec1.y=s.getArma().getLocation().y;
-        vec1.z=s.getArma().getLocation().z;
-      s.getArma().updateGun(vec1);*/
+
     }
     if (binding.equals("rotateLeft")) {
-      //s.getArma().getGun().setLocalTranslation(s.getArma().getLocation().x + walkDirection.x,s.getArma().getLocation().y + walkDirection.y,s.getArma().getLocation().z + walkDirection.z);
+      
     }
     if (binding.equals("Left")) {
       if (isPressed) { left = true; } else { left = false; }
@@ -254,6 +258,9 @@ public class testJoc extends SimpleApplication
     } else if (binding.equals("Jump")) {
       s.getPlayer().jump();
     } else if (binding.equals("shoot")) {
+      /*channel.setAnim("Walk",0.50f);
+      channel.setLoopMode(LoopMode.DontLoop);
+      channel.setSpeed(0.10f);*/
       s.incremenDisparos();
       
       if (s.getEscudo() > 0) s.setEscudo((s.getEscudo()-1));
@@ -271,8 +278,16 @@ public class testJoc extends SimpleApplication
 
   }
   
-  
-  
+    /**
+    Mètode que serveix per buscar un node amb el nom especificat
+    */
+    private Spatial findNode(Node rootNode, String name) {
+        if (name.equals(rootNode.getName())) {
+            return rootNode;
+        }
+        return rootNode.getChild(name);
+    }
+
   public void initMaterials(){
     stone_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
     TextureKey key2 = new TextureKey("Textures/Terrain/Rock/Rock.PNG");

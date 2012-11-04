@@ -22,7 +22,7 @@ public class Jugador {
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas= new Arma[TOTAL_GUNS];
     private Node character;    
-    private String glockWeapon="Models/Glock/GlockAnimated2.j3o";
+    private String glockWeapon="Models/Glock/GlockAnimated2.j3o"; //Models/Oto/Oto.mesh.xml
     private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
     private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
     
