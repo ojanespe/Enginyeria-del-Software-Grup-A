@@ -169,7 +169,7 @@ public class testJoc extends SimpleApplication
     bulletAppState.getPhysicsSpace().add(s.getNode());
     
     control = s.getArma().getGun().getControl(AnimControl.class);
-    channel = control.createChannel();
+    //channel = control.createChannel();
     //channel.setAnim("Walk");
     
     initMaterials();    
@@ -213,41 +213,30 @@ public class testJoc extends SimpleApplication
 
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
-  public void onAction(String binding, boolean isPressed, float tpf) {
-      if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
-          if (!s.getSniperMode()) {
-              guiNode.attachChild(ps.getScope());
-              s.setSniperMode(true);
-              float b = cam.getFrustumBottom();
-              float t = cam.getFrustumTop();
-              float l = cam.getFrustumLeft();
-              float r = cam.getFrustumRight();
-              float n = cam.getFrustumNear();
-              float f = cam.getFrustumFar();
-              //System.out.println(b + " " + t + " " + l + " " + r + " " + n + " " + f);
-              cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
-          } 
-          else {
-              guiNode.detachChild(ps.getScope());
-              s.setSniperMode(false);
-              float b = cam.getFrustumBottom();
-              float t = cam.getFrustumTop();
-              float l = cam.getFrustumLeft();
-              float r = cam.getFrustumRight();
-              float n = cam.getFrustumNear();
-              float f = cam.getFrustumFar();
-              //System.out.println(b + " " + t + " " + l + " " + r + " " + n + " " + f);
-              cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
-          }
-      }
-      
-      if (binding.equals("rotateRight")) {
-
-    }
-    if (binding.equals("rotateLeft")) {
-      
-    }
-    if (binding.equals("Left")) {
+public void onAction(String binding, boolean isPressed, float tpf) {
+    if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
+        float b = cam.getFrustumBottom();
+        float t = cam.getFrustumTop();
+        float l = cam.getFrustumLeft();
+        float r = cam.getFrustumRight();
+        float n = cam.getFrustumNear();
+        float f = cam.getFrustumFar();
+        
+        if (!s.getSniperMode()) {
+            guiNode.attachChild(ps.getScope());
+            s.setSniperMode(true);
+            cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
+        } 
+        else {
+            guiNode.detachChild(ps.getScope());
+            s.setSniperMode(false);
+            cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+        }
+    } else if (binding.equals("rotateRight")) {
+        // Nada por ahora.. pero necesario??
+    } else if (binding.equals("rotateLeft")) {
+        // Nada por ahora.. pero necesario??
+    } else if (binding.equals("Left")) {
       if (isPressed) { left = true; } else { left = false; }
     } else if (binding.equals("Right")) {
       if (isPressed) { right = true; } else { right = false; }
@@ -262,42 +251,54 @@ public class testJoc extends SimpleApplication
       channel.setLoopMode(LoopMode.DontLoop);
       channel.setSpeed(0.10f);*/
       s.incremenDisparos();
-      
-      if (s.getEscudo() > 0) s.setEscudo((s.getEscudo()-1));
-      else s.setVida(s.getVida()-1);
-      
+
+      if (s.getEscudo() > 0) {
+          s.setEscudo((s.getEscudo()-1));
+      }
+      else {
+          s.setVida(s.getVida()-1);
+      }
+
       //makeCannonBall();
       //soundManager.play(gun.getShotSound(), 1);
       soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
     } else if (binding.equals("Change")) {
-       s.changeArm();       
-       //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
-       cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+       if (s.getSniperMode()) {
+           guiNode.detachChild(ps.getScope());
+           s.setSniperMode(false);
+           float b = cam.getFrustumBottom();
+           float t = cam.getFrustumTop();
+           float l = cam.getFrustumLeft();
+           float r = cam.getFrustumRight();
+           float n = cam.getFrustumNear();
+           float f = cam.getFrustumFar();
+           cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+       }
+       s.changeArm();
        // Sound of weapon change
     }
-
-  }
+}
   
-    /**
-    Mètode que serveix per buscar un node amb el nom especificat
-    */
-    private Spatial findNode(Node rootNode, String name) {
-        if (name.equals(rootNode.getName())) {
-            return rootNode;
-        }
-        return rootNode.getChild(name);
+/**
+Mètode que serveix per buscar un node amb el nom especificat
+*/
+private Spatial findNode(Node rootNode, String name) {
+    if (name.equals(rootNode.getName())) {
+        return rootNode;
     }
+    return rootNode.getChild(name);
+}
 
-  public void initMaterials(){
+public void initMaterials(){
     stone_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
     TextureKey key2 = new TextureKey("Textures/Terrain/Rock/Rock.PNG");
     key2.setGenerateMips(true);
     Texture tex2 = assetManager.loadTexture(key2);    
     stone_mat.setTexture("ColorMap", tex2);
-    
+
     guiNode.detachAllChildren();
     guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
-  }
+}
 
   
   public void makeCannonBall() {
@@ -395,7 +396,7 @@ public class testJoc extends SimpleApplication
     
     // Movement sound
     if (up || down) {
-        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 1);
+        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 2);
     }
   }
 }

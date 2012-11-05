@@ -87,10 +87,10 @@ public class PantallaPrimeraPersona {
         picEscudo.scale(160,20,0);
         picEscudo.setPosition(220, escudo.getLineHeight());
         
-        
+        // Snipermode
         String sauce;
         float r = (float)settings.getWidth()/(float)settings.getHeight();
-        System.out.println(r);
+        //System.out.println(r);
         if(r <= 1.29) { sauce = "Icons/Scope1_25.png"; }
         else if(r <= 1.4) { sauce = "Icons/Scope1_33.png"; }
         else if(r <= 1.6) { sauce = "Icons/Scope1_5.png"; }
