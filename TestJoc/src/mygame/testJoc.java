@@ -37,6 +37,7 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
+import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -59,6 +60,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.CameraControl.ControlDirection;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
@@ -84,6 +86,8 @@ public class testJoc extends SimpleApplication
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false, rotate=false;
   private CameraNode cameraNode;
+  private Node shootables;
+  private ShotCollision collision;
  
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -100,6 +104,14 @@ public class testJoc extends SimpleApplication
     soundManager = new SoundManager(assetManager, rootNode);
     soundManager.playAmbientSound("Sounds/Ambient/fog_bound.ogg", 3);
     
+    collision = new ShotCollision(rootNode, assetManager);
+    
+    collision.setShotable(makeCube("c1", -2f, 1f, 2f));
+    collision.setShotable(makeCube("c2", 0f, 1f, 0f));
+    collision.setShotable(makeCube("c3", 5f, 1f, 1f));
+    collision.setShotable(makeCube("c4", 10f, 1f, -4f));
+    collision.setShotable(makeFloor());
+    
     /** Set up Physics */
     bulletAppState = new BulletAppState();
     stateManager.attach(bulletAppState);
@@ -112,8 +124,11 @@ public class testJoc extends SimpleApplication
     setUpLight();
     
     // We load the scene from the zip file and adjust its size.
-    sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
-    sceneModel.setLocalScale(8f);
+    assetManager.registerLocator("town.zip", ZipLocator.class);
+    sceneModel = assetManager.loadModel("main.scene");
+    sceneModel.setLocalScale(2f);
+    //sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
+    //sceneModel.setLocalScale(8f);
     
 
 
@@ -250,6 +265,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
       /*channel.setAnim("Walk",0.50f);
       channel.setLoopMode(LoopMode.DontLoop);
       channel.setSpeed(0.10f);*/
+      collision.shot(binding, isPressed, tpf, cam );
       s.incremenDisparos();
 
       if (s.getEscudo() > 0) {
@@ -398,5 +414,23 @@ public void initMaterials(){
     if (up || down) {
         soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 2);
     }
+  }
+  
+  protected Geometry makeCube(String name, float x, float y, float z) {
+    Box box = new Box(new Vector3f(x, y, z), 1, 1, 1);
+    Geometry cube = new Geometry(name, box);
+    Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+    mat1.setColor("Color", ColorRGBA.randomColor());
+    cube.setMaterial(mat1);
+    return cube;
+  }
+  /** A floor to show that the "shot" can go through several objects. */
+  protected Geometry makeFloor() {
+    Box box = new Box(new Vector3f(0, -4, -5), 15, .2f, 15);
+    Geometry floor = new Geometry("the Floor", box);
+    Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+    mat1.setColor("Color", ColorRGBA.Gray);
+    floor.setMaterial(mat1);
+    return floor;
   }
 }

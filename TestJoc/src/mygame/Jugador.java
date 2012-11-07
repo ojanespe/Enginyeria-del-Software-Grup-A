@@ -38,7 +38,7 @@ public class Jugador {
             
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
-        player.setJumpSpeed(20);
+        player.setJumpSpeed(40);
         player.setFallSpeed(60);
         player.setGravity(60);
         
