@@ -13,7 +13,6 @@ import com.jme3.network.AbstractMessage;
  */
 public class RefreshMessage extends AbstractMessage {
     
-    //vec3 position;    //Player's position.
     //vec3 view;        //Player's POV.
     //vec3 direction;   //Moving direction.
     //int action;       //Moving, crouching, jumping... And combinations.

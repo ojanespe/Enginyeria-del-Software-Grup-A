@@ -10,7 +10,9 @@ import com.jme3.network.AbstractMessage;
  */
 public class ShootMessage extends AbstractMessage {
     
-    //vec3 shotPosition;
-    //vec3 shotDirection;
+    //vec3 shotPosition;  //Position of the player
+    //vec3 shotDirection; //Camera pov.
+    
+    //info about weapon
     
 }
