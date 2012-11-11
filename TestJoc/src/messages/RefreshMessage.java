@@ -13,8 +13,16 @@ import com.jme3.network.AbstractMessage;
  */
 public class RefreshMessage extends AbstractMessage {
     
+    //vec3 position;    //Player's position
+                        //In testJoc.java: s.getPlayer.getPhysicsLocation();
+    
     //vec3 view;        //Player's POV.
+                        //In testJoc.java: cam.getDirection()?
+    
     //vec3 direction;   //Moving direction.
+                        //In testJoc.java: booleans left right up down.
+    
     //int action;       //Moving, crouching, jumping... And combinations.
+                        //binds or booleans controlling TODO: discuss
     
 }
