@@ -3,14 +3,11 @@ package messages;
 import com.jme3.network.AbstractMessage;
 
 /**
- * Client request to join the server.
+ * Client exists the game.
  * TCP
  * Client to Server.
  * @author albertohuelamosegura
  */
-public class HelloMessage extends AbstractMessage {
-    
-    int team;
-    int costume;
+public class ByeMessage extends AbstractMessage {
     
 }
