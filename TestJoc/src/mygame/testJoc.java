@@ -419,17 +419,28 @@ channel_walk = bot.createChannel();*/
         camara3p.y+=4;
         cam.setLocation(camara3p);
     }else{
+        float vectorx,vectorz,posXP,posZP;
         player.setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
         
-        Vector3f camara3p = player.getPhysicsLocation();
+        Vector3f camara3p = player.getPhysicsLocation().clone();
         camara3p.y+=4;
         camara3p.z-=6*cam.getDirection().z;
         camara3p.x-=6*cam.getDirection().x;
+        
+        /*posXP=player.getPhysicsLocation().x;
+        posZP=player.getPhysicsLocation().z;
+        posXP-=camara3p.x;
+        posZP-=camara3p.z;
+        vectorx = (float) ((float) Math.cos(Math.toRadians(70))*(float)(posXP)/(float)Math.sin(Math.toRadians(70)));
+        vectorz = (float) ((float) Math.cos(Math.toRadians(70))*(float)(posZP)/(float)Math.sin(Math.toRadians(70)));
+        camara3p.z+=vectorz;
+        camara3p.x+=vectorx;*/
         cam.setLocation(camara3p);
         Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
         player.setViewDirection(viewDirection);
         //cam.lookAtDirection(viewDirection, Vector3f.UNIT_Y);
-        fpsText.setText(player.getPhysicsLocation()+" "+player.getViewDirection()+ " "+cam.getDirection());
+        //fpsText.setText(cam.getLocation()+" "+(player.getPhysicsLocation().x-cam.getLocation().x)+" "+(player.getPhysicsLocation().z-cam.getLocation().z)+ " "+ vectorx +" "+vectorz);
+        
     }
     
     //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
