@@ -104,10 +104,12 @@ public class testJoc extends SimpleApplication
   boolean cambiar = true;
   boolean terceraPersona = true;
   
+  private ModelActionManager MAM;
+  
 
   
   
-  private ActionListener actionListener = new ActionListener() {
+ /* private ActionListener actionListener = new ActionListener() {
 
         public void onAction(String name, boolean keyPressed, float tpf) {
             if(name.equals("Walk") && !keyPressed){
@@ -121,7 +123,7 @@ public class testJoc extends SimpleApplication
                 }
             }
         }
-    };
+    };*/
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -134,6 +136,7 @@ public class testJoc extends SimpleApplication
       sphere.setTextureMode(TextureMode.Projected);
   }
   public void simpleInitApp() {
+      
     /** Set up Physics */
     bulletAppState = new BulletAppState();
     stateManager.attach(bulletAppState);
@@ -152,6 +155,7 @@ public class testJoc extends SimpleApplication
     sceneModel.setName("caja");
     assetManager.registerLocator("oto.zip", ZipLocator.class);
     
+
     
     
     /*CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(3f, 3f, 0);
@@ -216,8 +220,7 @@ bot = botNode.getControl(AnimControl.class); // get control over this model
 bot.addListener(this); // add listener
 channel_walk = bot.createChannel();*/
     
-    inputManager.addMapping("Walk", new KeyTrigger(KeyInput.KEY_U));
-    inputManager.addListener(actionListener, "Walk");
+    
     // We set up collision detection for the scene by creating a
     // compound collision shape and a static RigidBodyControl with mass zero.
     CollisionShape sceneShape =
@@ -245,12 +248,21 @@ channel_walk = bot.createChannel();*/
     robot.setName("jamboloco");
     robot.setLocalScale(0.5f);
     robot.setLocalTranslation(new Vector3f(0, 10, 0));
-    bot = robot.getControl(AnimControl.class);
-    
+    bot = robot.getControl(AnimControl.class);    
     bot.addListener(this);
-    channel_walk = bot.createChannel();
     
-    channel_walk.setAnim("stand");
+    /************************************************************************************************/
+    /*CREAMOS UN MODEL ACTION MANAGER*/
+    MAM = new ModelActionManager(channel_walk, bot , "Walk", 1.5f, KeyInput.KEY_U);
+    
+    /*INSERTAMOS los listeners*/
+    inputManager.addMapping(MAM.getAction(), MAM.getKT());
+    inputManager.addListener(MAM, MAM.getAction());
+    
+    /*INICIALIZAMOS EL CANAL DE LA ACCION*/
+    MAM.initChannel();
+    /************************************************************************************************/
+    
     
     robot.addControl(player);
     
