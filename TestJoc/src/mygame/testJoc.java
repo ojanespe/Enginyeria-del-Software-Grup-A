@@ -73,8 +73,7 @@ import java.util.logging.Logger;
 /**
 * Carrega del openBox amb els dos tipus de cub solids.
 */
-public class testJoc extends SimpleApplication
-        implements AnimEventListener,ActionListener, PhysicsCollisionListener {
+public class testJoc extends SimpleApplication implements AnimEventListener, ActionListener, PhysicsCollisionListener {
 
   private Material stone_mat;
   private RigidBodyControl ball_phy;
@@ -106,25 +105,6 @@ public class testJoc extends SimpleApplication
   
   private ModelActionManager MAM;
   
-
-  
-  
- /* private ActionListener actionListener = new ActionListener() {
-
-        public void onAction(String name, boolean keyPressed, float tpf) {
-            if(name.equals("Walk") && !keyPressed){
-                if(!channel_walk.getAnimationName().equals("Walk")){
-                    channel_walk.setLoopMode(LoopMode.Loop);
-                    channel_walk.setAnim("Walk", 0.5f);
-                    channel_walk.setSpeed(1.5f);
-                    //jambo.setWalkDirection(new Vector3f(0,0,0.1f));
-                    //jambo.setViewDirection(new Vector3f(0,0,1f));
-                    
-                }
-            }
-        }
-    };*/
-  
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();
@@ -154,56 +134,7 @@ public class testJoc extends SimpleApplication
     sceneModel.setLocalScale(8f);
     sceneModel.setName("caja");
     assetManager.registerLocator("oto.zip", ZipLocator.class);
-    
-
-    
-    
-    /*CapsuleCollisionShape capsuleShape2 = new CapsuleCollisionShape(3f, 3f, 0);
-jambo = new CharacterControl(capsuleShape2, 0.5f);
-//robot.addControl(jambo);
-jambo.setPhysicsLocation(new Vector3f(10f, 6.5f, 0f));
-bulletAppState.getPhysicsSpace().add(jambo);
-assetManager.registerLocator("character.zip", ZipLocator.class);
-CapsuleCollisionShape capsuleShape3 = new CapsuleCollisionShape(3f, 3f, 0);
-/*jambo2 = new CharacterControl(capsuleShape3, 0.5f);
-Node Modelo2 = (Node) assetManager.loadModel("character.mesh.xml");
-Modelo2.setName("jamboloco2");
-Modelo2.setLocalScale(2f);
-jambo2.setPhysicsLocation(new Vector3f(20f, 20f, 0f));
-jambo2.setViewDirection(new Vector3f(0,1f,0));
-rootNode.attachChild(Modelo2);
-bulletAppState.getPhysicsSpace().add(jambo2);*/
-    
-      
-    
-    /*BotTest = assetManager.loadModel("Oto.mesh.xml");
-BotTest.setLocalScale(0.5f);
-BotTest.setLocalTranslation(10f, 6.5f, 10f)
-bot2 = Modelo2.getControl(AnimControl.class);
-bot2.addListener(this);
-channel_walk2 = bot2.createChannel();
-channel_walk2.setAnim("run_01");;*/
-    
-     //for (String anim : bot2.getAnimationNames()){
-     // System.out.println(anim);}
-    
-    
-    /*geom = (Geometry)((Node)BotTest).getChild(0);
-SkeletonControl skeletonControl = BotTest.getControl(SkeletonControl.class);
-Box b = new Box(.25f,3f,.25f);
-Geometry item = new Geometry("Item", b);
-item.move(0, 1.5f, 0);
-item.setMaterial(assetManager.loadMaterial("Common/Materials/RedColor.j3m"));
-Node n = skeletonControl.getAttachmentsNode("hand.right");
-n.attachChild(item);
-botControl = new RigidBodyControl(10f);
-BotTest.addControl(botControl);*/
-
-    
-    
-    
-    
-    
+                      
     Spatial cube1 = assetManager.loadModel("Models/cube.j3o");
     cube1.setName("cube1");
     cube1.setLocalScale(3f);
@@ -245,7 +176,7 @@ channel_walk = bot.createChannel();*/
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
     
     robot = (Node)assetManager.loadModel("Oto.mesh.xml");
-    robot.setName("jamboloco");
+    robot.setName("robot");
     robot.setLocalScale(0.5f);
     robot.setLocalTranslation(new Vector3f(0, 10, 0));
     bot = robot.getControl(AnimControl.class);    
@@ -253,7 +184,7 @@ channel_walk = bot.createChannel();*/
     
     /************************************************************************************************/
     /*CREAMOS UN MODEL ACTION MANAGER*/
-    MAM = new ModelActionManager(channel_walk, bot , "Walk", 1.5f, KeyInput.KEY_U);
+    MAM = new ModelActionManager(channel_walk, bot, robot , "Walk", 1.5f, KeyInput.KEY_W);
     
     /*INSERTAMOS los listeners*/
     inputManager.addMapping(MAM.getAction(), MAM.getKT());
@@ -369,18 +300,11 @@ channel_walk = bot.createChannel();*/
     ball_geo.addControl(ball_phy);
     bulletAppState.getPhysicsSpace().add(ball_phy);
     /** Accelerate the physcial ball to shoot it. */
-// System.out.println(cam.getDirection());
-// System.out.println(cam.getLocation());
-// System.out.println("---------");
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
   }
   
-  public void moverCubo(){
-      
-          cube2Control.setLinearVelocity(new Vector3f(10,0,z));
-          
-          
-      
+  public void moverCubo(){      
+    cube2Control.setLinearVelocity(new Vector3f(10,0,z));
   }
  
   /** A plus sign used as crosshairs to help the player with aiming.*/
@@ -448,22 +372,16 @@ channel_walk = bot.createChannel();*/
     
   }
 
-    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-        if (animName.equals("penis")){
-            channel.setAnim("stand", 0.50f);
-            channel.setLoopMode(LoopMode.DontLoop);
-            channel.setSpeed(1f);
-            jambo.setWalkDirection(new Vector3f(0,0,0));
-        }
+    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
 
     }
 
-    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-        
+    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+        MAM.onAnimCycleDone(MAM.getAction());
     }
 
     public void collision(PhysicsCollisionEvent event) {
-        try{
+        /*try{
             if("cube1".equals(event.getNodeA().getName()) || "cube1".equals(event.getNodeB().getName()) || "cube2".equals(event.getNodeA().getName()) || "cube2".equals(event.getNodeB().getName())){
                 if("jamboloco".equals(event.getNodeA().getName()) || "jamboloco".equals(event.getNodeB().getName())){
                     if(jambo.getWalkDirection().z == 0.1f){
@@ -477,7 +395,7 @@ channel_walk = bot.createChannel();*/
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
-        }
+        }*/
     }
 
     private void changeCamara() {
@@ -486,5 +404,5 @@ channel_walk = bot.createChannel();*/
         chaseCam.setSmoothMotion(true);
         chaseCam.setDragToRotate(true); 
         chaseCam.setEnabled(cambiar);
-    }
+    }    
 }
