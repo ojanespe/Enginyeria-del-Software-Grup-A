@@ -411,16 +411,13 @@ channel_walk = bot.createChannel();*/
         
         Vector3f camara3p = player.getPhysicsLocation();
         camara3p.y+=4;
-        if(cam.getDirection().z < 0){
-            camara3p.z+=4;
-        }else{
-            camara3p.z-=4;
-        }
+        camara3p.z-=6*cam.getDirection().z;
+        camara3p.x-=6*cam.getDirection().x;
         cam.setLocation(camara3p);
         Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
         player.setViewDirection(viewDirection);
         //cam.lookAtDirection(viewDirection, Vector3f.UNIT_Y);
-        fpsText.setText(player.getPhysicsLocation()+" "+player.getViewDirection());
+        fpsText.setText(player.getPhysicsLocation()+" "+player.getViewDirection()+ " "+cam.getDirection());
     }
     
     //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
