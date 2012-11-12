@@ -147,7 +147,7 @@ public class testJoc extends SimpleApplication
 
     // We load the scene from the zip file and adjust its size.
     assetManager.registerLocator("openBox.zip", ZipLocator.class);
-    sceneModel = assetManager.loadModel("Cube.mesh.xml");
+    sceneModel = assetManager.loadModel("openBox.scene");
     sceneModel.setLocalScale(8f);
     sceneModel.setName("caja");
     assetManager.registerLocator("oto.zip", ZipLocator.class);
@@ -407,20 +407,24 @@ channel_walk = bot.createChannel();*/
         camara3p.y+=4;
         cam.setLocation(camara3p);
     }else{
-        player.setWalkDirection(walkDirection);
+        player.setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
         
         Vector3f camara3p = player.getPhysicsLocation();
         camara3p.y+=4;
-        camara3p.z-=4;
+        if(cam.getDirection().z < 0){
+            camara3p.z+=4;
+        }else{
+            camara3p.z-=4;
+        }
         cam.setLocation(camara3p);
         Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
         player.setViewDirection(viewDirection);
         //cam.lookAtDirection(viewDirection, Vector3f.UNIT_Y);
-        
+        fpsText.setText(player.getPhysicsLocation()+" "+player.getViewDirection());
     }
     
     //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
-   //fpsText.setText(cam.getDirection()+"");
+   
     
   }
 
