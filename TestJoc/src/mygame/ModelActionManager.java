@@ -9,6 +9,8 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.LoopMode;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 
 /**
  *
@@ -17,17 +19,19 @@ import com.jme3.input.controls.KeyTrigger;
 public class ModelActionManager  implements ActionListener{
     private AnimChannel channel_walk;
     private AnimControl AC;
+    private Node player;
     private String Action = "";
     private float speed = 0;
-    private KeyTrigger KT;
+    private KeyTrigger KT;    
     
     
-    public ModelActionManager(AnimChannel channel_walk, AnimControl AC, String Action, float speed, int tecla) {
+    public ModelActionManager(AnimChannel channel_walk, AnimControl AC, Node player, String Action, float speed, int tecla) {
         this.channel_walk = channel_walk;
         this.AC = AC;
+        this.player = player;
         this.Action = Action;
         this.speed = speed;
-        this.KT = new KeyTrigger(tecla);
+        this.KT = new KeyTrigger(tecla);                
     }
     
     public void initChannel(){
@@ -46,15 +50,22 @@ public class ModelActionManager  implements ActionListener{
     public KeyTrigger getKT(){
         return this.KT;
     }
-    
-    
+        
     public void onAction(String name, boolean keyPressed, float tpf) {
         if(name.equals(Action) && !keyPressed){
             if(!channel_walk.getAnimationName().equals(Action)){
-                channel_walk.setLoopMode(LoopMode.Loop);
+                channel_walk.setLoopMode(LoopMode.DontLoop);
                 channel_walk.setAnim(Action, 0.5f);
                 channel_walk.setSpeed(speed);
             }
+        }
+    }
+    
+    public void onAnimCycleDone(String animName) {
+        if (animName.equals(this.Action)){
+            this.channel_walk.setAnim("stand", 0.50f);
+            this.channel_walk.setLoopMode(LoopMode.DontLoop);
+            this.channel_walk.setSpeed(1f);
         }
     }
 }
