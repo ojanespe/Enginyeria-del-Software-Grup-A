@@ -400,13 +400,13 @@ channel_walk = bot.createChannel();*/
     if (up) { walkDirection.addLocal(camDir); }
     if (down) { walkDirection.addLocal(camDir.negate()); }
     player.setWalkDirection(walkDirection);
-    player.setViewDirection(player.getWalkDirection());
+    player.setViewDirection(new Vector3f(player.getWalkDirection().x,0,player.getWalkDirection().z));
     
     Vector3f camara3p = player.getPhysicsLocation();
     camara3p.y+=4;
     cam.setLocation(camara3p);
     //cam.lookAt(player.getViewDirection(), new Vector3f(0,1,0));
-    fpsText.setText(cam.getDirection()+"");
+   //fpsText.setText(cam.getDirection()+"");
     
   }
 
