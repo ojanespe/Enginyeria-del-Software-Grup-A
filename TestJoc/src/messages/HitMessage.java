@@ -10,7 +10,6 @@ import com.jme3.network.AbstractMessage;
  */
 public class HitMessage extends AbstractMessage {
 
-    int new_life;
-    int new_armor;
+    int substracted_life;
     
 }
