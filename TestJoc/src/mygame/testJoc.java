@@ -64,6 +64,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
+import multiplayer.MultiplayerConstants;
 import sound.SoundManager;
 
 /**

@@ -10,6 +10,7 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import multiplayer.MultiplayerConstants;
 
 /**
  *
@@ -19,6 +20,10 @@ public class Jugador {
     
     /*
      * (Modificado por Marc Bolaños)
+     * 
+     * Las armas y modelos de los personajes estan referenciados 
+     * en MultiplayerConstants.
+     * 
      * Falta añadir los siguientes atributos para el juego online:
      *      int action;     // describe la acción que està realizando el jugador.
      *      int team;       // guarda el equipo al que pertenece el jugador (0 o 1).
@@ -31,9 +36,6 @@ public class Jugador {
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas= new Arma[TOTAL_GUNS];
     private Node character;    
-    private String glockWeapon="Models/Glock/GlockAnimated2.j3o"; //Models/Oto/Oto.mesh.xml
-    private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
-    private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
     
     private boolean sniperMode = false;
 
@@ -55,11 +57,11 @@ public class Jugador {
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-        armas[0] = new Arma(assetManager, psgWeapon, new Vector3f(-2.0f,-1.5f,5.5f));
+        armas[0] = new Arma(assetManager, MultiplayerConstants.PSG_WEAPON, new Vector3f(-2.0f,-1.5f,5.5f));
         armas[0].setWeaponType("sniper");
         armas[0].rotate(0.0f, 330.0f, 0.0f);
-        armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
-        armas[2] = new Arma(assetManager, glockWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
+        armas[1] = new Arma(assetManager, MultiplayerConstants.MLP_WEAPON, new Vector3f(-2.0f, -3f, 5.5f));         
+        armas[2] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
         
     }
     

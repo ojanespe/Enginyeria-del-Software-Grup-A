@@ -7,10 +7,20 @@ import multiplayer.PlayerInterface;
  * The server notifies all clients that another client has connected.
  * TCP
  * Server broadcast.
- * @author albertohuelamosegura
+ * @author albertohuelamosegura i Marc Bolaños
  */
 public class NewUserMessage extends AbstractMessage  {
     
     PlayerInterface player;
+    
+    public NewUserMessage(){}
+    
+    public NewUserMessage(PlayerInterface p){
+        player = p;
+    }
+    
+    public PlayerInterface getPlayer(){
+        return player;
+    }
     
 }

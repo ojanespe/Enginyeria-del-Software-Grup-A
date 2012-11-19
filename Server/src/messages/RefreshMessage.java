@@ -10,7 +10,7 @@ import com.jme3.network.AbstractMessage;
  * all clients as well.
  * UDP
  * Client to Server and Server broadcast.
- * @author albertohuelamosegura
+ * @author albertohuelamosegura i Marc Bolaños
  */
 public class RefreshMessage extends AbstractMessage {
     
@@ -25,5 +25,30 @@ public class RefreshMessage extends AbstractMessage {
     
     int action;       //Moving, crouching, jumping... And combinations.
                         //binds or booleans controlling TODO: discuss
+    
+    public RefreshMessage(){}
+    
+    public RefreshMessage(Vector3f p, Vector3f v, Vector3f d, int a){
+        position = p;
+        view = v;
+        direction = d;
+        action = a;
+    }
+    
+    public Vector3f getPosition(){
+        return position;
+    }
+    
+    public Vector3f getDirection(){
+        return direction;
+    }
+    
+    public Vector3f getView(){
+        return view;
+    }
+    
+    public int getAction(){
+        return action;
+    }
     
 }
