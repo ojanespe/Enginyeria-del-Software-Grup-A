@@ -63,10 +63,10 @@ public class Jugador implements PlayerInterface{
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-        armas[0] = new Arma(assetManager, rileWeapon, new Vector3f(-2.0f,-2.0f,3.0f));
+        armas[0] = new Arma(assetManager, rileWeapon, new Vector3f(-2.0f,-2.0f,3.0f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
         armas[0].setWeaponType("sniper");
         armas[0].rotate(45.5f,0.0f, 0.0f);
-        armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-3.0f,-1.9f,7.5f)); 
+        armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-3.0f,-1.9f,7.5f), "Sounds/Effects/Guns/shot_m9.ogg");
         armas[1].rotate(124.0f, 0.0f, 0.0f);
         armas[1].setScale(0.12f);
         //armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
