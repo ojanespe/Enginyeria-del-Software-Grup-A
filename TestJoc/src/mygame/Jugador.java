@@ -17,6 +17,15 @@ import com.jme3.scene.Spatial;
  * @author JORGE
  */
 public class Jugador {
+    
+    /*
+     * (Modificado por Marc Bolaños)
+     * Falta añadir los siguientes atributos para el juego online:
+     *      int action;     // describe la acción que està realizando el jugador.
+     *      int team;       // guarda el equipo al que pertenece el jugador (0 o 1).
+     *      int costume;    // describe el modelo de jugador que ha escogido el jugador.
+     */
+    
     private CharacterControl player;        
 
     private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
