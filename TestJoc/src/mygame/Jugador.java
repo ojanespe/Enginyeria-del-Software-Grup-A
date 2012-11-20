@@ -5,6 +5,7 @@
 package mygame;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
@@ -17,6 +18,7 @@ import com.jme3.scene.Spatial;
  */
 public class Jugador {
     private CharacterControl player;        
+
     private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
     private float posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
@@ -27,6 +29,8 @@ public class Jugador {
     private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
     
     private boolean sniperMode = false;
+    
+    private Node robot;
 
     public Jugador(AssetManager assetManager){
         vida = 100;
@@ -35,7 +39,7 @@ public class Jugador {
         posX = 0.0f;
         posY = 10.0f;
         posZ = 0.0f;
-            
+        assetManager.registerLocator("oto.zip", ZipLocator.class);    
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
         player.setJumpSpeed(40);
@@ -52,6 +56,12 @@ public class Jugador {
         //armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
         armas[1] = new Arma(assetManager, glockWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
         
+        
+        robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+        robot.setName("robot");
+        robot.setLocalScale(0.5f);
+        robot.setLocalTranslation(new Vector3f(0, 10, 0));
+        robot.addControl(player);
     }
     
     public void setGun(Arma gun){
@@ -87,6 +97,10 @@ public class Jugador {
 
     public Node getNode(){
         return character;
+    }
+    
+    public Node getNode2(){
+        return robot;
     }
     
     public CharacterControl getPlayer() {

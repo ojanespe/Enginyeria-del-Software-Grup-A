@@ -88,7 +88,7 @@ public class testJoc extends SimpleApplication
   private CameraNode cameraNode;
   private Node shootables;
   private ShotCollision collision;
- 
+  private boolean terceraPersona = true;
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();
@@ -180,6 +180,9 @@ public class testJoc extends SimpleApplication
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cameraNode);
+    
+    rootNode.attachChild(s.getNode2());
+    
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getNode());
     
@@ -213,6 +216,8 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
     inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
     inputManager.addMapping("Change", new KeyTrigger(KeyInput.KEY_Q));
+    inputManager.addMapping("CambiarVista1per", new KeyTrigger(KeyInput.KEY_F1));
+    inputManager.addMapping("CambiarVista3per", new KeyTrigger(KeyInput.KEY_F2));
     inputManager.addMapping("rotateRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
     inputManager.addMapping("rotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
     inputManager.addListener(this, "shoot");
@@ -224,6 +229,8 @@ public class testJoc extends SimpleApplication
     inputManager.addListener(this, "Jump");
     inputManager.addListener(this, "Change");
     inputManager.addListener(this, "rotateRight", "rotateLeft");
+    inputManager.addListener(this, "CambiarVista1per");
+    inputManager.addListener(this, "CambiarVista3per");
   }
 
   /** These are our custom actions triggered by key presses.
@@ -252,6 +259,10 @@ public void onAction(String binding, boolean isPressed, float tpf) {
             // Nada por ahora.. pero necesario??
         } else if (binding.equals("rotateLeft")) {
             // Nada por ahora.. pero necesario??
+        } else if (binding.equals("CambiarVista1per")) {
+            terceraPersona = false;
+        } else if (binding.equals("CambiarVista3per")) {
+            terceraPersona = true;
         } else if (binding.equals("Left")) {
           if (isPressed) { left = true; } else { left = false; }
         } else if (binding.equals("Right")) {
@@ -402,20 +413,40 @@ public void initMaterials(){
     Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
     Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
     walkDirection.set(0, 0, 0);
-    if (s.getVida() > 0) {
-        if (left)  { walkDirection.addLocal(camLeft); }
-        if (right) { walkDirection.addLocal(camLeft.negate()); }
-        if (up)    { walkDirection.addLocal(camDir); }
-        if (down)  { walkDirection.addLocal(camDir.negate());}
-        //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
-        s.getPlayer().setWalkDirection(walkDirection);
     
-        cameraNode.setLocalRotation(cam.getRotation());
-        cameraNode.setLocalTranslation(s.getPlayer().getPhysicsLocation());
+        if (s.getVida() > 0) {
+            if (left)  { walkDirection.addLocal(camLeft); }
+            if (right) { walkDirection.addLocal(camLeft.negate()); }
+            if (up)    { walkDirection.addLocal(camDir); }
+            if (down)  { walkDirection.addLocal(camDir.negate());}
+            //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
+        }
+        if(!terceraPersona){
+            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
 
-        cam.setLocation(s.getPlayer().getPhysicsLocation()); 
-        //System.out.println(cam.getDirection());
-        //s.getGun().rotateUpTo(cam.getDirection());        
+            cameraNode.setLocalRotation(cam.getRotation());
+            Vector3f camara3p = s.getPlayer().getPhysicsLocation();
+            camara3p.y+=3.5f;
+            cameraNode.setLocalTranslation(camara3p);
+
+            cam.setLocation(s.getPlayer().getPhysicsLocation());
+            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
+            s.getPlayer().setViewDirection(viewDirection);
+            //System.out.println(cam.getDirection());
+            //s.getGun().rotateUpTo(cam.getDirection());        
+        
+        }else{
+            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+            cameraNode.setLocalRotation(cam.getRotation());
+            
+            Vector3f camara3p = s.getPlayer().getPhysicsLocation();
+            camara3p.y+=5;
+            camara3p.z-=6*cam.getDirection().z;
+            camara3p.x-=6*cam.getDirection().x;
+            cameraNode.setLocalTranslation(camara3p);
+            cam.setLocation(camara3p);
+            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
+            s.getPlayer().setViewDirection(viewDirection);
     }
     refrexCrossHairs();
     // Movement sound
