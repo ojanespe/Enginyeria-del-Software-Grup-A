@@ -303,7 +303,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
             collision.shot(binding, isPressed, tpf, cam );
             s.incremenDisparos();
             click = false;
-            soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
+            soundManager.playSituationalSound(s.getArma().getShotSound(), 1);
           }
           if (s.getEscudo() > 0) {
                 s.setEscudo((s.getEscudo()-1));
@@ -325,6 +325,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
            }
            s.changeArm();
            // Sound of weapon change
+           soundManager.playSituationalSound("Sounds/Effects/Guns/reload_1stperson.ogg", 1);
         }
     }
 }
@@ -471,7 +472,7 @@ public void initMaterials(){
     refrexCrossHairs();
     // Movement sound
     if (up || down || right || left) {
-        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 2);
+        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 1);
     }
   }
   
