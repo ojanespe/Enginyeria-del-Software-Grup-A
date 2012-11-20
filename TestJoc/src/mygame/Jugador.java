@@ -26,6 +26,7 @@ public class Jugador {
     private Node character;    
     private String gunWeapon="Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
     private String rileWeapon="Models/rifle/rifle.j3o";
+    private int count=1;
     
     private boolean sniperMode = false;
     
@@ -49,11 +50,14 @@ public class Jugador {
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-        armas[0] = new Arma(assetManager, rileWeapon, new Vector3f(-2.0f,-1.5f,5.5f));
+        armas[0] = new Arma(assetManager, rileWeapon, new Vector3f(-2.0f,-2.0f,3.0f));
         armas[0].setWeaponType("sniper");
-        armas[0].rotate(0.0f, 330.0f, 0.0f);
+        armas[0].rotate(45.5f,0.0f, 0.0f);
+        armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-3.0f,-1.9f,7.5f)); 
+        armas[1].rotate(124.0f, 0.0f, 0.0f);
+        armas[1].setScale(0.12f);
         //armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
-        armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
+        //armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
         
         
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
@@ -80,12 +84,21 @@ public class Jugador {
     }
     
     public void changeArm() {
-        if (armas[gun+1] == null) {
-            gun = 0;
+        if (gun == 0) {
+            if(count==2)
+            {
+                gun = 1;
+                count=0;
+            }
         }
-        else {
-            gun++;
+        else if(gun==1) {
+            if(count==2)
+            {
+                gun = 0;
+                count=0;
+            }
         }
+        count++;
         character.detachAllChildren();        
         character.attachChild(armas[gun].getGun());
     }

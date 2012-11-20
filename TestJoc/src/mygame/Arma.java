@@ -29,6 +29,11 @@ public class Arma {
         weaponType = "null";
     }
     
+    public void setScale(float scale)
+    {
+        gun.setLocalScale(scale);
+    }
+    
     public void setWeaponType(String type){
         this.weaponType = type;
     }
