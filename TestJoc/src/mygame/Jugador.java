@@ -11,12 +11,14 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import multiplayer.PlayerClient;
+import multiplayer.PlayerInterface;
 
 /**
  *
  * @author JORGE
  */
-public class Jugador {
+public class Jugador implements PlayerInterface{
     
     /*
      * (Modificado por Marc Bolaños)
@@ -40,6 +42,8 @@ public class Jugador {
     private boolean sniperMode = false;
     
     private Node robot;
+    
+    
 
     public Jugador(AssetManager assetManager){
         vida = 100;
@@ -166,5 +170,37 @@ public class Jugador {
     
     public Node getRobot() {
         return robot;
+    }
+
+    public int getID() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getTeam() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getCostume() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getGunId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setGunId(int g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean isPlayer(int id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean isTeam(int team) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
