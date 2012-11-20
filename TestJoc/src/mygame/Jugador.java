@@ -24,9 +24,8 @@ public class Jugador {
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas= new Arma[TOTAL_GUNS];
     private Node character;    
-    private String glockWeapon="Models/Glock/GlockAnimated2.j3o"; //Models/Oto/Oto.mesh.xml
-    //private String mlpWeapon="Models/Mlp/Mlp_ANIMADA.j3o";
-    private String psgWeapon="Models/Psg/PSG_ANIMADA.j3o";
+    private String gunWeapon="Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
+    private String rileWeapon="Models/rifle/rifle.j3o";
     
     private boolean sniperMode = false;
     
@@ -50,11 +49,11 @@ public class Jugador {
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-        armas[0] = new Arma(assetManager, psgWeapon, new Vector3f(-2.0f,-1.5f,5.5f));
+        armas[0] = new Arma(assetManager, rileWeapon, new Vector3f(-2.0f,-1.5f,5.5f));
         armas[0].setWeaponType("sniper");
         armas[0].rotate(0.0f, 330.0f, 0.0f);
         //armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
-        armas[1] = new Arma(assetManager, glockWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
+        armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
         
         
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
