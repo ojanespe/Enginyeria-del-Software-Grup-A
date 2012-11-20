@@ -84,7 +84,7 @@ public class testJoc extends SimpleApplication
   private Jugador s;
   private PantallaPrimeraPersona ps;
   private Vector3f walkDirection = new Vector3f();
-  private boolean left = false, right = false, up = false, down = false, rotate=false;
+  private boolean left = false, right = false, up = false, down = false, rotate=false, click=false;
   private CameraNode cameraNode;
   private Node shootables;
   private ShotCollision collision;
@@ -229,69 +229,72 @@ public class testJoc extends SimpleApplication
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
 public void onAction(String binding, boolean isPressed, float tpf) {
-    if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
-        float b = cam.getFrustumBottom();
-        float t = cam.getFrustumTop();
-        float l = cam.getFrustumLeft();
-        float r = cam.getFrustumRight();
-        float n = cam.getFrustumNear();
-        float f = cam.getFrustumFar();
-        
-        if (!s.getSniperMode()) {
-            guiNode.attachChild(ps.getScope());
-            s.setSniperMode(true);
-            cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
-        } 
-        else {
-            guiNode.detachChild(ps.getScope());
-            s.setSniperMode(false);
-            cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+    if (s.getVida() > 0) {
+        if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
+            float b = cam.getFrustumBottom();
+            float t = cam.getFrustumTop();
+            float l = cam.getFrustumLeft();
+            float r = cam.getFrustumRight();
+            float n = cam.getFrustumNear();
+            float f = cam.getFrustumFar();
+
+            if (!s.getSniperMode()) {
+                guiNode.attachChild(ps.getScope());
+                s.setSniperMode(true);
+                cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
+            } 
+            else {
+                guiNode.detachChild(ps.getScope());
+                s.setSniperMode(false);
+                cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+            }
+        } else if (binding.equals("rotateRight")) {
+            // Nada por ahora.. pero necesario??
+        } else if (binding.equals("rotateLeft")) {
+            // Nada por ahora.. pero necesario??
+        } else if (binding.equals("Left")) {
+          if (isPressed) { left = true; } else { left = false; }
+        } else if (binding.equals("Right")) {
+          if (isPressed) { right = true; } else { right = false; }
+        } else if (binding.equals("Up")) {
+          if (isPressed) { up = true; } else { up = false; }
+        } else if (binding.equals("Down")) {
+          if (isPressed) { down = true; } else { down = false; }
+        } else if (binding.equals("Jump")) {
+          s.getPlayer().jump();
+        } else if (binding.equals("shoot")) {
+          /*channel.setAnim("Walk",0.50f);
+          channel.setLoopMode(LoopMode.DontLoop);
+          channel.setSpeed(0.10f);*/
+          if (!click) {
+              click = true;
+          } else {
+            collision.shot(binding, isPressed, tpf, cam );
+            s.incremenDisparos();
+            click = false;
+            soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
+          }
+          if (s.getEscudo() > 0) {
+                s.setEscudo((s.getEscudo()-1));
+          } else {
+            s.setVida(s.getVida()-1);
+          }
+
+        } else if (binding.equals("Change")) {
+           if (s.getSniperMode()) {
+               guiNode.detachChild(ps.getScope());
+               s.setSniperMode(false);
+               float b = cam.getFrustumBottom();
+               float t = cam.getFrustumTop();
+               float l = cam.getFrustumLeft();
+               float r = cam.getFrustumRight();
+               float n = cam.getFrustumNear();
+               float f = cam.getFrustumFar();
+               cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+           }
+           s.changeArm();
+           // Sound of weapon change
         }
-    } else if (binding.equals("rotateRight")) {
-        // Nada por ahora.. pero necesario??
-    } else if (binding.equals("rotateLeft")) {
-        // Nada por ahora.. pero necesario??
-    } else if (binding.equals("Left")) {
-      if (isPressed) { left = true; } else { left = false; }
-    } else if (binding.equals("Right")) {
-      if (isPressed) { right = true; } else { right = false; }
-    } else if (binding.equals("Up")) {
-      if (isPressed) { up = true; } else { up = false; }
-    } else if (binding.equals("Down")) {
-      if (isPressed) { down = true; } else { down = false; }
-    } else if (binding.equals("Jump")) {
-      s.getPlayer().jump();
-    } else if (binding.equals("shoot")) {
-      /*channel.setAnim("Walk",0.50f);
-      channel.setLoopMode(LoopMode.DontLoop);
-      channel.setSpeed(0.10f);*/
-      collision.shot(binding, isPressed, tpf, cam );
-      s.incremenDisparos();
-
-      if (s.getEscudo() > 0) {
-          s.setEscudo((s.getEscudo()-1));
-      }
-      else {
-          s.setVida(s.getVida()-1);
-      }
-
-      //makeCannonBall();
-      //soundManager.play(gun.getShotSound(), 1);
-      soundManager.playSituationalSound("Sounds/Effects/shot_m9.ogg", 1);
-    } else if (binding.equals("Change")) {
-       if (s.getSniperMode()) {
-           guiNode.detachChild(ps.getScope());
-           s.setSniperMode(false);
-           float b = cam.getFrustumBottom();
-           float t = cam.getFrustumTop();
-           float l = cam.getFrustumLeft();
-           float r = cam.getFrustumRight();
-           float n = cam.getFrustumNear();
-           float f = cam.getFrustumFar();
-           cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
-       }
-       s.changeArm();
-       // Sound of weapon change
     }
 }
   
@@ -364,8 +367,12 @@ public void initMaterials(){
     guiNode.attachChild(ps.getDisparos());
         
     //Imagen Cruz Vida
-    guiNode.attachChild(ps.getPicVida(s.getVida(), assetManager));
-    
+    if (s.getVida() > 0) {
+        guiNode.attachChild(ps.getPicVida(s.getVida(), assetManager));
+    } else {
+        ps.setTextDie();
+        guiNode.attachChild(ps.getDie());        
+    }
     //Imagen Escudo
     guiNode.attachChild(ps.getPicEscudo(s.getEscudo(), assetManager));
     
@@ -395,23 +402,24 @@ public void initMaterials(){
     Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
     Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
     walkDirection.set(0, 0, 0);
-    if (left)  { walkDirection.addLocal(camLeft); }
-    if (right) { walkDirection.addLocal(camLeft.negate()); }
-    if (up)    { walkDirection.addLocal(camDir); }
-    if (down)  { walkDirection.addLocal(camDir.negate());}
-    //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
-    s.getPlayer().setWalkDirection(walkDirection);
+    if (s.getVida() > 0) {
+        if (left)  { walkDirection.addLocal(camLeft); }
+        if (right) { walkDirection.addLocal(camLeft.negate()); }
+        if (up)    { walkDirection.addLocal(camDir); }
+        if (down)  { walkDirection.addLocal(camDir.negate());}
+        //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
+        s.getPlayer().setWalkDirection(walkDirection);
     
-    cameraNode.setLocalRotation(cam.getRotation());
-    cameraNode.setLocalTranslation(s.getPlayer().getPhysicsLocation());
-    
-    cam.setLocation(s.getPlayer().getPhysicsLocation()); 
-    //System.out.println(cam.getDirection());
-    //s.getGun().rotateUpTo(cam.getDirection());
+        cameraNode.setLocalRotation(cam.getRotation());
+        cameraNode.setLocalTranslation(s.getPlayer().getPhysicsLocation());
+
+        cam.setLocation(s.getPlayer().getPhysicsLocation()); 
+        //System.out.println(cam.getDirection());
+        //s.getGun().rotateUpTo(cam.getDirection());        
+    }
     refrexCrossHairs();
-    
     // Movement sound
-    if (up || down) {
+    if (up || down || right || left) {
         soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 2);
     }
   }

@@ -18,7 +18,7 @@ import com.jme3.ui.Picture;
  */
 public class PantallaPrimeraPersona {
     int indiceVida, indiceEscudo;
-    BitmapText ch, contDisp, life, escudo;
+    BitmapText ch, contDisp, life, escudo, die;
     Picture picCruz, picEscudo, picBala, puntero, blood;
     Picture picScope;
     
@@ -32,7 +32,7 @@ public class PantallaPrimeraPersona {
         ch.setLocalTranslation( 
           settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
           settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
-*/
+        */
         
         puntero = new Picture("HUD Picture");
         puntero.setImage(assetManager, "Icons/puntdemira.png", true);
@@ -66,6 +66,12 @@ public class PantallaPrimeraPersona {
         //life.setText("Vida:\n100");
         life.setColor(ColorRGBA.Black);
         life.setLocalTranslation(500, life.getLineHeight()*2, 0);
+        
+        //Texto muerte
+        die = new BitmapText(guiFont, false); 
+        die.setSize(guiFont.getCharSet().getRenderedSize()*5);
+        die.setColor(ColorRGBA.Black);
+        die.setLocalTranslation(settings.getWidth()/6, settings.getHeight()/2, 0);
         
         //Imagen Cruz Vida
         picCruz = new Picture("HUD Picture");
@@ -122,12 +128,19 @@ public class PantallaPrimeraPersona {
     public BitmapText getVida(){
         return life;
     }
-    
+        
     public void setTextVida(int vida){
         // Cambiar text por una imagen
         //life.setText("Vida:\n"+ vida);
-        //life.setText(vida+"");
-        
+    }
+    
+     public BitmapText getDie(){
+        return die;
+    }
+     
+    public void setTextDie(){
+        // Cambiar text por una imagen
+        die.setText("Has muerto!");   
     }
     
     public BitmapText getEscudo(){
