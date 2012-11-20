@@ -18,15 +18,17 @@ public class Arma {
     private Spatial gun;
     private Vector3f location;
     private String weaponType;
+    private String shotSound;
     
     
-    public Arma(AssetManager assetManager, String rootArma, Vector3f p_location){
+    public Arma(AssetManager assetManager, String rootArma, Vector3f p_location, String shot){
         gun = assetManager.loadModel(rootArma);
         location=p_location;
         gun.setLocalScale(0.25f);
         gun.setLocalTranslation(location);
         nBalas = 0;
         weaponType = "null";
+        shotSound = shot;
     }
     
     public void setScale(float scale)
@@ -56,6 +58,10 @@ public class Arma {
     
     void setBales(int balas){
         nBalas = balas;
+    }
+    
+    String getShotSound() {
+        return this.shotSound;
     }
     
     public void updateGun(Vector3f player_pos){
