@@ -34,6 +34,7 @@ package mygame;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
 import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
@@ -70,7 +71,7 @@ import sound.SoundManager;
  * Carrega del openBox amb els dos tipus de cub solids.
  */
 public class testJoc extends SimpleApplication
-        implements ActionListener {
+        implements ActionListener,AnimEventListener {
   
   private AnimChannel channel;
   private AnimControl control;
@@ -89,6 +90,8 @@ public class testJoc extends SimpleApplication
   private Node shootables;
   private ShotCollision collision;
   private boolean terceraPersona = true;
+  private ModelActionManager MAM;
+  
   public static void main(String[] args) {
     testJoc app = new testJoc();
     app.start();
@@ -163,6 +166,23 @@ public class testJoc extends SimpleApplication
     // Cargamos el arma
     s.chooseGun(2);
     
+    
+    
+    /************************************************************************************************/
+    /*CREAMOS UN MODEL ACTION MANAGER*/
+    control = s.getRobot().getControl(AnimControl.class);
+    control.addListener(this);
+    MAM = new ModelActionManager(control, "Walk", 1.5f, KeyInput.KEY_W);
+    
+    /*INSERTAMOS los listeners*/
+    inputManager.addMapping(MAM.getAction(), MAM.getKT());
+    inputManager.addListener(MAM, MAM.getAction());
+    
+    /*INICIALIZAMOS EL CANAL DE LA ACCION*/
+    MAM.initChannel();
+    /************************************************************************************************/
+    
+    
     // Pantalla
     ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
     
@@ -181,7 +201,7 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cameraNode);
     
-    rootNode.attachChild(s.getNode2());
+    rootNode.attachChild(s.getNodeModel());
     
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getNode());
@@ -422,20 +442,20 @@ public void initMaterials(){
             //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
         }
         if(!terceraPersona){
-            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
 
             cameraNode.setLocalRotation(cam.getRotation());
-            Vector3f camara3p = s.getPlayer().getPhysicsLocation();
+            Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
             camara3p.y+=3.5f;
             cameraNode.setLocalTranslation(camara3p);
 
             cam.setLocation(s.getPlayer().getPhysicsLocation());
-            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
+            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z); // El modelo mira hacia donde esta mirando el jugador
             s.getPlayer().setViewDirection(viewDirection);
             //System.out.println(cam.getDirection());
             //s.getGun().rotateUpTo(cam.getDirection());        
         
-        }else{
+        }else{ // Vista en 3a persona
             s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
             cameraNode.setLocalRotation(cam.getRotation());
             
@@ -472,4 +492,12 @@ public void initMaterials(){
     floor.setMaterial(mat1);
     return floor;
   }
+
+    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+
+    }
+
+    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+        MAM.onAnimCycleDone(MAM.getAction());
+    }
 }

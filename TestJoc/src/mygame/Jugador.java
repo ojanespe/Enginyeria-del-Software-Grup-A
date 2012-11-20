@@ -61,7 +61,7 @@ public class Jugador {
         robot.setName("robot");
         robot.setLocalScale(0.5f);
         robot.setLocalTranslation(new Vector3f(0, 10, 0));
-        robot.addControl(player);
+        robot.addControl(player);        
     }
     
     public void setGun(Arma gun){
@@ -99,7 +99,7 @@ public class Jugador {
         return character;
     }
     
-    public Node getNode2(){
+    public Node getNodeModel(){
         return robot;
     }
     
@@ -143,4 +143,7 @@ public class Jugador {
         return this.sniperMode;
     }
     
+    public Node getRobot() {
+        return robot;
+    }
 }
