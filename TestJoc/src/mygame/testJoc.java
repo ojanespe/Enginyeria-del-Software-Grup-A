@@ -65,6 +65,7 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
+import java.util.ArrayList;
 import multiplayer.MultiplayerConstants;
 import sound.SoundManager;
 
@@ -90,7 +91,8 @@ public class testJoc extends SimpleApplication
   private CameraNode cameraNode;
   private Node shootables;
   private ShotCollision collision;
-  private boolean terceraPersona = true;
+  private boolean terceraPersona = false;
+  private boolean estadoAnteriorVista = false;
   private ModelActionManager MAM;
   
   public static void main(String[] args) {
@@ -173,10 +175,17 @@ public class testJoc extends SimpleApplication
     /*CREAMOS UN MODEL ACTION MANAGER*/
     control = s.getRobot().getControl(AnimControl.class);
     control.addListener(this);
-    MAM = new ModelActionManager(control, "Walk", 1.5f, KeyInput.KEY_W);
+    ArrayList<Integer> actions = new ArrayList<Integer>();
+    actions.add(KeyInput.KEY_W);
+    actions.add(KeyInput.KEY_A);
+    actions.add(KeyInput.KEY_S);
+    actions.add(KeyInput.KEY_D);
+    MAM = new ModelActionManager(control, "Walk", 1.5f, actions);
     
     /*INSERTAMOS los listeners*/
-    inputManager.addMapping(MAM.getAction(), MAM.getKT());
+    for(int i = 0; i<actions.size();i++){
+        inputManager.addMapping(MAM.getAction(), MAM.getKT().get(i));
+    }
     inputManager.addListener(MAM, MAM.getAction());
     
     /*INICIALIZAMOS EL CANAL DE LA ACCION*/
@@ -270,11 +279,15 @@ public void onAction(String binding, boolean isPressed, float tpf) {
                 guiNode.attachChild(ps.getScope());
                 s.setSniperMode(true);
                 cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
+                terceraPersona = false;
             } 
             else {
                 guiNode.detachChild(ps.getScope());
                 s.setSniperMode(false);
                 cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+                if(estadoAnteriorVista){
+                    terceraPersona = true;  
+                }
             }
         } else if (binding.equals("rotateRight")) {
             // Nada por ahora.. pero necesario??
@@ -282,8 +295,10 @@ public void onAction(String binding, boolean isPressed, float tpf) {
             // Nada por ahora.. pero necesario??
         } else if (binding.equals("CambiarVista1per")) {
             terceraPersona = false;
+            estadoAnteriorVista = terceraPersona;
         } else if (binding.equals("CambiarVista3per")) {
             terceraPersona = true;
+            estadoAnteriorVista = terceraPersona;
         } else if (binding.equals("Left")) {
           if (isPressed) { left = true; } else { left = false; }
         } else if (binding.equals("Right")) {

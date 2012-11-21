@@ -9,8 +9,7 @@ import com.jme3.animation.AnimControl;
 import com.jme3.animation.LoopMode;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,14 +20,19 @@ public class ModelActionManager  implements ActionListener{
     private AnimControl AC;
     private String Action = "";
     private float speed = 0;
-    private KeyTrigger KT;    
+    private ArrayList<KeyTrigger> KT;    
+
     
+    private boolean isPressed = false;
     
-    public ModelActionManager(AnimControl AC, String Action, float speed, int tecla) {        
+    public ModelActionManager(AnimControl AC, String Action, float speed, ArrayList<Integer> tecla) {        
+        this.KT = new ArrayList<KeyTrigger>();
         this.AC = AC;
         this.Action = Action;
         this.speed = speed;
-        this.KT = new KeyTrigger(tecla);                
+        for(int i = 0; i< tecla.size(); i++){
+            this.KT.add(new KeyTrigger(tecla.get(i))); 
+        }             
     }
     
     public void initChannel(){
@@ -44,22 +48,23 @@ public class ModelActionManager  implements ActionListener{
         this.Action = Action;
     }
     
-    public KeyTrigger getKT(){
-        return this.KT;
+    public ArrayList<KeyTrigger> getKT() {
+        return KT;
     }
-        
+    
     public void onAction(String name, boolean keyPressed, float tpf) {
-        if(name.equals(Action) && !keyPressed){
+        isPressed = keyPressed;
+        if(name.equals(this.Action) && keyPressed){
             if(!channel_walk.getAnimationName().equals(Action)){
-                channel_walk.setLoopMode(LoopMode.DontLoop);
-                channel_walk.setAnim(Action, 0.5f);
+                channel_walk.setLoopMode(LoopMode.Cycle);
+                channel_walk.setAnim(Action, 0.1f);
                 channel_walk.setSpeed(speed);
             }
         }
     }
     
     public void onAnimCycleDone(String animName) {
-        if (animName.equals(this.Action)){
+        if (animName.equals(this.Action) && !isPressed){
             this.channel_walk.setAnim("stand", 0.50f);
             this.channel_walk.setLoopMode(LoopMode.DontLoop);
             this.channel_walk.setSpeed(1f);
