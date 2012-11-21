@@ -10,20 +10,45 @@ import com.jme3.network.AbstractMessage;
  * all clients as well.
  * UDP
  * Client to Server and Server broadcast.
- * @author albertohuelamosegura
+ * @author albertohuelamosegura i Marc Bolaños
  */
 public class RefreshMessage extends AbstractMessage {
     
-    Vector3f position;    //Player's position
+    private Vector3f position;    //Player's position
                         //In testJoc.java: s.getPlayer.getPhysicsLocation();
     
-    Vector3f view;        //Player's POV.
+    private Vector3f view;        //Player's POV.
                         //In testJoc.java: cam.getDirection()?
     
-    Vector3f direction;   //Moving direction.
+    private Vector3f direction;   //Moving direction.
                         //In testJoc.java: booleans left right up down.
     
-    int action;       //Moving, crouching, jumping... And combinations.
+    private int action;       //Moving, crouching, jumping... And combinations.
                         //binds or booleans controlling TODO: discuss
+    
+    public RefreshMessage(){}
+    
+    public RefreshMessage(Vector3f p, Vector3f v, Vector3f d, int a){
+        position = p;
+        view = v;
+        direction = d;
+        action = a;
+    }
+    
+    public Vector3f getPosition(){
+        return position;
+    }
+    
+    public Vector3f getDirection(){
+        return direction;
+    }
+    
+    public Vector3f getView(){
+        return view;
+    }
+    
+    public int getAction(){
+        return action;
+    }
     
 }

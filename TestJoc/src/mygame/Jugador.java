@@ -11,8 +11,12 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
 import multiplayer.PlayerClient;
 import multiplayer.PlayerInterface;
+
+import multiplayer.MultiplayerConstants;
+
 
 /**
  *
@@ -22,6 +26,10 @@ public class Jugador implements PlayerInterface{
     
     /*
      * (Modificado por Marc Bolaños)
+     * 
+     * Las armas y modelos de los personajes estan referenciados 
+     * en MultiplayerConstants.
+     * 
      * Falta añadir los siguientes atributos para el juego online:
      *      int action;     // describe la acción que està realizando el jugador.
      *      int team;       // guarda el equipo al que pertenece el jugador (0 o 1).
@@ -35,8 +43,8 @@ public class Jugador implements PlayerInterface{
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas= new Arma[TOTAL_GUNS];
     private Node character;    
-    private String gunWeapon="Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
-    private String rileWeapon="Models/rifle/rifle.j3o";
+    //private String gunWeapon="Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
+    //private String rileWeapon="Models/rifle/rifle.j3o";
     private int count=1;
     
     private boolean sniperMode = false;
@@ -63,15 +71,23 @@ public class Jugador implements PlayerInterface{
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-        armas[0] = new Arma(assetManager, rileWeapon, new Vector3f(-2.0f,-2.0f,3.0f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
+//<<<<<<< HEAD
+        armas[0] = new Arma(assetManager, MultiplayerConstants.PSG_WEAPON, new Vector3f(-2.0f,-2.0f,3.0f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
         armas[0].setWeaponType("sniper");
         armas[0].rotate(45.5f,0.0f, 0.0f);
-        armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-3.0f,-1.9f,7.5f), "Sounds/Effects/Guns/shot_m9.ogg");
+        armas[1] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-3.0f,-1.9f,7.5f), "Sounds/Effects/Guns/shot_m9.ogg");
         armas[1].rotate(124.0f, 0.0f, 0.0f);
         armas[1].setScale(0.12f);
         //armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
         //armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
         
+/*=======
+        armas[0] = new Arma(assetManager, , new Vector3f(-2.0f,-1.5f,5.5f));
+        armas[0].setWeaponType("sniper");
+        armas[0].rotate(0.0f, 330.0f, 0.0f);
+        armas[1] = new Arma(assetManager, MultiplayerConstants.MLP_WEAPON, new Vector3f(-2.0f, -3f, 5.5f));         
+        armas[2] = new Arma(assetManager, ,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
+>>>>>>> Multiplayer*/
         
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
         robot.setName("robot");
