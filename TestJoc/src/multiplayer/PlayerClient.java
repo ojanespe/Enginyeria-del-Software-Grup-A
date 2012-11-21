@@ -99,5 +99,13 @@ public class PlayerClient implements PlayerInterface{
     public boolean isTeam(int team){
         return this.team == team;
     }
+
+    public int getGunId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setGunId(int g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
