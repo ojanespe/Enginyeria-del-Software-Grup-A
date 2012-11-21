@@ -10,8 +10,8 @@ import com.jme3.network.AbstractMessage;
  */
 public class FinishGameMessage extends AbstractMessage {
 
-    int team1Result;
-    int team2Result;
+    private int team1Result;
+    private int team2Result;
     
     public FinishGameMessage(){}
     

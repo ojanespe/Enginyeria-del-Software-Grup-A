@@ -13,9 +13,9 @@ import multiplayer.PlayerInterface;
  */
 public class WelcomeMessage extends AbstractMessage {
 
-    Vector3f spawnPosition;
-    Vector3f spawnView;		// VRP of the camera
-    ArrayList<PlayerInterface> players;  // List of players that are in the match
+    private Vector3f spawnPosition;
+    private Vector3f spawnView;		// VRP of the camera
+    private ArrayList<PlayerInterface> players;  // List of players that are in the match
     
     public WelcomeMessage(){}
     

@@ -10,8 +10,8 @@ import com.jme3.network.AbstractMessage;
  */
 public class KillMessage extends AbstractMessage {
     
-    int killer; // user_ids
-    int killed;
+    private int killer; // user_ids
+    private int killed;
     
     public KillMessage(){}
     

@@ -10,7 +10,7 @@ import com.jme3.network.AbstractMessage;
  */
 public class DisconnectMessage extends AbstractMessage {
     
-    int userID;
+    private int userID;
     
     public DisconnectMessage(){}
     
