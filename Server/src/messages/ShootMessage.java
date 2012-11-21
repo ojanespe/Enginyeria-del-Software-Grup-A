@@ -2,6 +2,7 @@ package messages;
 
 import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
+import com.jme3.network.serializing.Serializable;
 
 /**
  * Client notifies that it has shot.
@@ -9,6 +10,7 @@ import com.jme3.network.AbstractMessage;
  * Client to Server.
  * @author albertohuelamosegura i Marc Bolaños
  */
+@Serializable
 public class ShootMessage extends AbstractMessage {
     
     private Vector3f shootPosition;  //Position of the player

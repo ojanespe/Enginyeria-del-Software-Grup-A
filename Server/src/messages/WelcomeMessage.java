@@ -4,6 +4,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
 import java.util.ArrayList;
 import multiplayer.PlayerInterface;
+import com.jme3.network.serializing.Serializable;
 
 /**
  * Server answer to a HelloMessage.
@@ -11,6 +12,7 @@ import multiplayer.PlayerInterface;
  * Server to Client.
  * @author albertohuelamosegura i Marc Bolaños
  */
+@Serializable
 public class WelcomeMessage extends AbstractMessage {
 
     private Vector3f spawnPosition;

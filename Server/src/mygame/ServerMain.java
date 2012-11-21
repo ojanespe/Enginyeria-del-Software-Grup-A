@@ -1,5 +1,6 @@
 package mygame;
 
+import multiplayer.ServerListener;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -68,6 +69,8 @@ public class ServerMain extends SimpleApplication {
         myServer.addMessageListener(new ServerListener(myServer), WelcomeMessage.class);
         
         players  = new ArrayList<PlayerServer>();
+        
+        System.out.println("Server ready.");
         
     }
 

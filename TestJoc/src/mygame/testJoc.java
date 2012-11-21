@@ -56,6 +56,9 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Client;
+import com.jme3.network.Network;
+import com.jme3.network.serializing.Serializer;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -64,8 +67,14 @@ import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
+import com.jme3.system.JmeContext;
 import com.jme3.texture.Texture;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import messages.*;
+import multiplayer.ClientListener;
 import multiplayer.MultiplayerConstants;
 import sound.SoundManager;
 
@@ -75,6 +84,7 @@ import sound.SoundManager;
 public class testJoc extends SimpleApplication
         implements ActionListener,AnimEventListener {
   
+  private Client myClient = null;
   private AnimChannel channel;
   private AnimControl control;
   private SoundManager soundManager;
@@ -97,7 +107,7 @@ public class testJoc extends SimpleApplication
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
-    app.start();
+    app.start(JmeContext.Type.Display); // standard display type
   }
 
   static{
@@ -106,6 +116,19 @@ public class testJoc extends SimpleApplication
   }
   
   public void simpleInitApp() {
+      
+    // Starts the connection with the server
+    try {
+        myClient = Network.connectToServer(MultiplayerConstants.IP, MultiplayerConstants.PORT);
+    } catch (IOException ex) {
+        Logger.getLogger(testJoc.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    myClient.start();
+    
+    registerMessages();
+    registerListeners();
+      
+      
     // Set up the sound
     soundManager = new SoundManager(assetManager, rootNode);
     soundManager.playAmbientSound("Sounds/Ambient/fog_bound.ogg", 3);
@@ -536,4 +559,42 @@ public void initMaterials(){
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
         MAM.onAnimCycleDone(MAM.getAction());
     }
+    
+    /**
+     * Registra tots els tipus de missatges que intercanviarà amb el servidor.
+     */
+    public void registerMessages(){
+        Serializer.registerClass(ByeMessage.class);
+        Serializer.registerClass(DisconnectMessage.class);
+        Serializer.registerClass(FinishGameMessage.class);
+        Serializer.registerClass(HelloMessage.class);
+        Serializer.registerClass(HitMessage.class);
+        Serializer.registerClass(KillMessage.class);
+        Serializer.registerClass(NewUserMessage.class);
+        Serializer.registerClass(RefreshMessage.class);
+        Serializer.registerClass(ShootMessage.class);
+        Serializer.registerClass(WelcomeMessage.class);
+    }
+    
+    public void registerListeners(){
+        myClient.addMessageListener(new ClientListener(), ByeMessage.class);
+        myClient.addMessageListener(new ClientListener(), DisconnectMessage.class);
+        myClient.addMessageListener(new ClientListener(), FinishGameMessage.class);
+        myClient.addMessageListener(new ClientListener(), HelloMessage.class);
+        myClient.addMessageListener(new ClientListener(), HitMessage.class);
+        myClient.addMessageListener(new ClientListener(), KillMessage.class);
+        myClient.addMessageListener(new ClientListener(), NewUserMessage.class);
+        myClient.addMessageListener(new ClientListener(), RefreshMessage.class);
+        myClient.addMessageListener(new ClientListener(), ShootMessage.class);
+        myClient.addMessageListener(new ClientListener(), WelcomeMessage.class);
+    }
+    
+    
+    // Necesitamos cerrar la conexión antes de apagar el cliente
+     @Override
+     public void destroy() {
+         // TODO: enviar ByeMessage
+         myClient.close();
+         super.destroy();
+     }
 }

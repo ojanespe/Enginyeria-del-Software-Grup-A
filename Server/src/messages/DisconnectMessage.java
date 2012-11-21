@@ -1,6 +1,7 @@
 package messages;
 
 import com.jme3.network.AbstractMessage;
+import com.jme3.network.serializing.Serializable;
 
 /**
  * Server notifies all clients that another left the game.
@@ -8,6 +9,7 @@ import com.jme3.network.AbstractMessage;
  * Server broadcast.
  * @author albertohuelamosegura i Marc Bolaños
  */
+@Serializable
 public class DisconnectMessage extends AbstractMessage {
     
     private int userID;

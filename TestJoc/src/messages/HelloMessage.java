@@ -1,6 +1,7 @@
 package messages;
 
 import com.jme3.network.AbstractMessage;
+import com.jme3.network.serializing.Serializable;
 
 /**
  * Client request to join the server.
@@ -8,6 +9,7 @@ import com.jme3.network.AbstractMessage;
  * Client to Server.
  * @author albertohuelamosegura i Marc Bolaños
  */
+@Serializable
 public class HelloMessage extends AbstractMessage {
     
     private int team;

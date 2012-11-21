@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public class MultiplayerConstants {
     
+    public static final String IP = "localhost";
+    public static final int PORT = 6143;
+    
     /*********************/
     /*      WEAPONS      */
     /*********************/

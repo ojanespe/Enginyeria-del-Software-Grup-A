@@ -2,6 +2,7 @@ package messages;
 
 import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
+import com.jme3.network.serializing.Serializable;
 
 /**
  * Update status of a client.
@@ -12,6 +13,7 @@ import com.jme3.network.AbstractMessage;
  * Client to Server and Server broadcast.
  * @author albertohuelamosegura i Marc Bolaños
  */
+@Serializable
 public class RefreshMessage extends AbstractMessage {
     
     private Vector3f position;    //Player's position
