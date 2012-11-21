@@ -19,9 +19,8 @@ public class MultiplayerConstants {
     /*      WEAPONS      */
     /*********************/
     
-    public static final String GLOCK_WEAPON = "Models/Glock/GlockAnimated2.j3o"; //Models/Oto/Oto.mesh.xml
-    public static final String MLP_WEAPON = "Models/Mlp/Mlp_ANIMADA.j3o";
-    public static final String PSG_WEAPON = "Models/Psg/PSG_ANIMADA.j3o";
+    public static final String GLOCK_WEAPON = "Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
+    public static final String PSG_WEAPON = "Models/rifle/rifle.j3o";
     
     /** 
      * HashMap that relates the Strings of the path of each weapon with its 'id'
@@ -31,12 +30,10 @@ public class MultiplayerConstants {
      */
     public static final Map WEAPONS = new HashMap(){
         {
-            put(GLOCK_WEAPON, 1);
-            put(1, GLOCK_WEAPON);  
-            put(MLP_WEAPON, 2);
-            put(2, MLP_WEAPON);
-            put(PSG_WEAPON, 3);
-            put(3, PSG_WEAPON);
+            put(GLOCK_WEAPON, 0);
+            put(0, GLOCK_WEAPON);
+            put(PSG_WEAPON, 1);
+            put(1, PSG_WEAPON);
         }
     };
     
