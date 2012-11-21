@@ -128,11 +128,11 @@ public class testJoc extends SimpleApplication
     setUpLight();
     
     // We load the scene from the zip file and adjust its size.
-    assetManager.registerLocator("town.zip", ZipLocator.class);
-    sceneModel = assetManager.loadModel("main.scene");
-    sceneModel.setLocalScale(2f);
-    //sceneModel = assetManager.loadModel("Scene/Estacio/estacio0_4.scene");
-    //sceneModel.setLocalScale(8f);
+//    assetManager.registerLocator("town.zip", ZipLocator.class);
+//    sceneModel = assetManager.loadModel("main.scene");
+//    sceneModel.setLocalScale(2f);
+    sceneModel = assetManager.loadModel("Scene/Estacio/estacio2.j3o");
+    sceneModel.setLocalScale(3f);
     
 
 
@@ -196,21 +196,38 @@ public class testJoc extends SimpleApplication
     
     cameraNode = new CameraNode("camera", cam);
     cameraNode.attachChild(s.getNode());
+    
+    
+    assetManager.registerLocator("oto.zip", ZipLocator.class);
+    
+    Node robot2 = (Node)assetManager.loadModel("Oto.mesh.xml");
+    robot2.setName("robot2");
+    robot2.setLocalScale(0.5f);
+    robot2.setLocalTranslation(new Vector3f(20, 3, 20));
+        
     //Rotate the camNode to look at the target:
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cameraNode);
-    
+    rootNode.attachChild(robot2);
     rootNode.attachChild(s.getNodeModel());
     
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getNode());
     
-    control = s.getArma().getGun().getControl(AnimControl.class);
-    //channel = control.createChannel();
-    //channel.setAnim("Walk");
+//    control = s.getArma().getGun().getControl(AnimControl.class);
+//    control = robot.getControl(AnimControl.class);
+//    channel = control.createChannel();
+//    channel.setAnim("Walk");
     
+    AnimControl playerControl; // you need one Control per model
+    playerControl = robot2.getControl(AnimControl.class); // get control over this model
+    playerControl.addListener(this); // add listener
+    channel = playerControl.createChannel();
+    channel.setAnim("Walk");
+    
+    collision.setShotable(robot2);
     initMaterials();    
   }
 
@@ -448,7 +465,7 @@ public void initMaterials(){
 
             cameraNode.setLocalRotation(cam.getRotation());
             Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
-            camara3p.y+=3.5f;
+            camara3p.y+=0.9f;
             cameraNode.setLocalTranslation(camara3p);
 
             cam.setLocation(s.getPlayer().getPhysicsLocation());
@@ -485,6 +502,8 @@ public void initMaterials(){
     cube.setMaterial(mat1);
     return cube;
   }
+  
+  
   /** A floor to show that the "shot" can go through several objects. */
   protected Geometry makeFloor() {
     Box box = new Box(new Vector3f(0, -4, -5), 15, .2f, 15);

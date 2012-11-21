@@ -71,23 +71,15 @@ public class Jugador implements PlayerInterface{
         character.addControl(player);
         player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
         
-//<<<<<<< HEAD
-        armas[0] = new Arma(assetManager, MultiplayerConstants.PSG_WEAPON, new Vector3f(-2.0f,-2.0f,3.0f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
+
+        armas[0] = new Arma(assetManager, MultiplayerConstants.PSG_WEAPON, new Vector3f(-2.0f,-1.5f,3.5f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
         armas[0].setWeaponType("sniper");
-        armas[0].rotate(45.5f,0.0f, 0.0f);
-        armas[1] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-3.0f,-1.9f,7.5f), "Sounds/Effects/Guns/shot_m9.ogg");
+        armas[0].rotate(45.45f,0.0f, 0.0f);
+        armas[0].setScale(0.14f);
+        armas[1] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-2.8f,-1.4f,5.8f), "Sounds/Effects/Guns/shot_m9.ogg");
         armas[1].rotate(124.0f, 0.0f, 0.0f);
-        armas[1].setScale(0.12f);
-        //armas[1] = new Arma(assetManager, mlpWeapon, new Vector3f(-2.0f, -3f, 5.5f));         
-        //armas[1] = new Arma(assetManager, gunWeapon,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
-        
-/*=======
-        armas[0] = new Arma(assetManager, , new Vector3f(-2.0f,-1.5f,5.5f));
-        armas[0].setWeaponType("sniper");
-        armas[0].rotate(0.0f, 330.0f, 0.0f);
-        armas[1] = new Arma(assetManager, MultiplayerConstants.MLP_WEAPON, new Vector3f(-2.0f, -3f, 5.5f));         
-        armas[2] = new Arma(assetManager, ,  new Vector3f(-0.5f, -0.25f, 1.25f)); 
->>>>>>> Multiplayer*/
+        armas[1].setScale(0.07f);
+
         
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
         robot.setName("robot");
