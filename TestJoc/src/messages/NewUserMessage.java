@@ -11,7 +11,7 @@ import multiplayer.PlayerInterface;
  */
 public class NewUserMessage extends AbstractMessage  {
     
-    PlayerInterface player;
+    private PlayerInterface player;
     
     public NewUserMessage(){}
     

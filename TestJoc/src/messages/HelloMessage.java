@@ -10,8 +10,8 @@ import com.jme3.network.AbstractMessage;
  */
 public class HelloMessage extends AbstractMessage {
     
-    int team;
-    int costume;
+    private int team;
+    private int costume;
     
     public HelloMessage(){}
     
