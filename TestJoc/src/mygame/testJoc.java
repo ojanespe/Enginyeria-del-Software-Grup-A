@@ -74,8 +74,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import messages.*;
-import multiplayer.ClientListener;
-import multiplayer.MultiplayerConstants;
+import multiplayer.*;
 import sound.SoundManager;
 
 /**
@@ -84,7 +83,6 @@ import sound.SoundManager;
 public class testJoc extends SimpleApplication
         implements ActionListener,AnimEventListener {
   
-  private Client myClient = null;
   private AnimChannel channel;
   private AnimControl control;
   private SoundManager soundManager;
@@ -104,6 +102,12 @@ public class testJoc extends SimpleApplication
   private boolean terceraPersona = false;
   private boolean estadoAnteriorVista = false;
   private ModelActionManager MAM;
+  
+  /* Objecte utilitzat com a connexió amb el Server */
+  private Client myClient = null;
+  /* Llistat de clients que juguen a la partida. */
+  public ArrayList<PlayerClient> players = new ArrayList<PlayerClient>();
+  
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -563,7 +567,7 @@ public void initMaterials(){
     /**
      * Registra tots els tipus de missatges que intercanviarà amb el servidor.
      */
-    public void registerMessages(){
+    private void registerMessages(){
         Serializer.registerClass(ByeMessage.class);
         Serializer.registerClass(DisconnectMessage.class);
         Serializer.registerClass(FinishGameMessage.class);
@@ -576,17 +580,17 @@ public void initMaterials(){
         Serializer.registerClass(WelcomeMessage.class);
     }
     
-    public void registerListeners(){
-        myClient.addMessageListener(new ClientListener(), ByeMessage.class);
-        myClient.addMessageListener(new ClientListener(), DisconnectMessage.class);
-        myClient.addMessageListener(new ClientListener(), FinishGameMessage.class);
-        myClient.addMessageListener(new ClientListener(), HelloMessage.class);
-        myClient.addMessageListener(new ClientListener(), HitMessage.class);
-        myClient.addMessageListener(new ClientListener(), KillMessage.class);
-        myClient.addMessageListener(new ClientListener(), NewUserMessage.class);
-        myClient.addMessageListener(new ClientListener(), RefreshMessage.class);
-        myClient.addMessageListener(new ClientListener(), ShootMessage.class);
-        myClient.addMessageListener(new ClientListener(), WelcomeMessage.class);
+    /**
+     * Registrem els tipus de missatges que escoltarem del server.
+     */
+    private void registerListeners(){
+        myClient.addMessageListener(new ClientListener(this), DisconnectMessage.class);
+        myClient.addMessageListener(new ClientListener(this), FinishGameMessage.class);
+        myClient.addMessageListener(new ClientListener(this), HitMessage.class);
+        myClient.addMessageListener(new ClientListener(this), KillMessage.class);
+        myClient.addMessageListener(new ClientListener(this), NewUserMessage.class);
+        myClient.addMessageListener(new ClientListener(this), RefreshMessage.class);
+        myClient.addMessageListener(new ClientListener(this), WelcomeMessage.class);
     }
     
     
