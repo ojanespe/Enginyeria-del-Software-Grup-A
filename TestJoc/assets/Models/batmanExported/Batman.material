@@ -1,0 +1,706 @@
+
+material _missing_material_ 
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            ambient 0.1 0.1 0.1 1.0
+            diffuse 0.8 0.0 0.0 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.3 0.3 0.3 1.0
+        }
+    }
+}
+
+
+// blender material: material_33
+material material_33 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.614
+    {
+        pass b2ogre_1353494040.614
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.614
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.616
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_41
+material material_41 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.617
+    {
+        pass b2ogre_1353494040.617
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.617
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.617
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_40
+material material_40 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.618
+    {
+        pass b2ogre_1353494040.618
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.618
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.618
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_29
+material material_29 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.618
+    {
+        pass b2ogre_1353494040.618
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.618
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.619
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_28
+material material_28 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.619
+    {
+        pass b2ogre_1353494040.619
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.619
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.619
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_23
+material material_23 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.62
+    {
+        pass b2ogre_1353494040.62
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.62
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.62
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_22
+material material_22 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.62
+    {
+        pass b2ogre_1353494040.62
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.621
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.621
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_21
+material material_21 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.621
+    {
+        pass b2ogre_1353494040.621
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.621
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.621
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_20
+material material_20 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.622
+    {
+        pass b2ogre_1353494040.622
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.622
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.622
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_27
+material material_27 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.622
+    {
+        pass b2ogre_1353494040.622
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.623
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.623
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_26
+material material_26 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.623
+    {
+        pass b2ogre_1353494040.623
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.623
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.624
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_25
+material material_25 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.624
+    {
+        pass b2ogre_1353494040.624
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.624
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.624
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_24
+material material_24 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.625
+    {
+        pass b2ogre_1353494040.625
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.625
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.625
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_8
+material material_8 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.625
+    {
+        pass b2ogre_1353494040.625
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.625
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.626
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}
+
+// blender material: material_9
+material material_9 
+{
+    receive_shadows on
+    technique b2ogre_1353494040.626
+    {
+        pass b2ogre_1353494040.626
+        {
+            ambient 0.5879999995231628 0.5879999995231628 0.5879999995231628 0.0
+            diffuse 0.4704000066280365 0.4704000066280365 0.4704000066280365 0.0
+            specular 0.0 0.0 0.0 0.0 1.25
+            emissive 0.0 0.0 0.0 0.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1353494040.626
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op alpha_blend
+            }
+            texture_unit b2ogre_1353494040.626
+            {
+                texture Batman_Diff.tga
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op replace
+            }
+        }
+    }
+}

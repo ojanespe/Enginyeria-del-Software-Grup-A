@@ -175,7 +175,7 @@ channel_walk = bot.createChannel();*/
     player.setGravity(60);
     player.setPhysicsLocation(new Vector3f(0, 10, 0));
     
-    robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+    robot = (Node)assetManager.loadModel("Models/batmanExported/Batman.mesh.xml");
     robot.setName("robot");
     robot.setLocalScale(0.5f);
     robot.setLocalTranslation(new Vector3f(0, 10, 0));
@@ -184,7 +184,7 @@ channel_walk = bot.createChannel();*/
     
     /************************************************************************************************/
     /*CREAMOS UN MODEL ACTION MANAGER*/
-    MAM = new ModelActionManager(channel_walk, bot, robot , "Walk", 1.5f, KeyInput.KEY_W);
+    MAM = new ModelActionManager(channel_walk, bot, robot , "run_legs", 1.5f, KeyInput.KEY_W);
     
     /*INSERTAMOS los listeners*/
     inputManager.addMapping(MAM.getAction(), MAM.getKT());

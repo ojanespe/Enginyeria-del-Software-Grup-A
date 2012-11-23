@@ -36,7 +36,7 @@ public class ModelActionManager  implements ActionListener{
     
     public void initChannel(){
         this.channel_walk = this.AC.createChannel();    
-        this.channel_walk.setAnim("stand");
+        this.channel_walk.setAnim("run_legs");
     }
     
     public String getAction(){
@@ -63,7 +63,7 @@ public class ModelActionManager  implements ActionListener{
     
     public void onAnimCycleDone(String animName) {
         if (animName.equals(this.Action)){
-            this.channel_walk.setAnim("stand", 0.50f);
+            this.channel_walk.setAnim("run_legs", 0.50f);
             this.channel_walk.setLoopMode(LoopMode.DontLoop);
             this.channel_walk.setSpeed(1f);
         }
