@@ -106,7 +106,7 @@ public class testJoc extends SimpleApplication
   /* Objecte utilitzat com a connexió amb el Server */
   private Client myClient = null;
   /* Llistat de clients que juguen a la partida. */
-  public ArrayList<PlayerClient> players = new ArrayList<PlayerClient>();
+  private ArrayList<PlayerClient> players = new ArrayList<PlayerClient>();
   
   
   public static void main(String[] args) {
@@ -131,6 +131,11 @@ public class testJoc extends SimpleApplication
     
     registerMessages();
     registerListeners();
+    
+    // Guardem la id de la connexió proporcionada pel server.
+    s.setID(myClient.getId());
+    
+    // TODO: enviar HelloMessage
       
       
     // Set up the sound
@@ -593,11 +598,46 @@ public void initMaterials(){
         myClient.addMessageListener(new ClientListener(this), WelcomeMessage.class);
     }
     
+    /**
+     * Retorna el jugador local.
+     * 
+     * @return s Jugador
+     */
+    public Jugador getJugador(){
+        return s;
+    }
+    
+    /**
+     * Retorna els objectes que referencien tots els jugadors clients menys el local.
+     * 
+     * @return players ArrayList<PlayerClient>
+     */
+    public ArrayList<PlayerClient> getListPlayers(){
+        return players;
+    }
+    
+     /**
+     * Inicialitza el llistat de jugadors
+     */
+    public void setListPlayers(ArrayList<PlayerClient> list){
+        this.players = list;
+        // TODO: fer aparèixer tots els jugadors del llistat
+    }
+    
+    /**
+     * Retorna l'objecte de connexió amb el servidor. 
+     * 
+     * @return myClient Client.
+     */
+    public Client getClientConnection(){
+        return myClient;
+    }
+    
     
     // Necesitamos cerrar la conexión antes de apagar el cliente
      @Override
      public void destroy() {
-         // TODO: enviar ByeMessage
+         /* TODO: enviar ByeMessage */
          myClient.close();
          super.destroy();
      }

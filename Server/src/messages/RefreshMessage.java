@@ -26,15 +26,17 @@ public class RefreshMessage extends AbstractMessage {
                         //In testJoc.java: booleans left right up down.
     
     private int action;       //Moving, crouching, jumping... And combinations.
-                        //binds or booleans controlling TODO: discuss
+    
+    private int userID; // User's id that we are refreshing
     
     public RefreshMessage(){}
     
-    public RefreshMessage(Vector3f p, Vector3f v, Vector3f d, int a){
+    public RefreshMessage(Vector3f p, Vector3f v, Vector3f d, int a, int id){
         position = p;
         view = v;
         direction = d;
         action = a;
+        userID = id;
     }
     
     public Vector3f getPosition(){
@@ -51,6 +53,10 @@ public class RefreshMessage extends AbstractMessage {
     
     public int getAction(){
         return action;
+    }
+    
+    public int getUserID(){
+        return userID;
     }
     
 }

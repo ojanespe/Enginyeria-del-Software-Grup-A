@@ -38,6 +38,8 @@ public class Jugador implements PlayerInterface{
     
     private CharacterControl player;        
 
+    private int online_id;
+    private int online_team;
     private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
     private float posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
@@ -181,11 +183,19 @@ public class Jugador implements PlayerInterface{
     }
 
     public int getID() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return online_id;
     }
 
     public int getTeam() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return online_team;
+    }
+    
+    public void setID(int id){
+        this.online_id = id;
+    }
+    
+    public void setTeam(int t){
+        this.online_team = t;
     }
 
     public int getCostume() {
