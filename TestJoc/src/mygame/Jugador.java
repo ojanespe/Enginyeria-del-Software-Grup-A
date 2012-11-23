@@ -38,8 +38,10 @@ public class Jugador implements PlayerInterface{
     
     private CharacterControl player;        
 
-    private int online_id;
-    private int online_team;
+    private int online_id; 
+    private int online_team; // Id del equipo al que pertenece
+    private String costume; // Modelo del jugador
+    
     private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
     private float posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
@@ -58,6 +60,8 @@ public class Jugador implements PlayerInterface{
     public Jugador(AssetManager assetManager){
         vida = 100;
         escudo = 100;
+        
+        costume = MultiplayerConstants.OTO;
         
         posX = 0.0f;
         posY = 10.0f;
@@ -83,11 +87,13 @@ public class Jugador implements PlayerInterface{
         armas[1].setScale(0.07f);
 
         
-        robot = (Node)assetManager.loadModel("Oto.mesh.xml");
+        robot = (Node)assetManager.loadModel(costume);
         robot.setName("robot");
         robot.setLocalScale(0.5f);
         robot.setLocalTranslation(new Vector3f(0, 10, 0));
-        robot.addControl(player);        
+        robot.addControl(player);
+        
+        
     }
     
     public void setGun(Arma gun){
@@ -199,15 +205,16 @@ public class Jugador implements PlayerInterface{
     }
 
     public int getCostume() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Object o = MultiplayerConstants.COSTUMES.get(costume);
+        return (Integer)o;
     }
 
     public int getGunId() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.gun;
     }
 
     public void setGunId(int g) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.gun = g;
     }
 
     public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir) {

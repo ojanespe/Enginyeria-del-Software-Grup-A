@@ -71,6 +71,8 @@ import com.jme3.system.JmeContext;
 import com.jme3.texture.Texture;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import messages.*;
@@ -108,6 +110,10 @@ public class testJoc extends SimpleApplication
   /* Llistat de clients que juguen a la partida. */
   private ArrayList<PlayerClient> players = new ArrayList<PlayerClient>();
   
+  /* Timer to send RefreshMessages to Server */
+  private Timer time;
+  private int delay = 50; // timer delay in miliseconds
+  
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -135,9 +141,7 @@ public class testJoc extends SimpleApplication
     // Guardem la id de la connexió proporcionada pel server.
     s.setID(myClient.getId());
     
-    // TODO: enviar HelloMessage
-      
-      
+    
     // Set up the sound
     soundManager = new SoundManager(assetManager, rootNode);
     soundManager.playAmbientSound("Sounds/Ambient/fog_bound.ogg", 3);
@@ -200,6 +204,15 @@ public class testJoc extends SimpleApplication
 
     // Cargamos el arma
     s.chooseGun(2);
+    
+    
+    /*********************************************************/
+    /*  ENVIEM HELLOMESSAGE  */
+    // TODO: seleccionar team per part de l'usuari
+    int team = ((int) Math.random() * 2); // team selection provisional
+    HelloMessage m = new HelloMessage(team, s.getCostume());
+    m.setReliable(true); // l'enviem amb TCP per assegurar-nos que arriba
+    myClient.send(m);
     
     
     
@@ -269,7 +282,20 @@ public class testJoc extends SimpleApplication
     channel.setAnim("Walk");
     
     collision.setShotable(robot2);
-    initMaterials();    
+    initMaterials();
+    
+    
+    /* We initialize the timer. */
+    time = new Timer(true);
+    time.schedule(new TimerTask() {
+
+        @Override
+        public void run() {
+            // TODO: send RefreshMessage
+        }
+        
+    }, 0, delay);
+    
   }
 
   private void setUpLight() {
@@ -362,19 +388,25 @@ public void onAction(String binding, boolean isPressed, float tpf) {
           /*channel.setAnim("Walk",0.50f);
           channel.setLoopMode(LoopMode.DontLoop);
           channel.setSpeed(0.10f);*/
-          if (!click) {
-              click = true;
-          } else {
-            collision.shot(binding, isPressed, tpf, cam );
-            s.incremenDisparos();
-            click = false;
-            soundManager.playSituationalSound(s.getArma().getShotSound(), 1);
-          }
-          if (s.getEscudo() > 0) {
-                s.setEscudo((s.getEscudo()-1));
-          } else {
-            s.setVida(s.getVida()-1);
-          }
+            
+            /*  ENVIEM SHOOTMESSAGE  */
+            ShootMessage m = new ShootMessage(s.getPlayer().getPhysicsLocation(), cam.getDirection());
+            m.setReliable(true);
+            myClient.send(m);
+            
+            if (!click) {
+                click = true;
+            } else {
+              collision.shot(binding, isPressed, tpf, cam );
+              s.incremenDisparos();
+              click = false;
+              soundManager.playSituationalSound(s.getArma().getShotSound(), 1);
+            }
+            if (s.getEscudo() > 0) {
+                  s.setEscudo((s.getEscudo()-1));
+            } else {
+              s.setVida(s.getVida()-1);
+            }
 
         } else if (binding.equals("Change")) {
            if (s.getSniperMode()) {
@@ -635,10 +667,13 @@ public void initMaterials(){
     
     
     // Necesitamos cerrar la conexión antes de apagar el cliente
-     @Override
-     public void destroy() {
-         /* TODO: enviar ByeMessage */
-         myClient.close();
-         super.destroy();
-     }
+    @Override
+    public void destroy() {
+        /*  ENVIEM BYEMESSAGE  */
+        ByeMessage m = new ByeMessage();
+        m.setReliable(true);
+        myClient.send(m);
+        myClient.close();
+        super.destroy();
+    }
 }

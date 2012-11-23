@@ -62,13 +62,13 @@ public class ClientListener implements MessageListener<Client> {
             
             int killedID = m.getKilled();
             int killerID = m.getKiller();
-            if(killedID == game.getJugador().getID()){
+            if(game.getJugador().isPlayer(killedID)){ // Hem mort nosaltres
                 /* TODO:
                  * > Morir
                  * > Reaparèixer
                  * > Mostrar missatge dient qui ens ha matat a nosaltres
                  */
-            } else if(killerID == game.getJugador().getID()){
+            } else if(game.getJugador().isPlayer(killerID)){ // Hem assessinat nosaltres
                 // TODO: killPlayer(killedID);
                 // > Mostrar missatge dient a qui hem matat nosaltres
             } else {

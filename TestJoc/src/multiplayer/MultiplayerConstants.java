@@ -19,11 +19,11 @@ public class MultiplayerConstants {
     /*      WEAPONS      */
     /*********************/
     
-    public static final String GLOCK_WEAPON = "Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
+    public static final String GLOCK_WEAPON = "Models/gun/gun.j3o";
     public static final String PSG_WEAPON = "Models/rifle/rifle.j3o";
     
     /** 
-     * HashMap that relates the Strings of the path of each weapon with its 'id'
+     * HashMap that relates the Strings of the path of each item with its 'id'
      * on both directions ( String -> int ) and ( int -> String ).
      * 
      * All new weapons must be added here.
@@ -40,4 +40,30 @@ public class MultiplayerConstants {
     /**********************/
     /*      COSTUMES      */
     /**********************/
+    
+    public static final String OTO = "Oto.mesh.xml";
+    
+    /** 
+     * HashMap that relates the Strings of the path of each item with its 'id'
+     * on both directions ( String -> int ) and ( int -> String ).
+     * 
+     * All new costumes must be added here.
+     */
+    public static final Map COSTUMES = new HashMap(){
+        {
+            put(OTO, 0);
+            put(0, OTO);
+        }
+    };
+    
+    
+    /****************************/
+    /*      ACTIONS HEROES      */
+    /****************************/
+    
+    
+    
+    /******************************/
+    /*      ACTIONS SOLDIERS      */
+    /******************************/
 }
