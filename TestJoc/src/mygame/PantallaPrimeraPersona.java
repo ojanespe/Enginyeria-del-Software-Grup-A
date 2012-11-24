@@ -17,22 +17,20 @@ import com.jme3.ui.Picture;
  * @author JORGE
  */
 public class PantallaPrimeraPersona {
-    int indiceVida, indiceEscudo;
-    BitmapText ch, contDisp, life, escudo, die;
-    Picture picCruz, picEscudo, picBala, puntero, blood;
-    Picture picScope;
+    private int indiceVida, indiceEscudo, numMensajes;
+    private BitmapText ch, contDisp, life, escudo, die;
+    private Picture picCruz, picEscudo, picBala, puntero, blood;
+    private Picture picScope;
     
     public PantallaPrimeraPersona(AssetManager assetManager, AppSettings settings, BitmapFont guiFont) {
-        /*
-        // Texto puntero
+        numMensajes = 0;
+        // Texto mensajes
         ch = new BitmapText(guiFont, false);
-        ch.setSize(guiFont.getCharSet().getRenderedSize() * 5);
-        ch.setText("+");
+        ch.setSize(guiFont.getCharSet().getRenderedSize()/2);
+        ch.setText("");
         ch.setColor(ColorRGBA.Green);
-        ch.setLocalTranslation( 
-          settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
-          settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
-        */
+        ch.setLocalTranslation( settings.getWidth()-(settings.getWidth()/5),settings.getHeight(), 0);
+        
         
         puntero = new Picture("HUD Picture");
         puntero.setImage(assetManager, "Icons/puntdemira.png", true);
@@ -44,8 +42,7 @@ public class PantallaPrimeraPersona {
         blood = new Picture("HUD Picture");
         blood.setImage(assetManager, "Icons/res.png", true);
         blood.scale(settings.getWidth(),settings.getHeight(),0);
-        blood.setLocalTranslation(0,0,0);
-        
+        blood.setLocalTranslation(0,0,0);        
         
         // Texto disparos
         contDisp = new BitmapText(guiFont, false);
@@ -107,6 +104,20 @@ public class PantallaPrimeraPersona {
         picScope.setHeight(settings.getHeight());
         picScope.setPosition(0, 0);
     }    
+        
+    public void setMessage(String msg){        
+        if (numMensajes <= 40) {
+            ch.setText(ch.getText()+"\n"+msg);
+        } else {
+            ch.setText(msg);
+            numMensajes = 0;
+        }
+        numMensajes++;
+    }
+    
+    public BitmapText getMessage(){
+        return ch;
+    }
     
     public Picture getScope() {
         return picScope;
@@ -153,55 +164,55 @@ public class PantallaPrimeraPersona {
     
     public Picture getPicVida(int vida, AssetManager assetManager){
         
-        if (vida > 95) picCruz.setImage(assetManager, "Icons/barravida/barravida100.png", true);
-        else if (vida > 90) picCruz.setImage(assetManager, "Icons/barravida/barravida95.png", true);
-        else if (vida > 85) picCruz.setImage(assetManager, "Icons/barravida/barravida90.png", true);
-        else if (vida > 80) picCruz.setImage(assetManager, "Icons/barravida/barravida85.png", true);
-        else if (vida > 75) picCruz.setImage(assetManager, "Icons/barravida/barravida80.png", true);
-        else if (vida > 70) picCruz.setImage(assetManager, "Icons/barravida/barravida75.png", true);
-        else if (vida > 65) picCruz.setImage(assetManager, "Icons/barravida/barravida70.png", true);
-        else if (vida > 60) picCruz.setImage(assetManager, "Icons/barravida/barravida65.png", true);
-        else if (vida > 55) picCruz.setImage(assetManager, "Icons/barravida/barravida60.png", true);
-        else if (vida > 50) picCruz.setImage(assetManager, "Icons/barravida/barravida55.png", true);
-        else if (vida > 45) picCruz.setImage(assetManager, "Icons/barravida/barravida50.png", true);
-        else if (vida > 40) picCruz.setImage(assetManager, "Icons/barravida/barravida45.png", true);
-        else if (vida > 35) picCruz.setImage(assetManager, "Icons/barravida/barravida40.png", true);
-        else if (vida > 30) picCruz.setImage(assetManager, "Icons/barravida/barravida35.png", true);
-        else if (vida > 25) picCruz.setImage(assetManager, "Icons/barravida/barravida30.png", true);
-        else if (vida > 20) picCruz.setImage(assetManager, "Icons/barravida/barravida25.png", true);
-        else if (vida > 15) picCruz.setImage(assetManager, "Icons/barravida/barravida20.png", true);
-        else if (vida > 10) picCruz.setImage(assetManager, "Icons/barravida/barravida15.png", true);
+        if (vida > 95) { picCruz.setImage(assetManager, "Icons/barravida/barravida100.png", true);}
+        else if (vida > 90) { picCruz.setImage(assetManager, "Icons/barravida/barravida95.png", true);}
+        else if (vida > 85) { picCruz.setImage(assetManager, "Icons/barravida/barravida90.png", true);}
+        else if (vida > 80) { picCruz.setImage(assetManager, "Icons/barravida/barravida85.png", true);}
+        else if (vida > 75) { picCruz.setImage(assetManager, "Icons/barravida/barravida80.png", true);}
+        else if (vida > 70) { picCruz.setImage(assetManager, "Icons/barravida/barravida75.png", true);}
+        else if (vida > 65) { picCruz.setImage(assetManager, "Icons/barravida/barravida70.png", true);}
+        else if (vida > 60) { picCruz.setImage(assetManager, "Icons/barravida/barravida65.png", true);}
+        else if (vida > 55) { picCruz.setImage(assetManager, "Icons/barravida/barravida60.png", true);}
+        else if (vida > 50) { picCruz.setImage(assetManager, "Icons/barravida/barravida55.png", true);}
+        else if (vida > 45) { picCruz.setImage(assetManager, "Icons/barravida/barravida50.png", true);}
+        else if (vida > 40) { picCruz.setImage(assetManager, "Icons/barravida/barravida45.png", true);}
+        else if (vida > 35) { picCruz.setImage(assetManager, "Icons/barravida/barravida40.png", true);}
+        else if (vida > 30) { picCruz.setImage(assetManager, "Icons/barravida/barravida35.png", true);}
+        else if (vida > 25) { picCruz.setImage(assetManager, "Icons/barravida/barravida30.png", true);}
+        else if (vida > 20) { picCruz.setImage(assetManager, "Icons/barravida/barravida25.png", true);}
+        else if (vida > 15) { picCruz.setImage(assetManager, "Icons/barravida/barravida20.png", true);}
+        else if (vida > 10) { picCruz.setImage(assetManager, "Icons/barravida/barravida15.png", true);}
         else if (vida > 5)  {
             picCruz.setImage(assetManager, "Icons/barravida/barravida10.png", true);
             blood.setImage(assetManager, "Icons/blood.png", true);       
         }
-        else picCruz.setImage(assetManager, "Icons/barravida/barravida5.png", true);
+        else { picCruz.setImage(assetManager, "Icons/barravida/barravida5.png", true);}
         
         return picCruz;
     }
     
     public Picture getPicEscudo(int escudo, AssetManager assetManager){
-        if (escudo > 95) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo100.png", true);
-        else if (escudo > 90) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo95.png", true);
-        else if (escudo > 85) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo90.png", true);
-        else if (escudo > 80) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo85.png", true);
-        else if (escudo > 75) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo80.png", true);
-        else if (escudo > 70) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo75.png", true);
-        else if (escudo > 65) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo70.png", true);
-        else if (escudo > 60) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo65.png", true);
-        else if (escudo > 55) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo60.png", true);
-        else if (escudo > 50) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo55.png", true);
-        else if (escudo > 45) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo50.png", true);
-        else if (escudo > 40) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo45.png", true);
-        else if (escudo > 35) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo40.png", true);
-        else if (escudo > 30) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo35.png", true);
-        else if (escudo > 25) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo30.png", true);
-        else if (escudo > 20) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo25.png", true);
-        else if (escudo > 15) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo20.png", true);
-        else if (escudo > 10) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo15.png", true);
-        else if (escudo > 5) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo10.png", true);
-        else if (escudo > 0) picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo5.png", true);
-        else picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo0.png", true);
+        if (escudo > 95) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo100.png", true);}
+        else if (escudo > 90) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo95.png", true);}
+        else if (escudo > 85) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo90.png", true);}
+        else if (escudo > 80) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo85.png", true);}
+        else if (escudo > 75) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo80.png", true);}
+        else if (escudo > 70) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo75.png", true);}
+        else if (escudo > 65) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo70.png", true);}
+        else if (escudo > 60) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo65.png", true);}
+        else if (escudo > 55) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo60.png", true);}
+        else if (escudo > 50) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo55.png", true);}
+        else if (escudo > 45) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo50.png", true);}
+        else if (escudo > 40) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo45.png", true);}
+        else if (escudo > 35) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo40.png", true);}
+        else if (escudo > 30) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo35.png", true);}
+        else if (escudo > 25) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo30.png", true);}
+        else if (escudo > 20) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo25.png", true);}
+        else if (escudo > 15) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo20.png", true);}
+        else if (escudo > 10) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo15.png", true);}
+        else if (escudo > 5) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo10.png", true);}
+        else if (escudo > 0) { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo5.png", true);}
+        else { picEscudo.setImage(assetManager, "Icons/barraescudo/barraescudo0.png", true);}
         
         return picEscudo;
     }
@@ -212,7 +223,6 @@ public class PantallaPrimeraPersona {
 
     Spatial getBlood() {
         return blood;
-    }
-    
+    }    
     
 }

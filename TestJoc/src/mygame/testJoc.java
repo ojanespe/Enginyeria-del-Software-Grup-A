@@ -515,8 +515,15 @@ public void initMaterials(){
     if(s.getSniperMode()) {
         guiNode.attachChild(ps.getScope());
     }
+        
+    mostrarMensajesPantalla("Holaaansdncsbksdjbsdjkbvjksbvjk");
     
   }        
+  
+  public void mostrarMensajesPantalla(String s){
+        ps.setMessage(s);
+        guiNode.attachChild(ps.getMessage());
+  }     
   
   /**
    * This is the main event loop--walking happens here.
@@ -532,13 +539,13 @@ public void initMaterials(){
     Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
     walkDirection.set(0, 0, 0);
     
-        if (s.getVida() > 0) {
-            if (left)  { walkDirection.addLocal(camLeft); }
-            if (right) { walkDirection.addLocal(camLeft.negate()); }
-            if (up)    { walkDirection.addLocal(camDir); }
-            if (down)  { walkDirection.addLocal(camDir.negate());}
-            //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
-        }
+    if (s.getVida() > 0) {
+        if (left)  { walkDirection.addLocal(camLeft); }
+        if (right) { walkDirection.addLocal(camLeft.negate()); }
+        if (up)    { walkDirection.addLocal(camDir); }
+        if (down)  { walkDirection.addLocal(camDir.negate());}
+        //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
+
         if(!terceraPersona){
             s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
 
@@ -552,11 +559,11 @@ public void initMaterials(){
             s.getPlayer().setViewDirection(viewDirection);
             //System.out.println(cam.getDirection());
             //s.getGun().rotateUpTo(cam.getDirection());        
-        
+
         }else{ // Vista en 3a persona
             s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
             cameraNode.setLocalRotation(cam.getRotation());
-            
+
             Vector3f camara3p = s.getPlayer().getPhysicsLocation();
             camara3p.y+=5;
             camara3p.z-=6*cam.getDirection().z;
@@ -565,6 +572,7 @@ public void initMaterials(){
             cam.setLocation(camara3p);
             Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
             s.getPlayer().setViewDirection(viewDirection);
+        }
     }
     refrexCrossHairs();
     // Movement sound
