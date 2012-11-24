@@ -8,7 +8,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
-import com.jme3.network.Client;
 import java.util.ArrayList;
 import messages.*;
 import mygame.Jugador;

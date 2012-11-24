@@ -1,10 +1,9 @@
 
 package multiplayer;
 
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
-import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
+import com.jme3.network.HostedConnection;
+import messages.RefreshMessage;
 
 /**
  * Stores the necessary information to describe an instance of an online player
@@ -23,10 +22,11 @@ public class PlayerServer implements PlayerInterface{
     private Vector3f view;
     private Vector3f direction;
     private int action;
+    
+    private HostedConnection client;
 
     
     public PlayerServer(int id, int team, int costume, int gun, Vector3f pos, Vector3f dir, Vector3f view){
-        
         this.user_ID = id;
         this.team = team;
         this.costume = costume;
@@ -34,7 +34,17 @@ public class PlayerServer implements PlayerInterface{
         this.position = pos;
         this.view = view;
         this.direction = dir;
-        
+    }
+    
+    public PlayerServer(int id, int team, int costume, int gun, Vector3f pos, Vector3f dir, Vector3f view, HostedConnection client){
+        this.user_ID = id;
+        this.team = team;
+        this.costume = costume;
+        this.gun = gun;
+        this.position = pos;
+        this.view = view;
+        this.direction = dir;
+        this.client = client;
     }
     
     public int getID(){
@@ -79,6 +89,32 @@ public class PlayerServer implements PlayerInterface{
      */
     public boolean isTeam(int team){
         return this.team == team;
+    }
+    
+    public HostedConnection getClient() {
+        return client;
+    }
+    
+    public void setClient(HostedConnection client) {
+        this.client = client;
+    }
+    
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public Vector3f getView() {
+        return view;
+    }
+
+    public Vector3f getDirection() {
+        return direction;
+    }
+    
+    public void refresh(RefreshMessage message) {
+        view = message.getView();
+        direction = message.getDirection();
+        action = message.getAction();
     }
     
 }

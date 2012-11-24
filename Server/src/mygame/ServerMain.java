@@ -1,19 +1,18 @@
 package mygame;
 
-import multiplayer.ServerListener;
 import com.jme3.app.SimpleApplication;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.network.HostedConnection;
+import com.jme3.network.Message;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.network.serializing.Serializer;
 import com.jme3.renderer.RenderManager;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Box;
 import com.jme3.system.JmeContext;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import messages.*;
@@ -26,7 +25,9 @@ import multiplayer.*;
 public class ServerMain extends SimpleApplication {
 
     Server myServer = null;
-    ArrayList<PlayerServer> players;
+    ConcurrentHashMap<Integer, PlayerInterface> players;
+    int idCounter;
+    Object idCounterLock;
     
     public static void main(String[] args) {
         ServerMain app = new ServerMain();
@@ -57,18 +58,20 @@ public class ServerMain extends SimpleApplication {
 
         
         // Registrar los Listeners de cada tipo de mensaje
-        myServer.addMessageListener(new ServerListener(myServer), ByeMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), DisconnectMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), FinishGameMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), HelloMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), HitMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), KillMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), NewUserMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), RefreshMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), ShootMessage.class);
-        myServer.addMessageListener(new ServerListener(myServer), WelcomeMessage.class);
+        myServer.addMessageListener(new ServerListener(myServer, this), ByeMessage.class);
+        //myServer.addMessageListener(new ServerListener(myServer, this), DisconnectMessage.class);
+        //myServer.addMessageListener(new ServerListener(myServer, this), FinishGameMessage.class);
+        myServer.addMessageListener(new ServerListener(myServer, this), HelloMessage.class);
+        //myServer.addMessageListener(new ServerListener(myServer, this), HitMessage.class);
+        //myServer.addMessageListener(new ServerListener(myServer, this), KillMessage.class);
+        //myServer.addMessageListener(new ServerListener(myServer, this), NewUserMessage.class);
+        myServer.addMessageListener(new ServerListener(myServer, this), RefreshMessage.class);
+        myServer.addMessageListener(new ServerListener(myServer, this), ShootMessage.class);
+        //myServer.addMessageListener(new ServerListener(myServer, this), WelcomeMessage.class);
         
-        players  = new ArrayList<PlayerServer>();
+        players  = new ConcurrentHashMap<Integer, PlayerInterface>();
+        idCounter = 0;
+        idCounterLock = new Object();
         
         System.out.println("Server ready.");
         
@@ -90,4 +93,56 @@ public class ServerMain extends SimpleApplication {
       myServer.close();
       super.destroy();
     }
+
+    public PlayerServer registerNewPlayer(HostedConnection source, HelloMessage message) {
+        int newId = getNewPlayerId();
+        PlayerServer playerServer = new PlayerServer(
+                newId,
+                message.getTeam(),
+                message.getCostume(),
+                0,                     //TODO gun ids
+                new Vector3f(0, 0, 0), //TODO correct position
+                new Vector3f(0, 0, 0), //TODO correct direction
+                new Vector3f(0, 0, 0), //TODO correct view
+                source);
+        players.put(newId, playerServer);
+        return playerServer;
+    }
+    
+    private int getNewPlayerId() {
+        synchronized(idCounterLock) {
+            idCounter++;
+        }
+        return idCounter;
+    }
+    
+    public ConcurrentHashMap<Integer, PlayerInterface> getPlayers() {
+        return players;
+    }
+    
+    public PlayerServer getByHostedConnection(HostedConnection source) {
+        final Collection<PlayerInterface> refs = players.values();
+        PlayerServer pS;
+        for(PlayerInterface p: refs) {
+            pS = (PlayerServer) p;
+            if(pS.getClient().equals(source)) {
+                return pS;
+            }
+        }
+        return null;
+    }
+
+    public void removePlayer(int iD) {
+        players.remove(iD);
+    }
+    
+    public PlayerServer getPlayer(int id) {
+        return (PlayerServer) players.get(id);
+    }
+
+    public void refreshPlayer(RefreshMessage message) {
+        PlayerServer p = getPlayer(message.getUserID());
+        p.refresh(message);
+    }
+    
 }

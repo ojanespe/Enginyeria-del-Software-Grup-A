@@ -5,6 +5,7 @@ import com.jme3.network.AbstractMessage;
 import java.util.ArrayList;
 import multiplayer.PlayerInterface;
 import com.jme3.network.serializing.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Server answer to a HelloMessage.
@@ -15,13 +16,15 @@ import com.jme3.network.serializing.Serializable;
 @Serializable
 public class WelcomeMessage extends AbstractMessage {
 
+    private int id;
     private Vector3f spawnPosition;
     private Vector3f spawnView;		// VRP of the camera
-    private ArrayList<PlayerInterface> players;  // List of players that are in the match
+    private ConcurrentHashMap<Integer, PlayerInterface> players;  // List of players that are in the match
     
     public WelcomeMessage(){}
     
-    public WelcomeMessage(Vector3f sp, Vector3f sv, ArrayList<PlayerInterface> p){
+    public WelcomeMessage(int id, Vector3f sp, Vector3f sv, ConcurrentHashMap<Integer, PlayerInterface> p){
+        this.id = id;
         this.spawnPosition = sp;
         this.spawnView = sv;
         this.players = p;
@@ -35,8 +38,12 @@ public class WelcomeMessage extends AbstractMessage {
         return spawnView;
     }
     
-    public ArrayList<PlayerInterface> getPlayers(){
+    public ConcurrentHashMap<Integer, PlayerInterface> getPlayers(){
         return players;
+    }
+    
+    public int getId() {
+        return id;
     }
     
 }

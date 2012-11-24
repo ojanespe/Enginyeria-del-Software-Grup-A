@@ -4,7 +4,7 @@ import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
 
 /**
- * Client exists the game.
+ * Client exits the game.
  * TCP
  * Client to Server.
  * @author albertohuelamosegura i Marc Bolaños
