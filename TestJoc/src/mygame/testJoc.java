@@ -73,6 +73,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import messages.*;
@@ -106,9 +107,9 @@ public class testJoc extends SimpleApplication
   private ModelActionManager MAM;
   
   /* Objecte utilitzat com a connexió amb el Server */
-  private Client myClient = null;
+  private Client myClient;
   /* Llistat de clients que juguen a la partida. */
-  private ArrayList<PlayerClient> players = new ArrayList<PlayerClient>();
+  private ConcurrentHashMap<Integer, PlayerClient> players = new ConcurrentHashMap<Integer, PlayerClient>();
   
   /* Timer to send RefreshMessages to Server */
   private Timer time;
@@ -138,8 +139,6 @@ public class testJoc extends SimpleApplication
     registerMessages();
     registerListeners();
     
-    // Guardem la id de la connexió proporcionada pel server.
-    s.setID(myClient.getId());
     
     
     // Set up the sound
@@ -205,6 +204,8 @@ public class testJoc extends SimpleApplication
     // Cargamos el arma
     s.chooseGun(2);
     
+    // Guardem la id de la connexió proporcionada pel server.
+    s.setID(myClient.getId());
     
     /*********************************************************/
     /*  ENVIEM HELLOMESSAGE  */
@@ -295,6 +296,8 @@ public class testJoc extends SimpleApplication
         }
         
     }, 0, delay);
+    
+   
     
   }
 
@@ -652,14 +655,14 @@ public void initMaterials(){
      * 
      * @return players ArrayList<PlayerClient>
      */
-    public ArrayList<PlayerClient> getListPlayers(){
+    public ConcurrentHashMap<Integer, PlayerClient> getListPlayers(){
         return players;
     }
     
      /**
      * Inicialitza el llistat de jugadors
      */
-    public void setListPlayers(ArrayList<PlayerClient> list){
+    public void setListPlayers(ConcurrentHashMap<Integer, PlayerClient> list){
         this.players = list;
         // TODO: fer aparèixer tots els jugadors del llistat
     }

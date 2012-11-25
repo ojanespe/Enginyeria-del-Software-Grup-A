@@ -116,5 +116,13 @@ public class PlayerServer implements PlayerInterface{
         direction = message.getDirection();
         action = message.getAction();
     }
+
+    public int getGunId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void setGunId(int g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

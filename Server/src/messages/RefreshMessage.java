@@ -28,6 +28,7 @@ public class RefreshMessage extends AbstractMessage {
     private int action;       //Moving, crouching, jumping... And combinations.
     
     private int userID; // User's id that we are refreshing
+
     
     public RefreshMessage(){}
     

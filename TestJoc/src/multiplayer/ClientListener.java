@@ -9,6 +9,7 @@ import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import messages.*;
 import mygame.Jugador;
 import mygame.testJoc;
@@ -84,12 +85,10 @@ public class ClientListener implements MessageListener<Client> {
         } else if(message instanceof RefreshMessage){
             RefreshMessage m = (RefreshMessage) message;
             
-            ArrayList<PlayerClient> players = game.getListPlayers();
+            ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers();
             PlayerClient p_refresh;
             
-            synchronized(players){
-                p_refresh = players.get(m.getUserID());
-            }
+            p_refresh = players.get(m.getUserID());
             
             p_refresh.refresh(m.getAction(), m.getPosition(), m.getView(), m.getDirection());
 
@@ -104,11 +103,11 @@ public class ClientListener implements MessageListener<Client> {
             
             // TODO: missatge de benvinguda al server?
             
-            ArrayList<PlayerClient> list_p = new ArrayList<PlayerClient>();
-            ArrayList<PlayerInterface> list_inter = m.getPlayers();
+            ConcurrentHashMap<Integer, PlayerClient> list_p = new ConcurrentHashMap<Integer, PlayerClient>();
+            ConcurrentHashMap<Integer, PlayerInterface> list_inter = m.getPlayers();
             int len = list_inter.size();
             for(int i = 0; i < len; i ++){
-                list_p.add((PlayerClient)list_inter.get(i));
+                list_p.put(i, (PlayerClient)list_inter.get(i));
             }
             game.setListPlayers(list_p);
             
@@ -123,24 +122,23 @@ public class ClientListener implements MessageListener<Client> {
      */
     private void removePlayer(int id){
         
-        ArrayList<PlayerClient> players = game.getListPlayers(); 
+        ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers(); 
         
-        synchronized(players){
-            int len = players.size();
-            int i = 0;
-            boolean found = false;
-            while(!found && i < len){
-                if(players.get(i).getID() == id){
-                    found = true;
-                }
-                i++;
+        int len = players.size();
+        int i = 0;
+        boolean found = false;
+        while(!found && i < len){
+            if(players.get(i).getID() == id){
+                found = true;
             }
-            if(found){
-                /* TODO: hacer desaparecer el player del mapa */
-                /* TODO: mostrar mensaje "El jugador X ha abandonado la partida." */
-                players.remove(i-1);
-            }
+            i++;
         }
+        if(found){
+            /* TODO: hacer desaparecer el player del mapa */
+            /* TODO: mostrar mensaje "El jugador X ha abandonado la partida." */
+            players.remove(i-1);
+        }
+
     }
     
     /**
@@ -150,15 +148,14 @@ public class ClientListener implements MessageListener<Client> {
      */
     private void createPlayer(PlayerClient pc){
         
-        ArrayList<PlayerClient> players = game.getListPlayers();
+        ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers();
         int id;
         
-        synchronized(players){
-            players.add(pc);
-            id = players.size()-1;
-        }
+        players.put(players.size(), pc);
+        id = players.size()-1;
         
         // TODO: fer aparèixer el jugador "id"
+        game.mostrarMensajesPantalla("Player " + pc.getID() + " joined the team " + pc.getTeam());
         // TODO: mostrar per pantalla que s'ha connectat el nou player
         
     }

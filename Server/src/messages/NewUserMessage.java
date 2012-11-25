@@ -1,8 +1,8 @@
 package messages;
 
 import com.jme3.network.AbstractMessage;
-import com.jme3.network.serializing.Serializable;
 import multiplayer.PlayerInterface;
+import com.jme3.network.serializing.Serializable;
 
 /**
  * The server notifies all clients that another client has connected.
