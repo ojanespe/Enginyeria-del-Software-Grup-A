@@ -55,7 +55,9 @@ public class ServerMain extends SimpleApplication {
         Serializer.registerClass(RefreshMessage.class);
         Serializer.registerClass(ShootMessage.class);
         Serializer.registerClass(WelcomeMessage.class);
-
+        
+        Serializer.registerClass(PlayerServer.class);
+        //Serializer.registerClass(PlayerInterface.class);
         
         // Registrar los Listeners de cada tipo de mensaje
         myServer.addMessageListener(new ServerListener(myServer, this), ByeMessage.class);
@@ -125,9 +127,9 @@ public class ServerMain extends SimpleApplication {
         PlayerServer pS;
         for(PlayerInterface p: refs) {
             pS = (PlayerServer) p;
-            if(pS.getClient().equals(source)) {
-                return pS;
-            }
+            //if(pS.getClient().equals(source)) {
+            //    return pS;
+            //}
         }
         return null;
     }

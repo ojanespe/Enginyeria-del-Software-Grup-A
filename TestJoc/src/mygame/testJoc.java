@@ -626,6 +626,9 @@ public void initMaterials(){
         Serializer.registerClass(RefreshMessage.class);
         Serializer.registerClass(ShootMessage.class);
         Serializer.registerClass(WelcomeMessage.class);
+        
+        Serializer.registerClass(PlayerClient.class);
+        //Serializer.registerClass(PlayerInterface.class);
     }
     
     /**

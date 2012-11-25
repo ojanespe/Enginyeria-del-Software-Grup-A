@@ -3,6 +3,7 @@ package multiplayer;
 
 import com.jme3.math.Vector3f;
 import com.jme3.network.HostedConnection;
+import com.jme3.network.serializing.Serializable;
 import messages.RefreshMessage;
 
 /**
@@ -11,6 +12,7 @@ import messages.RefreshMessage;
  *
  * @author Marc Bolaños
  */
+@Serializable
 public class PlayerServer implements PlayerInterface{
     
     private int user_ID;
@@ -22,9 +24,10 @@ public class PlayerServer implements PlayerInterface{
     private Vector3f view;
     private Vector3f direction;
     private int action;
-    
-    private HostedConnection client;
 
+    //private HostedConnection client;
+
+    public PlayerServer(){}
     
     public PlayerServer(int id, int team, int costume, int gun, Vector3f pos, Vector3f dir, Vector3f view){
         this.user_ID = id;
@@ -44,7 +47,7 @@ public class PlayerServer implements PlayerInterface{
         this.position = pos;
         this.view = view;
         this.direction = dir;
-        this.client = client;
+        //this.client = client;
     }
     
     public int getID(){
@@ -91,13 +94,13 @@ public class PlayerServer implements PlayerInterface{
         return this.team == team;
     }
     
-    public HostedConnection getClient() {
-        return client;
-    }
-    
-    public void setClient(HostedConnection client) {
-        this.client = client;
-    }
+//    public HostedConnection getClient() {
+//        return client;
+//    }
+//    
+//    public void setClient(HostedConnection client) {
+//        this.client = client;
+//    }
     
     public Vector3f getPosition() {
         return position;

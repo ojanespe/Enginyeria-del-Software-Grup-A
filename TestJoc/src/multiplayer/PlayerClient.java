@@ -4,6 +4,7 @@ package multiplayer;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
+import com.jme3.network.serializing.Serializable;
 import com.jme3.scene.Node;
 
 /**
@@ -11,6 +12,7 @@ import com.jme3.scene.Node;
  *
  * @author Marc Bolaños
  */
+@Serializable
 public class PlayerClient implements PlayerInterface{
     
     private int user_ID;
@@ -22,10 +24,12 @@ public class PlayerClient implements PlayerInterface{
     private Vector3f view;
     private Vector3f direction;
     private int action;
-    
+
     private Node character;
     private CharacterControl player;
     private CapsuleCollisionShape capsuleShape;
+    
+    public PlayerClient(){}
     
     public PlayerClient(int id, int team, int costume, int gun, Vector3f pos){
         
