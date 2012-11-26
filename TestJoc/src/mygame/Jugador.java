@@ -11,6 +11,7 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 
 import multiplayer.PlayerClient;
 import multiplayer.PlayerInterface;
@@ -227,5 +228,21 @@ public class Jugador implements PlayerInterface{
 
     public boolean isTeam(int team) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public ArrayList getRefresh(){
+        ArrayList<Object> datos = new ArrayList<Object>();
+        datos.add(player.getPhysicsLocation());
+        datos.add(player.getViewDirection());
+        datos.add(player.getWalkDirection());
+        datos.add("accion");
+        return datos;
+    }
+    
+    public void setRefresh(ArrayList datos){
+        player.setPhysicsLocation((Vector3f)datos.get(0));
+        player.setViewDirection((Vector3f)datos.get(1));
+        player.setWalkDirection((Vector3f)datos.get(2));
+        //hacer accion
     }
 }
