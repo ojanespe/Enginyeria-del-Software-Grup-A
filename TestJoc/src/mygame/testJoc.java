@@ -226,7 +226,7 @@ public class testJoc extends SimpleApplication
     s.setAction("Walk", 1.5f, actions);    
     addActionMapping();
     s.getActionList().get(0).initChannel();
-    
+        
     /************************************************************************************************/
 
     /*control = s.getRobot().getControl(AnimControl.class);
@@ -397,6 +397,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
           if (isPressed) { down = true; } else { down = false; }
         } else if (binding.equals("Jump")) {
           s.getPlayer().jump();
+          s.doAction();
         } else if (binding.equals("shoot")) {
           /*channel.setAnim("Walk",0.50f);
           channel.setLoopMode(LoopMode.DontLoop);

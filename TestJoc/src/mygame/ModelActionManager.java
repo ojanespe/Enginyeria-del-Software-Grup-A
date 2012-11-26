@@ -46,6 +46,7 @@ public class ModelActionManager  implements ActionListener{
     
     public void setAction(String Action){
         this.Action = Action;
+        channel_walk.setAnim(Action, 1500f);
     }
     
     public ArrayList<KeyTrigger> getKT() {

@@ -263,7 +263,7 @@ public class Jugador implements PlayerInterface, AnimEventListener{
     }
     
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-         ActionList.get(0).onAnimCycleDone( ActionList.get(0).getAction());
+         //ActionList.get(0).onAnimCycleDone( ActionList.get(0).getAction());
     }
 
     public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
@@ -275,6 +275,6 @@ public class Jugador implements PlayerInterface, AnimEventListener{
     }
     
     public void doAction(){
-        //ActionList.get(0).
+        ActionList.get(0).setAction("pull");
     }
 }
