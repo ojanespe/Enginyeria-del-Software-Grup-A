@@ -216,8 +216,12 @@ public class Jugador implements PlayerInterface{
         this.gun = g;
     }
 
-    public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir) {
+    public void refresh(ArrayList datos) {
         // TODO: completar refresh
+        player.setPhysicsLocation((Vector3f)datos.get(0));
+        player.setViewDirection((Vector3f)datos.get(1));
+        player.setWalkDirection((Vector3f)datos.get(2));
+        //hacer accion
     }
     
     /**
@@ -227,10 +231,12 @@ public class Jugador implements PlayerInterface{
      */
     public ArrayList getRefresh(){
         // TODO: retornar dades getRefresh
-        ArrayList a = new ArrayList();
-        a.add(new Vector3f(0,0,0));a.add(new Vector3f(0,0,0));a.add(new Vector3f(0,0,0));
-        a.add(0);a.add(0);
-        return a;
+        ArrayList<Object> datos = new ArrayList<Object>();
+        datos.add(player.getPhysicsLocation());
+        datos.add(player.getViewDirection());
+        datos.add(player.getWalkDirection());
+        //datos.add("accion");
+        return datos;
     }
 
     public boolean isPlayer(int id) {

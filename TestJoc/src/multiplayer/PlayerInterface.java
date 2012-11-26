@@ -2,6 +2,7 @@
 package multiplayer;
 
 import com.jme3.math.Vector3f;
+import java.util.ArrayList;
 
 /**
  * Interface for the Player online objects
@@ -23,7 +24,7 @@ public interface PlayerInterface {
     public void setGunId(int g);
     
     
-    public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir);
+    public void refresh(ArrayList datos);
     
     
     /*

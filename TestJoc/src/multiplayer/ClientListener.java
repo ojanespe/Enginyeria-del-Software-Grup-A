@@ -99,7 +99,7 @@ public class ClientListener implements MessageListener<Client> {
             Jugador j = game.getJugador();
             // TODO: parameter1 = action must be "standing"
             // TODO: parameter4 = direction must be 0,0,0?
-            j.refresh(0, m.getSpawnPosition(), m.getSpawnView(), new Vector3f(0,0,0));
+            //j.refresh(0, m.getSpawnPosition(), m.getSpawnView(), new Vector3f(0,0,0));
             
             game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             
