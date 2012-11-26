@@ -11,6 +11,7 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.util.ArrayList;
 
 import multiplayer.PlayerClient;
 import multiplayer.PlayerInterface;
@@ -32,8 +33,6 @@ public class Jugador implements PlayerInterface{
      * 
      * Falta añadir los siguientes atributos para el juego online:
      *      int action;     // describe la acción que està realizando el jugador.
-     *      int team;       // guarda el equipo al que pertenece el jugador (0 o 1).
-     *      int costume;    // describe el modelo de jugador que ha escogido el jugador.
      */
     
     private CharacterControl player;        
@@ -218,7 +217,20 @@ public class Jugador implements PlayerInterface{
     }
 
     public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO: completar refresh
+    }
+    
+    /**
+     * Retornar (Vector3f position, Vector3f view, Vector3f direction, int action, int user_id)
+     * 
+     * @return 
+     */
+    public ArrayList getRefresh(){
+        // TODO: retornar dades getRefresh
+        ArrayList a = new ArrayList();
+        a.add(new Vector3f(0,0,0));a.add(new Vector3f(0,0,0));a.add(new Vector3f(0,0,0));
+        a.add(0);a.add(0);
+        return a;
     }
 
     public boolean isPlayer(int id) {
@@ -226,6 +238,10 @@ public class Jugador implements PlayerInterface{
     }
 
     public boolean isTeam(int team) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getAction() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

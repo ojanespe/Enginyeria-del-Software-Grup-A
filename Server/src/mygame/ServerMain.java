@@ -97,7 +97,9 @@ public class ServerMain extends SimpleApplication {
     }
 
     public PlayerServer registerNewPlayer(HostedConnection source, HelloMessage message) {
-        int newId = getNewPlayerId();
+        // TODO: si no me equivoco el objeto "source" dispone de un id único que puedes utilizar
+        //int newId = getNewPlayerId();
+        int newId = source.getId();
         PlayerServer playerServer = new PlayerServer(
                 newId,
                 message.getTeam(),
@@ -135,11 +137,13 @@ public class ServerMain extends SimpleApplication {
     }
 
     public void removePlayer(int iD) {
+        // TODO: comprovar si se elimina bien o "iD" tiene que ser Integer
         players.remove(iD);
     }
     
     public PlayerServer getPlayer(int id) {
-        return (PlayerServer) players.get(id);
+        Integer i = (Integer)id;
+        return (PlayerServer) players.get(i);
     }
 
     public void refreshPlayer(RefreshMessage message) {

@@ -66,14 +66,14 @@ public class ClientListener implements MessageListener<Client> {
                 /* TODO:
                  * > Morir
                  * > Reaparèixer
-                 * > Mostrar missatge dient qui ens ha matat a nosaltres
                  */
+                game.mostrarMensajesPantalla("The player "+killerID+" killed you.");
             } else if(game.getJugador().isPlayer(killerID)){ // Hem assessinat nosaltres
                 // TODO: killPlayer(killedID);
-                // > Mostrar missatge dient a qui hem matat nosaltres
+                game.mostrarMensajesPantalla("You killed the player "+killedID+".");
             } else {
                 // TODO: killPlayer(killedID);
-                // TODO: Mostrar missatge dient qui ha matat a qui
+                game.mostrarMensajesPantalla("The player "+killerID+" killed "+killedID);
             }
 
         // NewUserMessage
@@ -97,11 +97,11 @@ public class ClientListener implements MessageListener<Client> {
             WelcomeMessage m = (WelcomeMessage) message;
             
             Jugador j = game.getJugador();
-            // TODO: par1 = action must be "standing"
-            // TODO: par4 = direction must be 0,0,0?
+            // TODO: parameter1 = action must be "standing"
+            // TODO: parameter4 = direction must be 0,0,0?
             j.refresh(0, m.getSpawnPosition(), m.getSpawnView(), new Vector3f(0,0,0));
             
-            // TODO: missatge de benvinguda al server?
+            game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             
             ConcurrentHashMap<Integer, PlayerClient> list_p = new ConcurrentHashMap<Integer, PlayerClient>();
             ConcurrentHashMap<Integer, PlayerInterface> list_inter = m.getPlayers();
@@ -154,9 +154,9 @@ public class ClientListener implements MessageListener<Client> {
         players.put(players.size(), pc);
         id = players.size()-1;
         
+        pc.init();
         // TODO: fer aparèixer el jugador "id"
         game.mostrarMensajesPantalla("Player " + pc.getID() + " joined the team " + pc.getTeam());
-        // TODO: mostrar per pantalla que s'ha connectat el nou player
         
     }
     

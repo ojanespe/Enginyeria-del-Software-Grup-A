@@ -127,5 +127,9 @@ public class PlayerServer implements PlayerInterface{
     public void setGunId(int g) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public int getAction() {
+        return action;
+    }
     
 }

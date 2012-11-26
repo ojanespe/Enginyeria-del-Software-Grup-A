@@ -10,6 +10,7 @@ import com.jme3.math.Vector3f;
  */
 public interface PlayerInterface {
     
+    public int getAction();
     
     public int getID();
     

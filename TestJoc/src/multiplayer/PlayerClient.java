@@ -1,6 +1,7 @@
 
 package multiplayer;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
@@ -31,7 +32,7 @@ public class PlayerClient implements PlayerInterface{
     
     public PlayerClient(){}
     
-    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos){
+    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos, AssetManager assetManager){
         
         this.user_ID = id;
         this.team = team;
@@ -40,6 +41,11 @@ public class PlayerClient implements PlayerInterface{
         this.position = pos;
         
         // TODO: Create the model depending on 'costume'
+        character = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(costume));
+        character.setName("robot");
+        character.setLocalScale(0.5f);
+        character.setLocalTranslation(new Vector3f(0, 10, 0));
+        character.addControl(player);
         
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
@@ -50,6 +56,10 @@ public class PlayerClient implements PlayerInterface{
         character = new Node();
         character.addControl(player);
         player.setPhysicsLocation(position);
+    }
+    
+    public void init(){
+        // TODO: igual que refresh pero cogiendo la info de los atributos
     }
     
     public int getID(){
@@ -110,6 +120,10 @@ public class PlayerClient implements PlayerInterface{
 
     public void setGunId(int g) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getAction() {
+        return action;
     }
     
 }
