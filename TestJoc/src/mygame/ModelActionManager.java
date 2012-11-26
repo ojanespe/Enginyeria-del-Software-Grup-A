@@ -37,7 +37,7 @@ public class ModelActionManager  implements ActionListener{
     
     public void initChannel(){
         this.channel_walk = this.AC.createChannel();    
-        this.channel_walk.setAnim("stand");
+        //this.channel_walk.setAnim("stand");
     }
     
     public String getAction(){

@@ -84,7 +84,7 @@ import sound.SoundManager;
  * Carrega del openBox amb els dos tipus de cub solids.
  */
 public class testJoc extends SimpleApplication
-        implements ActionListener,AnimEventListener {
+        implements ActionListener {
   
   private AnimChannel channel;
   private AnimControl control;
@@ -216,10 +216,20 @@ public class testJoc extends SimpleApplication
     myClient.send(m);
     
     
+    /*CREACION A MANIJA*/
+    ArrayList<Integer> actions = new ArrayList<Integer>();
+    actions.add(KeyInput.KEY_W);
+    actions.add(KeyInput.KEY_A);
+    actions.add(KeyInput.KEY_S);
+    actions.add(KeyInput.KEY_D);
+    
+    s.setAction("Walk", 1.5f, actions);    
+    addActionMapping();
+    s.getActionList().get(0).initChannel();
     
     /************************************************************************************************/
-    /*CREAMOS UN MODEL ACTION MANAGER*/
-    control = s.getRobot().getControl(AnimControl.class);
+
+    /*control = s.getRobot().getControl(AnimControl.class);
     control.addListener(this);
     ArrayList<Integer> actions = new ArrayList<Integer>();
     actions.add(KeyInput.KEY_W);
@@ -228,14 +238,14 @@ public class testJoc extends SimpleApplication
     actions.add(KeyInput.KEY_D);
     MAM = new ModelActionManager(control, "Walk", 1.5f, actions);
     
-    /*INSERTAMOS los listeners*/
+
     for(int i = 0; i<actions.size();i++){
         inputManager.addMapping(MAM.getAction(), MAM.getKT().get(i));
     }
     inputManager.addListener(MAM, MAM.getAction());
     
-    /*INICIALIZAMOS EL CANAL DE LA ACCION*/
-    MAM.initChannel();
+
+    MAM.initChannel();*/
     /************************************************************************************************/
     
     
@@ -278,7 +288,7 @@ public class testJoc extends SimpleApplication
     
     AnimControl playerControl; // you need one Control per model
     playerControl = robot2.getControl(AnimControl.class); // get control over this model
-    playerControl.addListener(this); // add listener
+    playerControl.addListener(s); // add listener
     channel = playerControl.createChannel();
     channel.setAnim("Walk");
     
@@ -603,14 +613,6 @@ public void initMaterials(){
     floor.setMaterial(mat1);
     return floor;
   }
-
-    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-
-    }
-
-    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-        MAM.onAnimCycleDone(MAM.getAction());
-    }
     
     /**
      * Registra tots els tipus de missatges que intercanviarà amb el servidor.
@@ -646,6 +648,7 @@ public void initMaterials(){
     
     /**
      * Retorna el jugador local.
+     * 
      * 
      * @return s Jugador
      */
@@ -689,5 +692,12 @@ public void initMaterials(){
         myClient.send(m);
         myClient.close();
         super.destroy();
+    }
+    
+    private void addActionMapping(){
+        for(int i = 0; i<s.getActionList().get(0).getKT().size();i++){
+            inputManager.addMapping(s.getActionList().get(0).getAction(), s.getActionList().get(0).getKT().get(i));
+        }
+        inputManager.addListener(s.getActionList().get(0), s.getActionList().get(0).getAction());
     }
 }

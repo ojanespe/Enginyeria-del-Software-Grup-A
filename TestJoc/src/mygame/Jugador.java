@@ -4,10 +4,14 @@
  */
 package mygame;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.input.KeyInput;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -23,7 +27,7 @@ import multiplayer.MultiplayerConstants;
  *
  * @author JORGE
  */
-public class Jugador implements PlayerInterface{
+public class Jugador implements PlayerInterface, AnimEventListener{
     
     /*
      * (Modificado por Marc Bolaños)
@@ -54,11 +58,12 @@ public class Jugador implements PlayerInterface{
     
     private boolean sniperMode = false;
     
+    private AnimControl control;
     private Node robot;
-    
-    
+    private ArrayList<ModelActionManager> ActionList;
 
     public Jugador(AssetManager assetManager){
+        ActionList = new ArrayList<ModelActionManager> ();
         vida = 100;
         escudo = 100;
         
@@ -244,5 +249,32 @@ public class Jugador implements PlayerInterface{
         player.setViewDirection((Vector3f)datos.get(1));
         player.setWalkDirection((Vector3f)datos.get(2));
         //hacer accion
+    }
+
+    
+    
+    
+    
+    public void setAction(String actionName, float velocity, ArrayList<Integer> actions){
+        /*CREAMOS UN MODEL ACTION MANAGER*/
+        control = this.getRobot().getControl(AnimControl.class);
+        control.addListener(this);
+        ActionList.add(new ModelActionManager(control, actionName, velocity, actions));
+    }
+    
+    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+         ActionList.get(0).onAnimCycleDone( ActionList.get(0).getAction());
+    }
+
+    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public ArrayList<ModelActionManager> getActionList() {
+        return ActionList;
+    }
+    
+    public void doAction(){
+        //ActionList.get(0).
     }
 }
