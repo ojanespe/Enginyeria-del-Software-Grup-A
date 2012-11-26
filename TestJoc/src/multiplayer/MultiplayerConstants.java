@@ -61,7 +61,17 @@ public class MultiplayerConstants {
     /*      ACTIONS HEROES      */
     /****************************/
     
+    public static final String STAND = "stand";
+    public static final String WALK = "Walk";
     
+    public static final Map ACTIONS = new HashMap(){
+        {
+            put(STAND, 0);
+            put(0, STAND);
+            put(WALK, 1);
+            put(1, WALK);
+        }
+    };
     
     /******************************/
     /*      ACTIONS SOLDIERS      */
