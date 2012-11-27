@@ -38,15 +38,11 @@ public class Jugador implements PlayerInterface{
     
     private CharacterControl player;        
 
-    private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
+    private int vida, escudo, TOTAL_GUNS=3, actualGuns=0, gun=0;
     private float posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas= new Arma[TOTAL_GUNS];
     private Node character;    
-    //private String gunWeapon="Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
-    //private String rileWeapon="Models/rifle/rifle.j3o";
-    private int count=1;
-    
     private boolean sniperMode = false;
     
     private Node robot;
@@ -79,6 +75,9 @@ public class Jugador implements PlayerInterface{
         armas[1] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-2.8f,-1.4f,5.8f), "Sounds/Effects/Guns/shot_m9.ogg");
         armas[1].rotate(124.0f, 0.0f, 0.0f);
         armas[1].setScale(0.07f);
+        armas[2] = new Arma(assetManager, MultiplayerConstants.GRENADE_WEAPON, new Vector3f(-2.0f,-1.6f,3.5f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
+        armas[2].rotate(0.0f,34.3f, 0.0f);
+        armas[2].setScale(0.14f);
 
         
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
@@ -105,21 +104,11 @@ public class Jugador implements PlayerInterface{
     }
     
     public void changeArm() {
-        if (gun == 0) {
-            if(count==2)
-            {
-                gun = 1;
-                count=0;
-            }
-        }
-        else if(gun==1) {
-            if(count==2)
-            {
-                gun = 0;
-                count=0;
-            }
-        }
-        count++;
+        if(gun<(TOTAL_GUNS-1))
+            gun++;
+        else
+            gun=0;
+        
         character.detachAllChildren();        
         character.attachChild(armas[gun].getGun());
     }

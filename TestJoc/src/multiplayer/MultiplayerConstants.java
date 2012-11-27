@@ -21,6 +21,7 @@ public class MultiplayerConstants {
     
     public static final String GLOCK_WEAPON = "Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
     public static final String PSG_WEAPON = "Models/rifle/rifle.j3o";
+    public static final String GRENADE_WEAPON = "Models/grenade/grenade2.j3o";
     
     /** 
      * HashMap that relates the Strings of the path of each weapon with its 'id'

@@ -356,7 +356,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
             s.setVida(s.getVida()-1);
           }
 
-        } else if (binding.equals("Change")) {
+        } else if (binding.equals("Change") && !isPressed) {
            if (s.getSniperMode()) {
                guiNode.detachChild(ps.getScope());
                s.setSniperMode(false);
