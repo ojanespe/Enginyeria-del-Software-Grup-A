@@ -66,6 +66,7 @@ import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
 import java.util.ArrayList;
+import menu.MenuPrincipal;
 import multiplayer.MultiplayerConstants;
 import sound.SoundManager;
 
@@ -94,6 +95,7 @@ public class testJoc extends SimpleApplication
   private boolean terceraPersona = false;
   private boolean estadoAnteriorVista = false;
   private ModelActionManager MAM;
+  private MenuPrincipal menuPrincipal;
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -109,6 +111,10 @@ public class testJoc extends SimpleApplication
     // Set up the sound
     soundManager = new SoundManager(assetManager, rootNode);
     
+    //Menu Principal
+    menuPrincipal  = new MenuPrincipal(this);
+    stateManager.attach(menuPrincipal);
+
     collision = new ShotCollision(rootNode, assetManager);
     
     collision.setShotable(makeCube("c1", -2f, 1f, 2f));
@@ -466,6 +472,15 @@ public void initMaterials(){
   
   @Override
   public void simpleUpdate(float tpf) {
+      
+     if (menuPrincipal.getIsRunningMenuPrincipal()/* && !stateManager.hasState(menuPrincipal)*/){
+        //stateManager.detach(bulletAppState);
+        stateManager.attach(menuPrincipal);
+     } else {
+         //stateManager.attach(bulletAppState);
+        stateManager.detach(menuPrincipal);
+     }
+      
     Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
     Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
     walkDirection.set(0, 0, 0);
@@ -503,12 +518,12 @@ public void initMaterials(){
             cam.setLocation(camara3p);
             Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
             s.getPlayer().setViewDirection(viewDirection);
-    }
-    refrexCrossHairs();
-    // Movement sound
-    if (up || down || right || left) {
-        soundManager.playEffectSound(SoundManager.MOVEMENT);
-    }
+        }
+        refrexCrossHairs();
+        // Movement sound
+        if (up || down || right || left) {
+            soundManager.playEffectSound(SoundManager.MOVEMENT);
+        }
   }
   
   protected Geometry makeCube(String name, float x, float y, float z) {
