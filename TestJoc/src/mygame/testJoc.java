@@ -96,6 +96,7 @@ public class testJoc extends SimpleApplication
   private boolean estadoAnteriorVista = false;
   private ModelActionManager MAM;
   private MenuPrincipal menuPrincipal;
+  private boolean mundoInicializado = false;
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -108,13 +109,16 @@ public class testJoc extends SimpleApplication
   }
   
   public void simpleInitApp() {
-    // Set up the sound
-    soundManager = new SoundManager(assetManager, rootNode);
-    
     //Menu Principal
     menuPrincipal  = new MenuPrincipal(this);
     stateManager.attach(menuPrincipal);
-
+    
+  }
+  
+  public void inicializarMundo() {
+    // Set up the sound
+    soundManager = new SoundManager(assetManager, rootNode);
+    
     collision = new ShotCollision(rootNode, assetManager);
     
     collision.setShotable(makeCube("c1", -2f, 1f, 2f));
@@ -479,11 +483,15 @@ public void initMaterials(){
      } else {
          //stateManager.attach(bulletAppState);
         stateManager.detach(menuPrincipal);
-     }
-      
-    Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
-    Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
-    walkDirection.set(0, 0, 0);
+     
+        if(!mundoInicializado) {
+            mundoInicializado = true;
+            inicializarMundo();
+        }
+        
+        Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
+        Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
+        walkDirection.set(0, 0, 0);
     
         if (s.getVida() > 0) {
             if (left)  { walkDirection.addLocal(camLeft); }
@@ -524,6 +532,7 @@ public void initMaterials(){
         if (up || down || right || left) {
             soundManager.playEffectSound(SoundManager.MOVEMENT);
         }
+     }
   }
   
   protected Geometry makeCube(String name, float x, float y, float z) {
