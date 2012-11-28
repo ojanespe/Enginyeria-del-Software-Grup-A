@@ -344,20 +344,20 @@ public class testJoc extends SimpleApplication
     
     
     MotionPath path = new MotionPath();
-    path.addWayPoint(new Vector3f(-30, -25, 150));
+    path.addWayPoint(new Vector3f(-27, -25, 150));
     path.addWayPoint(new Vector3f(30, -25, 150));
-    path.addWayPoint(new Vector3f(30, -25, 210));
-    path.addWayPoint(new Vector3f(-30, -25, 210));
-    path.addWayPoint(new Vector3f(-30, -25, 150));
+    path.addWayPoint(new Vector3f(30, -25, 220));
+    path.addWayPoint(new Vector3f(-27, -25, 220));
+    path.addWayPoint(new Vector3f(-27, -25, 150));
     
     path.enableDebugShape(assetManager, rootNode);
 
     MotionEvent motionControl;
     motionControl = new MotionEvent(otto.getRobot(),path);
-    motionControl.setDirectionType(MotionEvent.Direction.Path);
+    motionControl.setDirectionType(MotionEvent.Direction.None);
     //motionControl.setRotation(new Quaternion().fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
     motionControl.setInitialDuration(10f);
-    motionControl.setSpeed(0.6f);
+    motionControl.setSpeed(0.5f);
 
     path.addListener(new MotionPathListener() {
 
