@@ -93,6 +93,12 @@ public class Jugador{
         armas[1].setScale(0.07f);
     }
     
+    
+    public void respawn(){
+        
+    }
+    
+    
     public void setGun(Arma gun){
         if(actualGuns<TOTAL_GUNS)
         {

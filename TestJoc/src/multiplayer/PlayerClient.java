@@ -57,4 +57,16 @@ public class PlayerClient extends Player{
         
     }
     
+    public void respawn(){
+        
+    }
+    
+    /**
+     * Deletes the player model.
+     */
+    public void delete(){
+        this.character.removeFromParent();
+        this.robot.removeFromParent();
+    }
+    
 }

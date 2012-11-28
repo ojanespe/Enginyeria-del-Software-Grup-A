@@ -19,7 +19,7 @@ public class ShootMessage extends AbstractMessage {
     
     public ShootMessage(){}
     
-    public ShootMessage(int idShooter, int idShooted, int life) {
+    public ShootMessage(int idShooted, int life) {
         this.idShooted = idShooted;
         this.life = life;
     }

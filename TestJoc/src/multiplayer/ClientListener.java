@@ -137,7 +137,7 @@ public class ClientListener implements MessageListener<Client> {
             }
         }
         if(found){
-            /* TODO: hacer desaparecer el player del mapa */
+            players.get(i).delete();
             game.mostrarMensajesPantalla("The player "+i+" left the game.");
             players.remove(i);
         }

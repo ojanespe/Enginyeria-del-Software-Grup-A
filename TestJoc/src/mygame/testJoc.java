@@ -367,10 +367,8 @@ public void onAction(String binding, boolean isPressed, float tpf) {
         } else if (binding.equals("Jump")) {
           s.getPlayer().jump();
         } else if (binding.equals("shoot")) {
-          /*channel.setAnim("Walk",0.50f);
-          channel.setLoopMode(LoopMode.DontLoop);
-          channel.setSpeed(0.10f);*/
             
+            // TODO: detectar quan toca a algú i només enviar-lo en aquest cas
             /*  ENVIEM SHOOTMESSAGE  */
             /*ShootMessage m = new ShootMessage(s.getPlayer().getPhysicsLocation(), cam.getDirection());
             m.setReliable(true);
