@@ -47,11 +47,11 @@ public class JugadorIA implements PhysicsCollisionListener{
         escudo = 100;
         
         posX = 0.0f;
-        posY = 10.0f;
-        posZ = 0.0f;
+        posY = 15.0f;
+        posZ = 20.0f;
         
         assetManager.registerLocator("oto.zip", ZipLocator.class);    
-        capsuleShape = new CapsuleCollisionShape(1.5f, 1f, 1);
+        capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
         player.setJumpSpeed(40);
         player.setFallSpeed(60);
@@ -65,7 +65,7 @@ public class JugadorIA implements PhysicsCollisionListener{
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
         robot.setName("otto");
         robot.setLocalScale(0.5f);
-        robot.setLocalTranslation(new Vector3f(0, 10, 0));
+        robot.setLocalTranslation(new Vector3f(0, 13, 150));
         
         animationControl = robot.getControl(AnimControl.class);
         //animationControl.addListener(t);
@@ -75,6 +75,7 @@ public class JugadorIA implements PhysicsCollisionListener{
         attackChannel.addBone(animationControl.getSkeleton().getBone("arm.right"));
         attackChannel.addBone(animationControl.getSkeleton().getBone("hand.right"));
         
+        robot.addControl(player); 
         
     }
     

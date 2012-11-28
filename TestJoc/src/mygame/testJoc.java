@@ -43,6 +43,9 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.MotionPathListener;
+import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -53,6 +56,7 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -262,6 +266,9 @@ public class testJoc extends SimpleApplication
   
   private void attachWorld(){
       
+      
+    
+    
     /************************************************************************************************/
     /*CREAMOS UN MODEL ACTION MANAGER*/
     control = s.getRobot().getControl(AnimControl.class);
@@ -326,14 +333,44 @@ public class testJoc extends SimpleApplication
 //    channel = control.createChannel();
 //    channel.setAnim("Walk");
     
-    /*AnimControl playerControl; // you need one Control per model
-    playerControl = robot2.getControl(AnimControl.class); // get control over this model
+    AnimControl playerControl; // you need one Control per model
+    playerControl = otto.getRobot().getControl(AnimControl.class); // get control over this model
     playerControl.addListener(this); // add listener
     channel = playerControl.createChannel();
     channel.setAnim("Walk");
     
-    collision.setShotable(robot2);*/
+    /*collision.setShotable(robot2);*/
     initMaterials();
+    
+    
+    MotionPath path = new MotionPath();
+    path.addWayPoint(new Vector3f(-30, -25, 150));
+    path.addWayPoint(new Vector3f(30, -25, 150));
+    path.addWayPoint(new Vector3f(30, -25, 210));
+    path.addWayPoint(new Vector3f(-30, -25, 210));
+    path.addWayPoint(new Vector3f(-30, -25, 150));
+    
+    path.enableDebugShape(assetManager, rootNode);
+
+    MotionEvent motionControl;
+    motionControl = new MotionEvent(otto.getRobot(),path);
+    motionControl.setDirectionType(MotionEvent.Direction.Path);
+    //motionControl.setRotation(new Quaternion().fromAngleNormalAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
+    motionControl.setInitialDuration(10f);
+    motionControl.setSpeed(0.6f);
+
+    path.addListener(new MotionPathListener() {
+
+          public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
+              //throw new UnsupportedOperationException("Not supported yet.");
+          }
+
+    
+    });
+    
+    
+    motionControl.play();
+    motionControl.setLoopMode(LoopMode.Loop);
     
     // Play the ambient sound
     soundManager.playAmbientSound();
@@ -589,7 +626,11 @@ public void initMaterials(){
         }
         if(!terceraPersona){
             s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
-
+            //otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.mult(2).x,0,walkDirection.mult(2).z));
+//            otto.getPlayer().setWalkDirection(otto.getPlayer().getWalkDirection().addLocal(0.1f,0.f,0.f));
+//            if(otto.getPlayer().getWalkDirection().x > 5){
+//                otto.getPlayer().setWalkDirection(otto.getPlayer().getWalkDirection().addLocal(-0.2f,0.f,0.f));
+//            } 
             cameraNode.setLocalRotation(cam.getRotation());
             Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
             camara3p.y+=0.9f;
@@ -603,7 +644,7 @@ public void initMaterials(){
         
         }else{ // Vista en 3a persona
             s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
-            otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+            //otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
             cameraNode.setLocalRotation(cam.getRotation());
             
             Vector3f camara3p = s.getPlayer().getPhysicsLocation();
