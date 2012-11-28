@@ -3,6 +3,7 @@ package multiplayer;
 
 
 import com.jme3.math.Vector3f;
+import com.jme3.network.serializing.Serializable;
 
 
 /**
@@ -10,7 +11,8 @@ import com.jme3.math.Vector3f;
  *
  * @author Marc Bolaños Solà
  */
-public abstract class Player {
+@Serializable
+public class Player {
     
     private int user_ID;
     private int team;
@@ -33,6 +35,16 @@ public abstract class Player {
         this.gun = gun;
         this.position = pos;
         
+    }
+    
+    public Player(int id, int team, int costume, int gun, Vector3f position, Vector3f direction, Vector3f view) {
+        user_ID = id;
+        this.team = team;
+        this.costume = costume;
+        this.gun = gun;
+        this.position = position;
+        this.direction = direction;
+        this.view = view;
     }
     
     public int getAction(){

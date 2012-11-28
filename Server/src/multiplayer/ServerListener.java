@@ -38,15 +38,16 @@ public class ServerListener implements MessageListener<HostedConnection> {
           /*HelloMessage helloMessage = (HelloMessage) message;
              System.out.println("Server received '" +helloMessage. +"' from client #"+source.getId() );
              resend(source);*/
-            PlayerServer newPlayer = app.registerNewPlayer(source, (HelloMessage) message);
+            Player newPlayer = app.registerNewPlayer(source, (HelloMessage) message);
             WelcomeMessage wM = new WelcomeMessage(
                     newPlayer.getID(),
                     newPlayer.getPosition(),
                     newPlayer.getView(),
                     app.getPlayers());
-            broadcastNewPlayer(source, (Player) newPlayer);
+            broadcastNewPlayer(source, newPlayer);
+            source.send(wM);
         } else if (message instanceof ByeMessage) {
-            PlayerServer p = app.getByHostedConnection(source);
+            Player p = (Player)app.getByHostedConnection(source);
             if(p != null) {
                 app.removePlayer(p.getID());
                 DisconnectMessage dM = new DisconnectMessage(p.getID());
@@ -59,10 +60,9 @@ public class ServerListener implements MessageListener<HostedConnection> {
         } else if (message instanceof ShootMessage) {
             //TODO implement
             ShootMessage m = (ShootMessage) message;
-            Player p = app.getPlayer(m.getIdShooted());
+            PlayerServer p = app.getPlayer(m.getIdShooted());
             HitMessage hitM = new HitMessage(m.getLife());
-            PlayerServer pS = (PlayerServer) p;
-            pS.getClient().send(hitM);
+            app.getClient(p).send(hitM);
         }
     }
 

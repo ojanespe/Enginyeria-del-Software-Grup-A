@@ -3,14 +3,12 @@ package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector3f;
 import com.jme3.network.HostedConnection;
-import com.jme3.network.Message;
 import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.network.serializing.Serializer;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.JmeContext;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -26,6 +24,7 @@ public class ServerMain extends SimpleApplication {
 
     Server myServer = null;
     ConcurrentHashMap<Integer, Player> players;
+    ConcurrentHashMap<Integer, HostedConnection> clients;
     int idCounter;
     Object idCounterLock;
     
@@ -56,8 +55,7 @@ public class ServerMain extends SimpleApplication {
         Serializer.registerClass(ShootMessage.class);
         Serializer.registerClass(WelcomeMessage.class);
         
-        Serializer.registerClass(PlayerServer.class);
-        //Serializer.registerClass(PlayerInterface.class);
+        Serializer.registerClass(Player.class);
         
         // Registrar los Listeners de cada tipo de mensaje
         myServer.addMessageListener(new ServerListener(myServer, this), ByeMessage.class);
@@ -72,6 +70,7 @@ public class ServerMain extends SimpleApplication {
         //myServer.addMessageListener(new ServerListener(myServer, this), WelcomeMessage.class);
         
         players  = new ConcurrentHashMap<Integer, Player>();
+        clients = new ConcurrentHashMap<Integer, HostedConnection>();
         idCounter = 0;
         idCounterLock = new Object();
         
@@ -96,21 +95,21 @@ public class ServerMain extends SimpleApplication {
       super.destroy();
     }
 
-    public PlayerServer registerNewPlayer(HostedConnection source, HelloMessage message) {
+    public Player registerNewPlayer(HostedConnection source, HelloMessage message) {
         // TODO: si no me equivoco el objeto "source" dispone de un id único que puedes utilizar
         //int newId = getNewPlayerId();
         int newId = source.getId();
-        PlayerServer playerServer = new PlayerServer(
+        Player playerServer = new Player(
                 newId,
                 message.getTeam(),
                 message.getCostume(),
                 0,                     //TODO gun ids
                 new Vector3f(0, 0, 0), //TODO correct position
                 new Vector3f(0, 0, 0), //TODO correct direction
-                new Vector3f(0, 0, 0), //TODO correct view
-                source);
+                new Vector3f(0, 0, 0)); //TODO correct view
         players.put(newId, playerServer);
-        return playerServer;
+        clients.put(newId, source);
+        return (Player)playerServer;
     }
     
     private int getNewPlayerId() {
@@ -129,9 +128,9 @@ public class ServerMain extends SimpleApplication {
         PlayerServer pS;
         for(Player p: refs) {
             pS = (PlayerServer) p;
-            //if(pS.getClient().equals(source)) {
-            //    return pS;
-            //}
+            if(clients.get(pS.getID()).equals(source)) {
+                return pS;
+            }
         }
         return null;
     }
@@ -149,6 +148,10 @@ public class ServerMain extends SimpleApplication {
     public void refreshPlayer(RefreshMessage message) {
         PlayerServer p = getPlayer(message.getUserID());
         p.refresh(message);
+    }
+
+    public HostedConnection getClient(PlayerServer p) {
+        return clients.get(p.getID());
     }
     
 }

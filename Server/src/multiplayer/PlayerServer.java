@@ -25,7 +25,7 @@ public class PlayerServer extends Player {
     private Vector3f direction;
     private int action;
 
-    private HostedConnection client;
+    //private HostedConnection client;
 
     public PlayerServer(){}
     
@@ -98,13 +98,13 @@ public class PlayerServer extends Player {
         return this.team == team;
     }
     
-    public HostedConnection getClient() {
-        return client;
-    }
-    
-    public void setClient(HostedConnection client) {
-        this.client = client;
-    }
+//    public HostedConnection getClient() {
+//        return client;
+//    }
+//    
+//    public void setClient(HostedConnection client) {
+//        this.client = client;
+//    }
     
     @Override
     public Vector3f getPosition() {

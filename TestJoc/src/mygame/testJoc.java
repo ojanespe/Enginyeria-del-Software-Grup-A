@@ -372,9 +372,9 @@ public void onAction(String binding, boolean isPressed, float tpf) {
           channel.setSpeed(0.10f);*/
             
             /*  ENVIEM SHOOTMESSAGE  */
-            ShootMessage m = new ShootMessage(s.getPlayer().getPhysicsLocation(), cam.getDirection());
+            /*ShootMessage m = new ShootMessage(s.getPlayer().getPhysicsLocation(), cam.getDirection());
             m.setReliable(true);
-            myClient.send(m);
+            myClient.send(m);*/
             
             if (!click) {
                 click = true;
