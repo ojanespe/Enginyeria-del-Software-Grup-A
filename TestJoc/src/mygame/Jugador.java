@@ -14,7 +14,6 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 
 import multiplayer.PlayerClient;
-import multiplayer.PlayerInterface;
 
 import multiplayer.MultiplayerConstants;
 
@@ -23,7 +22,7 @@ import multiplayer.MultiplayerConstants;
  *
  * @author JORGE
  */
-public class Jugador implements PlayerInterface{
+public class Jugador{
     
     /*
      * (Modificado por Marc Bolaños)

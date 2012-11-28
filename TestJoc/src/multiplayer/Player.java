@@ -10,12 +10,11 @@ import com.jme3.scene.Node;
 import java.util.ArrayList;
 
 /**
- * Stores the necessary information to describe an instance of an online player.
+ * Interface for the Player online objects
  *
- * @author Marc Bolaños
+ * @author Marc Bolaños Solà
  */
-@Serializable
-public class PlayerClient extends Player{
+public abstract class Player {
     
     private int user_ID;
     private int team;
@@ -31,12 +30,10 @@ public class PlayerClient extends Player{
     private CharacterControl player;
     private CapsuleCollisionShape capsuleShape;
     
-    public PlayerClient(){}
+    public Player(){}
     
-    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos, AssetManager assetManager){
+    public Player(int id, int team, int costume, int gun, Vector3f pos, AssetManager assetManager){
         
-        super(id, team, costume, gun, pos, assetManager);
-        /*
         this.user_ID = id;
         this.team = team;
         this.costume = costume;
@@ -58,28 +55,47 @@ public class PlayerClient extends Player{
         
         character = new Node();
         character.addControl(player);
-        player.setPhysicsLocation(position);*/
+        player.setPhysicsLocation(position);
     }
     
-    public void init(){
-        // TODO: igual que refresh pero cogiendo la info de los atributos
+    public int getAction(){
+        return this.action;
     }
-
-
     
-    public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir){
-        position = pos;
-        this.view = view;
-        direction = dir;
-        action = act;
-        
-        player.setWalkDirection(dir);
-        player.setPhysicsLocation(pos);
-        // refresh view
-        //player.setViewDirection(view); ??
-        
-        // change action
-        
+    public int getID(){
+        return this.user_ID;
+    }
+    
+    public int getTeam(){
+        return this.team;
+    }
+    
+    public int getCostume(){
+        return this.costume;
+    }
+    
+    public int getGunId(){
+        return this.gun;
+    }
+    
+    public void setGunId(int g){
+        this.gun = g;
+    }
+    
+    
+    /*
+     * Checks if the 'id' is from this user.
+     */
+    public boolean isPlayer(int id){
+        return this.user_ID == id;
+    }
+    
+    
+    /*
+     * Checks if 'team' is this user's team.
+     */
+    public boolean isTeam(int team){
+        return this.team == team;
     }
     
 }

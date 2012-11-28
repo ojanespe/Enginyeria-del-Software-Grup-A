@@ -2,8 +2,7 @@ package messages;
 
 import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
-import java.util.ArrayList;
-import multiplayer.PlayerInterface;
+import multiplayer.Player;
 import com.jme3.network.serializing.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,11 +18,11 @@ public class WelcomeMessage extends AbstractMessage {
     private int id;
     private Vector3f spawnPosition;
     private Vector3f spawnView;		// VRP of the camera
-    private ConcurrentHashMap<Integer, PlayerInterface> players;  // List of players that are in the match
+    private ConcurrentHashMap<Integer, Player> players;  // List of players that are in the match
     
     public WelcomeMessage(){}
     
-    public WelcomeMessage(int id, Vector3f sp, Vector3f sv, ConcurrentHashMap<Integer, PlayerInterface> p){
+    public WelcomeMessage(int id, Vector3f sp, Vector3f sv, ConcurrentHashMap<Integer, Player> p){
         this.id = id;
         this.spawnPosition = sp;
         this.spawnView = sv;
@@ -38,7 +37,7 @@ public class WelcomeMessage extends AbstractMessage {
         return spawnView;
     }
     
-    public ConcurrentHashMap<Integer, PlayerInterface> getPlayers(){
+    public ConcurrentHashMap<Integer, Player> getPlayers(){
         return players;
     }
     

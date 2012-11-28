@@ -105,7 +105,7 @@ public class ClientListener implements MessageListener<Client> {
             game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             
             ConcurrentHashMap<Integer, PlayerClient> list_p = new ConcurrentHashMap<Integer, PlayerClient>();
-            ConcurrentHashMap<Integer, PlayerInterface> list_inter = m.getPlayers();
+            ConcurrentHashMap<Integer, Player> list_inter = m.getPlayers();
             int len = list_inter.size();
             for(int i = 0; i < len; i ++){
                 list_p.put(i, (PlayerClient)list_inter.get(i));
