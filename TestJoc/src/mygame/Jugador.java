@@ -33,49 +33,57 @@ public class Jugador{
      * Falta añadir los siguientes atributos para el juego online:
      *      int action;     // describe la acción que està realizando el jugador.
      */
+    private Node character;
+    private Node robot;
+    private CharacterControl player;
+    private CapsuleCollisionShape capsuleShape;
     
-    private CharacterControl player;        
-
     private int online_id; 
     private int online_team; // Id del equipo al que pertenece
-    private String costume; // Modelo del jugador
+    private int costume; // Modelo del jugador
     
     private int vida, escudo, TOTAL_GUNS=10, actualGuns=0, gun=0;
-    private float posX, posY, posZ;
-    private CapsuleCollisionShape capsuleShape;
+    
     private Arma[] armas= new Arma[TOTAL_GUNS];
-    private Node character;    
-    //private String gunWeapon="Models/gun/gun.j3o"; //Models/Oto/Oto.mesh.xml
-    //private String rileWeapon="Models/rifle/rifle.j3o";
-    private int count=1;
+
+    private int count=1; // contador per les armes
     
     private boolean sniperMode = false;
     
-    private Node robot;
-    
     
 
-    public Jugador(AssetManager assetManager){
+    public Jugador(int costume, int team){
         vida = 100;
         escudo = 100;
         
-        costume = MultiplayerConstants.OTO;
+        this.costume = costume;
+        this.online_team = team;
         
-        posX = 0.0f;
-        posY = 10.0f;
-        posZ = 0.0f;
-        assetManager.registerLocator("oto.zip", ZipLocator.class);    
+    }
+    
+    public void init(AssetManager assetManager, Vector3f pos, Vector3f view){
+        
+         
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+        
         player = new CharacterControl(capsuleShape, 0.05f);
         player.setJumpSpeed(40);
         player.setFallSpeed(60);
         player.setGravity(60);
         
+        assetManager.registerLocator("oto.zip", ZipLocator.class);   
+        
         character = new Node();
         character.addControl(player);
-        player.setPhysicsLocation(new Vector3f(posX,posY,posZ));
+        player.setPhysicsLocation(pos);
+        player.setViewDirection(view);
         
-
+        robot = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(costume));
+        robot.setName("robot");
+        robot.setLocalScale(0.5f);
+        robot.setLocalTranslation(new Vector3f(0, 10, 0));
+        robot.addControl(player);
+        
         armas[0] = new Arma(assetManager, MultiplayerConstants.PSG_WEAPON, new Vector3f(-2.0f,-1.5f,3.5f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
         armas[0].setWeaponType("sniper");
         armas[0].rotate(45.45f,0.0f, 0.0f);
@@ -83,15 +91,6 @@ public class Jugador{
         armas[1] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-2.8f,-1.4f,5.8f), "Sounds/Effects/Guns/shot_m9.ogg");
         armas[1].rotate(124.0f, 0.0f, 0.0f);
         armas[1].setScale(0.07f);
-
-        
-        robot = (Node)assetManager.loadModel(costume);
-        robot.setName("robot");
-        robot.setLocalScale(0.5f);
-        robot.setLocalTranslation(new Vector3f(0, 10, 0));
-        robot.addControl(player);
-        
-        
     }
     
     public void setGun(Arma gun){
@@ -215,13 +214,6 @@ public class Jugador{
         this.gun = g;
     }
 
-    public void refresh(ArrayList datos) {
-        // TODO: completar refresh
-        player.setPhysicsLocation((Vector3f)datos.get(0));
-        player.setViewDirection((Vector3f)datos.get(1));
-        player.setWalkDirection((Vector3f)datos.get(2));
-        //hacer accion
-    }
     
     /**
      * Retornar (Vector3f position, Vector3f view, Vector3f direction, int action, int user_id)

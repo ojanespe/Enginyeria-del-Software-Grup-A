@@ -4,11 +4,12 @@
  */
 package multiplayer;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
-import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import messages.*;
 import mygame.Jugador;
@@ -98,9 +99,8 @@ public class ClientListener implements MessageListener<Client> {
             WelcomeMessage m = (WelcomeMessage) message;
             
             Jugador j = game.getJugador();
-            // TODO: parameter1 = action must be "standing"
-            // TODO: parameter4 = direction must be 0,0,0?
-            //j.refresh(0, m.getSpawnPosition(), m.getSpawnView(), new Vector3f(0,0,0));
+            j.init(game.getAssetManager(), m.getSpawnPosition(), m.getSpawnView());
+
             
             game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             
@@ -125,19 +125,21 @@ public class ClientListener implements MessageListener<Client> {
         
         ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers(); 
         
+        PlayerClient pc;
         int len = players.size();
-        int i = 0;
+        Enumeration<Integer> enu = players.keys();
         boolean found = false;
-        while(!found && i < len){
-            if(players.get(i).getID() == id){
+        int i = 0;
+        while(!found && enu.hasMoreElements()){
+            i = enu.nextElement();
+            if(i == id){
                 found = true;
             }
-            i++;
         }
         if(found){
             /* TODO: hacer desaparecer el player del mapa */
-            /* TODO: mostrar mensaje "El jugador X ha abandonado la partida." */
-            players.remove(i-1);
+            game.mostrarMensajesPantalla("The player "+i+" left the game.");
+            players.remove(i);
         }
 
     }
@@ -155,8 +157,7 @@ public class ClientListener implements MessageListener<Client> {
         players.put(players.size(), pc);
         id = players.size()-1;
         
-        //pc.init();
-        // TODO: fer aparèixer el jugador "id"
+        pc.init(game.getAssetManager());
         game.mostrarMensajesPantalla("Player " + pc.getID() + " joined the team " + pc.getTeam());
         
     }

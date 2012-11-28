@@ -3,6 +3,7 @@ package multiplayer;
 
 
 import com.jme3.math.Vector3f;
+import com.jme3.network.serializing.Serializable;
 
 
 /**
@@ -10,6 +11,7 @@ import com.jme3.math.Vector3f;
  *
  * @author Marc Bolaños Solà
  */
+@Serializable
 public abstract class Player {
     
     private int user_ID;

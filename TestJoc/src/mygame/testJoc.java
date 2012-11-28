@@ -71,6 +71,7 @@ import com.jme3.system.JmeContext;
 import com.jme3.texture.Texture;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,7 +96,6 @@ public class testJoc extends SimpleApplication
   private Spatial sceneModel;
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
-  private Jugador s;
   private PantallaPrimeraPersona ps;
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false, rotate=false, click=false;
@@ -105,6 +105,8 @@ public class testJoc extends SimpleApplication
   private boolean terceraPersona = false;
   private boolean estadoAnteriorVista = false;
   private ModelActionManager MAM;
+  
+  private Jugador s;
   
   /* Objecte utilitzat com a connexió amb el Server */
   private Client myClient;
@@ -164,21 +166,10 @@ public class testJoc extends SimpleApplication
     setUpLight();
     
     // We load the scene from the zip file and adjust its size.
-//    assetManager.registerLocator("town.zip", ZipLocator.class);
-//    sceneModel = assetManager.loadModel("main.scene");
-//    sceneModel.setLocalScale(2f);
     sceneModel = assetManager.loadModel("Scene/Estacio/estacio2.j3o");
     sceneModel.setLocalScale(3f);
     
 
-
-    /*Spatial cube1 = assetManager.loadModel("Models/Psg/PSG_ANIMADA.j3o");
-    cube1.setLocalScale(0.5f);
-    cube1.setLocalTranslation(10f, 10f, 0f);*/
-    
-    //Spatial cube2 = assetManager.loadModel("Models/cube2.mesh.xml");
-    //cube2.setLocalScale(2f);
-    //cube2.setLocalTranslation(10f, 25f, -30f);
     // We set up collision detection for the scene by creating a
     // compound collision shape and a static RigidBodyControl with mass zero.
     CollisionShape sceneShape =
@@ -187,33 +178,20 @@ public class testJoc extends SimpleApplication
     sceneModel.addControl(landscape);
     
     
-   // RigidBodyControl cubeControl = new RigidBodyControl(5f);
-    //cube1.addControl(cubeControl);
-    
-    //RigidBodyControl cube2Control = new RigidBodyControl(1f);
-    //cube2.addControl(cube2Control);
-    
-    // We set up collision detection for the player by creating
-    // a capsule collision shape and a CharacterControl.
-    // The CharacterControl offers extra settings for
-    // size, stepheight, jumping, falling, and gravity.
-    // We also put the player in its starting position.
-    s = new Jugador(assetManager);
-
-    // Cargamos el arma
-    s.chooseGun(2);
-    
-    // Guardem la id de la connexió proporcionada pel server.
-    s.setID(myClient.getId());
-    
     /*********************************************************/
     /*  ENVIEM HELLOMESSAGE  */
-    // TODO: seleccionar team per part de l'usuari
+    // TODO: seleccionar team i costume per part de l'usuari
+    int costume = (Integer)MultiplayerConstants.COSTUMES.get(MultiplayerConstants.OTO);
     int team = ((int) Math.random() * 2); // team selection provisional
-    HelloMessage m = new HelloMessage(team, s.getCostume());
+    
+    HelloMessage m = new HelloMessage(team, costume);
     m.setReliable(true); // l'enviem amb TCP per assegurar-nos que arriba
     myClient.send(m);
     
+    s = new Jugador(team, costume);
+    
+    // Guardem la id de la connexió proporcionada pel server.
+    s.setID(myClient.getId());
     
     
     /************************************************************************************************/
@@ -270,11 +248,8 @@ public class testJoc extends SimpleApplication
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getNode());
     
-//    control = s.getArma().getGun().getControl(AnimControl.class);
-//    control = robot.getControl(AnimControl.class);
-//    channel = control.createChannel();
-//    channel.setAnim("Walk");
     
+    // Flying robot can be deleted
     AnimControl playerControl; // you need one Control per model
     playerControl = robot2.getControl(AnimControl.class); // get control over this model
     playerControl.addListener(this); // add listener
@@ -291,6 +266,7 @@ public class testJoc extends SimpleApplication
 
         @Override
         public void run() {
+            // TODO: descomentar refresh
             /*  ENVIEM REFRESHMESSAGE  
             ArrayList r = s.getRefresh();
             RefreshMessage m = new RefreshMessage((Vector3f)r.get(0), (Vector3f)r.get(1),
@@ -628,8 +604,8 @@ public void initMaterials(){
         Serializer.registerClass(ShootMessage.class);
         Serializer.registerClass(WelcomeMessage.class);
         
-        Serializer.registerClass(PlayerClient.class);
-        //Serializer.registerClass(PlayerInterface.class);
+        //Serializer.registerClass(PlayerClient.class);
+        Serializer.registerClass(Player.class);
     }
     
     /**
@@ -668,7 +644,14 @@ public void initMaterials(){
      */
     public void setListPlayers(ConcurrentHashMap<Integer, PlayerClient> list){
         this.players = list;
-        // TODO: fer aparèixer tots els jugadors del llistat
+        PlayerClient pc;
+        int len = list.size();
+        Enumeration<Integer> enu = list.keys();
+        while(enu.hasMoreElements()){
+            int i = enu.nextElement();
+            pc = list.get(i);
+            pc.init(assetManager);
+        }
     }
     
     /**

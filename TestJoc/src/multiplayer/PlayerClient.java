@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class PlayerClient extends Player{
 
     private Node character;
+    private Node robot;
     private CharacterControl player;
     private CapsuleCollisionShape capsuleShape;
     
@@ -31,13 +32,12 @@ public class PlayerClient extends Player{
     }
     
     public void init(AssetManager assetManager){
-        // TODO: igual que refresh pero cogiendo la info de los atributos
-        // TODO: Create the model depending on 'costume'
-        character = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(super.getCostume()));
-        character.setName("robot");
-        character.setLocalScale(0.5f);
-        character.setLocalTranslation(new Vector3f(0, 10, 0));
-        character.addControl(player);
+
+        robot = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(super.getCostume()));
+        robot.setName("robot");
+        robot.setLocalScale(0.5f);
+        robot.setLocalTranslation(new Vector3f(0, 10, 0));
+        robot.addControl(player);
         
         capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
