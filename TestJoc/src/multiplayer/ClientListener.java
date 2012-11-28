@@ -101,6 +101,9 @@ public class ClientListener implements MessageListener<Client> {
             Jugador j = game.getJugador();
             j.init(game.getAssetManager(), m.getSpawnPosition(), m.getSpawnView());
 
+            game.createCam();
+            game.createMAM();
+            
             
             game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             

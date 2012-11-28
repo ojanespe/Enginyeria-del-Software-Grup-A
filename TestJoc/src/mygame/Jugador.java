@@ -50,6 +50,8 @@ public class Jugador{
     
     private boolean sniperMode = false;
     
+    /* Inica si el modelo del player se ha inicializado. */
+    private boolean initialized = false;
     
 
     public Jugador(int costume, int team){
@@ -91,6 +93,8 @@ public class Jugador{
         armas[1] = new Arma(assetManager, MultiplayerConstants.GLOCK_WEAPON,  new Vector3f(-2.8f,-1.4f,5.8f), "Sounds/Effects/Guns/shot_m9.ogg");
         armas[1].rotate(124.0f, 0.0f, 0.0f);
         armas[1].setScale(0.07f);
+        
+        initialized = true;
     }
     
     
@@ -239,14 +243,14 @@ public class Jugador{
     }
 
     public boolean isPlayer(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.online_id == id;
     }
 
     public boolean isTeam(int team) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.online_team == team;
     }
-
-    public int getAction() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    public boolean getInitialized(){
+        return initialized;
     }
 }

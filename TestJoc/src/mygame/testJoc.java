@@ -192,71 +192,27 @@ public class testJoc extends SimpleApplication
     
     // Guardem la id de la connexió proporcionada pel server.
     s.setID(myClient.getId());
+    /********************************************************/
     
     
-    /************************************************************************************************/
-    /*CREAMOS UN MODEL ACTION MANAGER*/
-    control = s.getRobot().getControl(AnimControl.class);
-    control.addListener(this);
-    ArrayList<Integer> actions = new ArrayList<Integer>();
-    actions.add(KeyInput.KEY_W);
-    actions.add(KeyInput.KEY_A);
-    actions.add(KeyInput.KEY_S);
-    actions.add(KeyInput.KEY_D);
-    MAM = new ModelActionManager(control, "Walk", 1.5f, actions);
     
-    /*INSERTAMOS los listeners*/
-    for(int i = 0; i<actions.size();i++){
-        inputManager.addMapping(MAM.getAction(), MAM.getKT().get(i));
-    }
-    inputManager.addListener(MAM, MAM.getAction());
-    
-    /*INICIALIZAMOS EL CANAL DE LA ACCION*/
-    MAM.initChannel();
-    /************************************************************************************************/
-    
-    
-    // Pantalla
-    ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
-    
-    //Glock cam location
-    cam.setLocation(new Vector3f(0,3,-5));
-
-    //Mlp location
-    //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
-    cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
-    
-    cameraNode = new CameraNode("camera", cam);
-    cameraNode.attachChild(s.getNode());
-    
-    
+    // Flying robot (can be deleted)
+    /*
     assetManager.registerLocator("oto.zip", ZipLocator.class);
     
     Node robot2 = (Node)assetManager.loadModel("Oto.mesh.xml");
     robot2.setName("robot2");
     robot2.setLocalScale(0.5f);
     robot2.setLocalTranslation(new Vector3f(20, 3, 20));
-        
-    //Rotate the camNode to look at the target:
-    // We attach the scene and the player to the rootnode and the physics space,
-    // to make them appear in the game world.
-    rootNode.attachChild(sceneModel);
-    rootNode.attachChild(cameraNode);
-    rootNode.attachChild(robot2);
-    rootNode.attachChild(s.getNodeModel());
-    
-    bulletAppState.getPhysicsSpace().add(landscape);
-    bulletAppState.getPhysicsSpace().add(s.getNode());
-    
-    
-    // Flying robot can be deleted
     AnimControl playerControl; // you need one Control per model
     playerControl = robot2.getControl(AnimControl.class); // get control over this model
     playerControl.addListener(this); // add listener
     channel = playerControl.createChannel();
     channel.setAnim("Walk");
     
-    collision.setShotable(robot2);
+    collision.setShotable(robot2);*/
+    
+    
     initMaterials();
     
     
@@ -267,7 +223,8 @@ public class testJoc extends SimpleApplication
         @Override
         public void run() {
             // TODO: descomentar refresh
-            /*  ENVIEM REFRESHMESSAGE  
+            /*  ENVIEM REFRESHMESSAGE  (NO ELIMINAR) */
+            /*
             ArrayList r = s.getRefresh();
             RefreshMessage m = new RefreshMessage((Vector3f)r.get(0), (Vector3f)r.get(1),
                     (Vector3f)r.get(2), (Integer)r.get(3), (Integer)r.get(4));
@@ -369,7 +326,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
         } else if (binding.equals("shoot")) {
             
             // TODO: detectar quan toca a algú i només enviar-lo en aquest cas
-            /*  ENVIEM SHOOTMESSAGE  */
+            /*  ENVIEM SHOOTMESSAGE  (NO ELIMINAR)*/
             /*ShootMessage m = new ShootMessage(s.getPlayer().getPhysicsLocation(), cam.getDirection());
             m.setReliable(true);
             myClient.send(m);*/
@@ -513,50 +470,54 @@ public void initMaterials(){
   
   @Override
   public void simpleUpdate(float tpf) {
-    Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
-    Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
-    walkDirection.set(0, 0, 0);
-    
-    if (s.getVida() > 0) {
-        if (left)  { walkDirection.addLocal(camLeft); }
-        if (right) { walkDirection.addLocal(camLeft.negate()); }
-        if (up)    { walkDirection.addLocal(camDir); }
-        if (down)  { walkDirection.addLocal(camDir.negate());}
-        //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
+      
+      if(s.getInitialized()){ // sólo actualizamos la vista si el jugador está inicializado
+      
+        Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
+        Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
+        walkDirection.set(0, 0, 0);
 
-        if(!terceraPersona){
-            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
+        if (s.getVida() > 0) {
+            if (left)  { walkDirection.addLocal(camLeft); }
+            if (right) { walkDirection.addLocal(camLeft.negate()); }
+            if (up)    { walkDirection.addLocal(camDir); }
+            if (down)  { walkDirection.addLocal(camDir.negate());}
+            //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
 
-            cameraNode.setLocalRotation(cam.getRotation());
-            Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
-            camara3p.y+=0.9f;
-            cameraNode.setLocalTranslation(camara3p);
+            if(!terceraPersona){
+                s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
 
-            cam.setLocation(s.getPlayer().getPhysicsLocation());
-            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z); // El modelo mira hacia donde esta mirando el jugador
-            s.getPlayer().setViewDirection(viewDirection);
-            //System.out.println(cam.getDirection());
-            //s.getGun().rotateUpTo(cam.getDirection());        
+                cameraNode.setLocalRotation(cam.getRotation());
+                Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
+                camara3p.y+=0.9f;
+                cameraNode.setLocalTranslation(camara3p);
 
-        }else{ // Vista en 3a persona
-            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
-            cameraNode.setLocalRotation(cam.getRotation());
+                cam.setLocation(s.getPlayer().getPhysicsLocation());
+                Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z); // El modelo mira hacia donde esta mirando el jugador
+                s.getPlayer().setViewDirection(viewDirection);
+                //System.out.println(cam.getDirection());
+                //s.getGun().rotateUpTo(cam.getDirection());        
 
-            Vector3f camara3p = s.getPlayer().getPhysicsLocation();
-            camara3p.y+=5;
-            camara3p.z-=6*cam.getDirection().z;
-            camara3p.x-=6*cam.getDirection().x;
-            cameraNode.setLocalTranslation(camara3p);
-            cam.setLocation(camara3p);
-            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
-            s.getPlayer().setViewDirection(viewDirection);
+            }else{ // Vista en 3a persona
+                s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+                cameraNode.setLocalRotation(cam.getRotation());
+
+                Vector3f camara3p = s.getPlayer().getPhysicsLocation();
+                camara3p.y+=5;
+                camara3p.z-=6*cam.getDirection().z;
+                camara3p.x-=6*cam.getDirection().x;
+                cameraNode.setLocalTranslation(camara3p);
+                cam.setLocation(camara3p);
+                Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
+                s.getPlayer().setViewDirection(viewDirection);
+            }
         }
-    }
-    refrexCrossHairs();
-    // Movement sound
-    if (up || down || right || left) {
-        soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 1);
-    }
+        refrexCrossHairs();
+        // Movement sound
+        if (up || down || right || left) {
+            soundManager.playSituationalSound("Sounds/Effects/Movement/paso_caminando.ogg", 1);
+        }
+     }
   }
   
   protected Geometry makeCube(String name, float x, float y, float z) {
@@ -586,6 +547,62 @@ public void initMaterials(){
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
         MAM.onAnimCycleDone(MAM.getAction());
     }
+    
+    /**
+     * Crea el ModelActionManager justo después de recibir el WelcomeMessage del
+     * server y crear el modelo del jugador.
+     */
+    public void createMAM(){
+        /*CREAMOS UN MODEL ACTION MANAGER*/
+        control = s.getRobot().getControl(AnimControl.class);
+        control.addListener(this);
+        ArrayList<Integer> actions = new ArrayList<Integer>();
+        actions.add(KeyInput.KEY_W);
+        actions.add(KeyInput.KEY_A);
+        actions.add(KeyInput.KEY_S);
+        actions.add(KeyInput.KEY_D);
+        MAM = new ModelActionManager(control, "Walk", 1.5f, actions);
+
+        /*INSERTAMOS los listeners*/
+        for(int i = 0; i<actions.size();i++){
+            inputManager.addMapping(MAM.getAction(), MAM.getKT().get(i));
+        }
+        inputManager.addListener(MAM, MAM.getAction());
+
+        /*INICIALIZAMOS EL CANAL DE LA ACCION*/
+        MAM.initChannel();
+    }
+    
+    
+    /**
+     * Situa la camara en su posición dependiendo de dónde se situe el jugador.
+     */
+    public void createCam(){
+        // Pantalla
+        ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
+
+        //Glock cam location
+        cam.setLocation(new Vector3f(0,3,-5));
+
+        //Mlp location
+        //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
+        cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+
+        cameraNode = new CameraNode("camera", cam);
+        cameraNode.attachChild(s.getNode());
+        
+        //Rotate the camNode to look at the target:
+        // We attach the scene and the player to the rootnode and the physics space,
+        // to make them appear in the game world.
+        rootNode.attachChild(sceneModel);
+        rootNode.attachChild(cameraNode);
+        //rootNode.attachChild(robot2);
+        rootNode.attachChild(s.getNodeModel());
+
+        bulletAppState.getPhysicsSpace().add(landscape);
+        bulletAppState.getPhysicsSpace().add(s.getNode());
+    }
+    
     
     /**
      * Registra tots els tipus de missatges que intercanviarà amb el servidor.
