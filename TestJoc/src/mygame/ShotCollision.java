@@ -40,6 +40,8 @@ public class ShotCollision {
         shootables.attachChild(child);
     }
     
+    
+    
     public void shot(String name, boolean keyPressed, float tpf, Camera cam)
     {
         if (name.equals("shoot") && !keyPressed)
@@ -60,6 +62,7 @@ public class ShotCollision {
                 String hit = results.getCollision(i).getGeometry().getName();
                 System.out.println("* Collision #" + i);
                 System.out.println("  You shot " + hit + " at " + pt + ", " + dist + " wu away.");
+                
             }
             //Si hi ha alguna colisió..
             if (results.size() > 3)

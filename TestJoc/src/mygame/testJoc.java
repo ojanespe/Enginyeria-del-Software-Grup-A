@@ -97,6 +97,7 @@ public class testJoc extends SimpleApplication
   private ModelActionManager MAM;
   private MenuPrincipal menuPrincipal;
   private boolean mundoInicializado = false;
+  private JugadorIA otto;
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -174,7 +175,7 @@ public class testJoc extends SimpleApplication
     // size, stepheight, jumping, falling, and gravity.
     // We also put the player in its starting position.
     s = new Jugador(assetManager);
-
+    otto = new JugadorIA(assetManager);
     // Cargamos el arma
     s.chooseGun(2);
     
@@ -231,8 +232,13 @@ public class testJoc extends SimpleApplication
     rootNode.attachChild(robot2);
     rootNode.attachChild(s.getNodeModel());
     
+    rootNode.attachChild(otto.getNodeModel());
+    
+    collision.setShotable(otto.getNodeModel());
+    
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(s.getNode());
+    bulletAppState.getPhysicsSpace().add(otto.getNode());
     
 //    control = s.getArma().getGun().getControl(AnimControl.class);
 //    control = robot.getControl(AnimControl.class);
@@ -516,6 +522,7 @@ public void initMaterials(){
         
         }else{ // Vista en 3a persona
             s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+            otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
             cameraNode.setLocalRotation(cam.getRotation());
             
             Vector3f camara3p = s.getPlayer().getPhysicsLocation();
