@@ -25,7 +25,7 @@ import multiplayer.*;
 public class ServerMain extends SimpleApplication {
 
     Server myServer = null;
-    ConcurrentHashMap<Integer, PlayerInterface> players;
+    ConcurrentHashMap<Integer, Player> players;
     int idCounter;
     Object idCounterLock;
     
@@ -71,7 +71,7 @@ public class ServerMain extends SimpleApplication {
         myServer.addMessageListener(new ServerListener(myServer, this), ShootMessage.class);
         //myServer.addMessageListener(new ServerListener(myServer, this), WelcomeMessage.class);
         
-        players  = new ConcurrentHashMap<Integer, PlayerInterface>();
+        players  = new ConcurrentHashMap<Integer, Player>();
         idCounter = 0;
         idCounterLock = new Object();
         
@@ -120,14 +120,14 @@ public class ServerMain extends SimpleApplication {
         return idCounter;
     }
     
-    public ConcurrentHashMap<Integer, PlayerInterface> getPlayers() {
+    public ConcurrentHashMap<Integer, Player> getPlayers() {
         return players;
     }
     
     public PlayerServer getByHostedConnection(HostedConnection source) {
-        final Collection<PlayerInterface> refs = players.values();
+        final Collection<Player> refs = players.values();
         PlayerServer pS;
-        for(PlayerInterface p: refs) {
+        for(Player p: refs) {
             pS = (PlayerServer) p;
             //if(pS.getClient().equals(source)) {
             //    return pS;

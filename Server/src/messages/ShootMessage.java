@@ -1,6 +1,5 @@
 package messages;
 
-import com.jme3.math.Vector3f;
 import com.jme3.network.AbstractMessage;
 import com.jme3.network.serializing.Serializable;
 
@@ -13,24 +12,30 @@ import com.jme3.network.serializing.Serializable;
 @Serializable
 public class ShootMessage extends AbstractMessage {
     
-    private Vector3f shootPosition;  //Position of the player
-    private Vector3f shootDirection; //Camera pov.
-    
+    private int idShooter;
+    private int idShooted;
+    private int life;
+
     //info about weapon
     
     public ShootMessage(){}
     
-    public ShootMessage(Vector3f sp, Vector3f sd){
-        this.shootDirection = sd;
-        this.shootPosition = sp;
+    public ShootMessage(int idShooter, int idShooted, int life) {
+        this.idShooter = idShooter;
+        this.idShooted = idShooted;
+        this.life = life;
     }
-    
-    public Vector3f getShootPosition(){
-        return shootPosition;
+
+    public int getIdShooter() {
+        return idShooter;
     }
-    
-    public Vector3f getShootDirection(){
-        return shootDirection;
+
+    public int getIdShooted() {
+        return idShooted;
+    }
+
+    public int getLife() {
+        return life;
     }
     
 }

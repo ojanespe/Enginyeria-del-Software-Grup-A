@@ -44,7 +44,7 @@ public class ServerListener implements MessageListener<HostedConnection> {
                     newPlayer.getPosition(),
                     newPlayer.getView(),
                     app.getPlayers());
-            broadcastNewPlayer(source, (PlayerInterface) newPlayer);
+            broadcastNewPlayer(source, (Player) newPlayer);
         } else if (message instanceof ByeMessage) {
             PlayerServer p = app.getByHostedConnection(source);
             if(p != null) {
@@ -58,6 +58,11 @@ public class ServerListener implements MessageListener<HostedConnection> {
             app.refreshPlayer((RefreshMessage)message);
         } else if (message instanceof ShootMessage) {
             //TODO implement
+            ShootMessage m = (ShootMessage) message;
+            Player p = app.getPlayer(m.getIdShooted());
+            HitMessage hitM = new HitMessage(m.getLife());
+            PlayerServer pS = (PlayerServer) p;
+            pS.getClient().send(hitM);
         }
     }
 
@@ -98,7 +103,7 @@ public class ServerListener implements MessageListener<HostedConnection> {
         //myS.broadcast(message);
     }
 
-    private void broadcastNewPlayer(HostedConnection source, PlayerInterface newPlayer) {
+    private void broadcastNewPlayer(HostedConnection source, Player newPlayer) {
         NewUserMessage newUserM = new NewUserMessage(newPlayer);
         broadcastExceptOne(source, newUserM);
     }

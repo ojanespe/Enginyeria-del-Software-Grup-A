@@ -13,7 +13,7 @@ import messages.RefreshMessage;
  * @author Marc Bolaños
  */
 @Serializable
-public class PlayerServer implements PlayerInterface{
+public class PlayerServer extends Player {
     
     private int user_ID;
     private int team;
@@ -25,7 +25,7 @@ public class PlayerServer implements PlayerInterface{
     private Vector3f direction;
     private int action;
 
-    //private HostedConnection client;
+    private HostedConnection client;
 
     public PlayerServer(){}
     
@@ -50,14 +50,17 @@ public class PlayerServer implements PlayerInterface{
         //this.client = client;
     }
     
+    @Override
     public int getID(){
         return this.user_ID;
     }
     
+    @Override
     public int getTeam(){
         return this.team;
     }
     
+    @Override
     public int getCostume(){
         return this.costume;
     }
@@ -90,26 +93,30 @@ public class PlayerServer implements PlayerInterface{
     /*
      * Checks if 'team' is this user's team.
      */
+    @Override
     public boolean isTeam(int team){
         return this.team == team;
     }
     
-//    public HostedConnection getClient() {
-//        return client;
-//    }
-//    
-//    public void setClient(HostedConnection client) {
-//        this.client = client;
-//    }
+    public HostedConnection getClient() {
+        return client;
+    }
     
+    public void setClient(HostedConnection client) {
+        this.client = client;
+    }
+    
+    @Override
     public Vector3f getPosition() {
         return position;
     }
 
+    @Override
     public Vector3f getView() {
         return view;
     }
 
+    @Override
     public Vector3f getDirection() {
         return direction;
     }
@@ -120,14 +127,17 @@ public class PlayerServer implements PlayerInterface{
         action = message.getAction();
     }
 
+    @Override
     public int getGunId() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void setGunId(int g) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public int getAction() {
         return action;
     }
