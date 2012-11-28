@@ -110,9 +110,11 @@ public class testJoc extends SimpleApplication
   }
   
   public void simpleInitApp() {
+    
     //Menu Principal
     menuPrincipal  = new MenuPrincipal(this);
     stateManager.attach(menuPrincipal);
+    inicializarMundo();
     
   }
   
@@ -122,11 +124,11 @@ public class testJoc extends SimpleApplication
     
     collision = new ShotCollision(rootNode, assetManager);
     
-    collision.setShotable(makeCube("c1", -2f, 1f, 2f));
-    collision.setShotable(makeCube("c2", 0f, 1f, 0f));
-    collision.setShotable(makeCube("c3", 5f, 1f, 1f));
-    collision.setShotable(makeCube("c4", 10f, 1f, -4f));
-    collision.setShotable(makeFloor());
+//    collision.setShotable(makeCube("c1", -2f, 1f, 2f));
+//    collision.setShotable(makeCube("c2", 0f, 1f, 0f));
+//    collision.setShotable(makeCube("c3", 5f, 1f, 1f));
+//    collision.setShotable(makeCube("c4", 10f, 1f, -4f));
+//    collision.setShotable(makeFloor());
     
     /** Set up Physics */
     bulletAppState = new BulletAppState();
@@ -180,7 +182,86 @@ public class testJoc extends SimpleApplication
     s.chooseGun(2);
     
     
-    
+//    
+//    /************************************************************************************************/
+//    /*CREAMOS UN MODEL ACTION MANAGER*/
+//    control = s.getRobot().getControl(AnimControl.class);
+//    control.addListener(this);
+//    ArrayList<Integer> actions = new ArrayList<Integer>();
+//    actions.add(KeyInput.KEY_W);
+//    actions.add(KeyInput.KEY_A);
+//    actions.add(KeyInput.KEY_S);
+//    actions.add(KeyInput.KEY_D);
+//    MAM = new ModelActionManager(control, "Walk", 1.5f, actions);
+//    
+//    /*INSERTAMOS los listeners*/
+//    for(int i = 0; i<actions.size();i++){
+//        inputManager.addMapping(MAM.getAction(), MAM.getKT().get(i));
+//    }
+//    inputManager.addListener(MAM, MAM.getAction());
+//    
+//    /*INICIALIZAMOS EL CANAL DE LA ACCION*/
+//    MAM.initChannel();
+//    /************************************************************************************************/
+//    
+//    
+//    // Pantalla
+//    ps = new PantallaPrimeraPersona(assetManager, settings, guiFont);
+//    
+//    //Glock cam location
+//    cam.setLocation(new Vector3f(0,3,-5));
+//
+//    //Mlp location
+//    //cam.setLocation(new Vector3f(-2.5f,-1.4f,-6));
+//    cam.lookAt(s.getArma().getGun().getLocalTranslation(), Vector3f.UNIT_Y);
+//    
+//    cameraNode = new CameraNode("camera", cam);
+//    cameraNode.attachChild(s.getNode());
+//    
+//    
+// /*   assetManager.registerLocator("oto.zip", ZipLocator.class);
+//    
+//    Node robot2 = (Node)assetManager.loadModel("Oto.mesh.xml");
+//    robot2.setName("robot2");
+//    robot2.setLocalScale(0.5f);
+//    robot2.setLocalTranslation(new Vector3f(20, 3, 20));
+//   */     
+//    //Rotate the camNode to look at the target:
+//    // We attach the scene and the player to the rootnode and the physics space,
+//    // to make them appear in the game world.
+//    rootNode.attachChild(sceneModel);
+//    rootNode.attachChild(cameraNode);
+//    rootNode.attachChild(robot2);
+//    rootNode.attachChild(s.getNodeModel());
+//    
+//    rootNode.attachChild(otto.getNodeModel());
+//    
+//    collision.setShotable(otto.getNodeModel());
+//    
+//    bulletAppState.getPhysicsSpace().add(landscape);
+//    bulletAppState.getPhysicsSpace().add(s.getNode());
+//    bulletAppState.getPhysicsSpace().add(otto.getNode());
+//    
+////    control = s.getArma().getGun().getControl(AnimControl.class);
+////    control = robot.getControl(AnimControl.class);
+////    channel = control.createChannel();
+////    channel.setAnim("Walk");
+//    
+//    /*AnimControl playerControl; // you need one Control per model
+//    playerControl = robot2.getControl(AnimControl.class); // get control over this model
+//    playerControl.addListener(this); // add listener
+//    channel = playerControl.createChannel();
+//    channel.setAnim("Walk");
+//    
+//    collision.setShotable(robot2);*/
+//    initMaterials();
+//    
+//    // Play the ambient sound
+//    soundManager.playAmbientSound();
+  }
+  
+  private void attachWorld(){
+      
     /************************************************************************************************/
     /*CREAMOS UN MODEL ACTION MANAGER*/
     control = s.getRobot().getControl(AnimControl.class);
@@ -217,19 +298,19 @@ public class testJoc extends SimpleApplication
     cameraNode.attachChild(s.getNode());
     
     
-    assetManager.registerLocator("oto.zip", ZipLocator.class);
+ /*   assetManager.registerLocator("oto.zip", ZipLocator.class);
     
     Node robot2 = (Node)assetManager.loadModel("Oto.mesh.xml");
     robot2.setName("robot2");
     robot2.setLocalScale(0.5f);
     robot2.setLocalTranslation(new Vector3f(20, 3, 20));
-        
+   */     
     //Rotate the camNode to look at the target:
     // We attach the scene and the player to the rootnode and the physics space,
     // to make them appear in the game world.
     rootNode.attachChild(sceneModel);
     rootNode.attachChild(cameraNode);
-    rootNode.attachChild(robot2);
+    //rootNode.attachChild(robot2);
     rootNode.attachChild(s.getNodeModel());
     
     rootNode.attachChild(otto.getNodeModel());
@@ -245,13 +326,13 @@ public class testJoc extends SimpleApplication
 //    channel = control.createChannel();
 //    channel.setAnim("Walk");
     
-    AnimControl playerControl; // you need one Control per model
+    /*AnimControl playerControl; // you need one Control per model
     playerControl = robot2.getControl(AnimControl.class); // get control over this model
     playerControl.addListener(this); // add listener
     channel = playerControl.createChannel();
     channel.setAnim("Walk");
     
-    collision.setShotable(robot2);
+    collision.setShotable(robot2);*/
     initMaterials();
     
     // Play the ambient sound
@@ -492,7 +573,7 @@ public void initMaterials(){
      
         if(!mundoInicializado) {
             mundoInicializado = true;
-            inicializarMundo();
+            attachWorld();
         }
         
         Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);

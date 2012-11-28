@@ -51,7 +51,7 @@ public class JugadorIA implements PhysicsCollisionListener{
         posZ = 0.0f;
         
         assetManager.registerLocator("oto.zip", ZipLocator.class);    
-        capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+        capsuleShape = new CapsuleCollisionShape(1.5f, 1f, 1);
         player = new CharacterControl(capsuleShape, 0.05f);
         player.setJumpSpeed(40);
         player.setFallSpeed(60);
