@@ -90,7 +90,8 @@ public class ClientListener implements MessageListener<Client> {
             
             p_refresh = players.get(m.getUserID());
             
-            p_refresh.refresh(m.getAction(), m.getPosition(), m.getView(), m.getDirection());
+            if (p_refresh != null)
+                p_refresh.refresh(m.getAction(), m.getPosition(), m.getView(), m.getDirection());
 
         // WelcomeMessage
         } else if(message instanceof WelcomeMessage){

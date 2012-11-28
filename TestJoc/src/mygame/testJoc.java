@@ -134,10 +134,9 @@ public class testJoc extends SimpleApplication
     } catch (IOException ex) {
         Logger.getLogger(testJoc.class.getName()).log(Level.SEVERE, null, ex);
     }
-    myClient.start();
-    
     registerMessages();
     registerListeners();
+    myClient.start();
     
     
     
@@ -292,12 +291,12 @@ public class testJoc extends SimpleApplication
 
         @Override
         public void run() {
-            /*  ENVIEM REFRESHMESSAGE  */
+            /*  ENVIEM REFRESHMESSAGE  
             ArrayList r = s.getRefresh();
             RefreshMessage m = new RefreshMessage((Vector3f)r.get(0), (Vector3f)r.get(1),
                     (Vector3f)r.get(2), (Integer)r.get(3), (Integer)r.get(4));
             m.setReliable(false); // enviem per UDP
-            myClient.send(m);
+            myClient.send(m);*/
             
         }
         

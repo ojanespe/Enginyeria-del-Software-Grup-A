@@ -7,6 +7,7 @@ import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.network.serializing.Serializable;
 import com.jme3.scene.Node;
+import java.util.ArrayList;
 
 /**
  * Stores the necessary information to describe an instance of an online player.
@@ -124,6 +125,10 @@ public class PlayerClient implements PlayerInterface{
 
     public int getAction() {
         return action;
+    }
+
+    public void refresh(ArrayList datos) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

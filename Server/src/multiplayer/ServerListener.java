@@ -95,6 +95,7 @@ public class ServerListener implements MessageListener<HostedConnection> {
             i++;
         }
         myS.broadcast(Filters.notEqualTo(client), message);
+        //myS.broadcast(message);
     }
 
     private void broadcastNewPlayer(HostedConnection source, PlayerInterface newPlayer) {

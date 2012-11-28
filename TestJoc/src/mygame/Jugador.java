@@ -235,6 +235,8 @@ public class Jugador implements PlayerInterface{
         datos.add(player.getPhysicsLocation());
         datos.add(player.getViewDirection());
         datos.add(player.getWalkDirection());
+        datos.add(0);
+        datos.add(this.online_id);
         //datos.add("accion");
         return datos;
     }
