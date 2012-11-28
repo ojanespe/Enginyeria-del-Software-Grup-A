@@ -1,13 +1,9 @@
 
 package multiplayer;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
-import com.jme3.bullet.control.CharacterControl;
+
 import com.jme3.math.Vector3f;
-import com.jme3.network.serializing.Serializable;
-import com.jme3.scene.Node;
-import java.util.ArrayList;
+
 
 /**
  * Interface for the Player online objects
@@ -26,13 +22,10 @@ public abstract class Player {
     private Vector3f direction;
     private int action;
 
-    private Node character;
-    private CharacterControl player;
-    private CapsuleCollisionShape capsuleShape;
     
     public Player(){}
     
-    public Player(int id, int team, int costume, int gun, Vector3f pos, AssetManager assetManager){
+    public Player(int id, int team, int costume, int gun, Vector3f pos){
         
         this.user_ID = id;
         this.team = team;
@@ -40,26 +33,14 @@ public abstract class Player {
         this.gun = gun;
         this.position = pos;
         
-        // TODO: Create the model depending on 'costume'
-        character = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(costume));
-        character.setName("robot");
-        character.setLocalScale(0.5f);
-        character.setLocalTranslation(new Vector3f(0, 10, 0));
-        character.addControl(player);
-        
-        capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
-        player = new CharacterControl(capsuleShape, 0.05f);
-        player.setJumpSpeed(40);
-        player.setFallSpeed(60);
-        player.setGravity(60);
-        
-        character = new Node();
-        character.addControl(player);
-        player.setPhysicsLocation(position);
     }
     
     public int getAction(){
         return this.action;
+    }
+    
+    public void setAction(int a){
+        action = a;
     }
     
     public int getID(){
@@ -80,6 +61,30 @@ public abstract class Player {
     
     public void setGunId(int g){
         this.gun = g;
+    }
+    
+    public Vector3f getPosition(){
+        return position;
+    }
+    
+    public void setPosition(Vector3f p){
+        position = p;
+    }
+    
+    public Vector3f getView(){
+        return view;
+    }
+    
+    public void setView(Vector3f v){
+        view = v;
+    }
+    
+    public Vector3f getDirection(){
+        return direction;
+    }
+    
+    public void setDirection(Vector3f d){
+        direction = d;
     }
     
     

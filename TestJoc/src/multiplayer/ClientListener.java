@@ -155,7 +155,7 @@ public class ClientListener implements MessageListener<Client> {
         players.put(players.size(), pc);
         id = players.size()-1;
         
-        pc.init();
+        //pc.init();
         // TODO: fer aparèixer el jugador "id"
         game.mostrarMensajesPantalla("Player " + pc.getID() + " joined the team " + pc.getTeam());
         

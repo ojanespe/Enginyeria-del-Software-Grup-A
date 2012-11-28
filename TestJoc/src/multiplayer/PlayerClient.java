@@ -16,16 +16,6 @@ import java.util.ArrayList;
  */
 @Serializable
 public class PlayerClient extends Player{
-    
-    private int user_ID;
-    private int team;
-    private int costume;
-    private int gun;
-    
-    private Vector3f position;
-    private Vector3f view;
-    private Vector3f direction;
-    private int action;
 
     private Node character;
     private CharacterControl player;
@@ -33,18 +23,17 @@ public class PlayerClient extends Player{
     
     public PlayerClient(){}
     
-    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos, AssetManager assetManager){
+    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos, AssetManager am){
         
-        super(id, team, costume, gun, pos, assetManager);
-        /*
-        this.user_ID = id;
-        this.team = team;
-        this.costume = costume;
-        this.gun = gun;
-        this.position = pos;
+        super(id, team, costume, gun, pos);
+        init(am);
         
+    }
+    
+    public void init(AssetManager assetManager){
+        // TODO: igual que refresh pero cogiendo la info de los atributos
         // TODO: Create the model depending on 'costume'
-        character = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(costume));
+        character = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(super.getCostume()));
         character.setName("robot");
         character.setLocalScale(0.5f);
         character.setLocalTranslation(new Vector3f(0, 10, 0));
@@ -58,27 +47,13 @@ public class PlayerClient extends Player{
         
         character = new Node();
         character.addControl(player);
-        player.setPhysicsLocation(position);*/
-    }
-    
-    public void init(){
-        // TODO: igual que refresh pero cogiendo la info de los atributos
+        player.setPhysicsLocation(super.getPosition());
     }
 
 
     
     public void refresh(int act, Vector3f pos, Vector3f view, Vector3f dir){
-        position = pos;
-        this.view = view;
-        direction = dir;
-        action = act;
-        
-        player.setWalkDirection(dir);
-        player.setPhysicsLocation(pos);
-        // refresh view
-        //player.setViewDirection(view); ??
-        
-        // change action
+
         
     }
     
