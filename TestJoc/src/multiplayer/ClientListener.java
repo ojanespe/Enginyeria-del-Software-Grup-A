@@ -88,7 +88,7 @@ public class ClientListener implements MessageListener<Client> {
             
             // Només fem els refresh si ja està inicialitzat el player i per tant
             // tot el joc està inicialitzat al haver rebut el WelcomeMessage
-            if(game.getJugador().getInitialized()){
+            if(game.getJugador().getInitWelcome()){
                 RefreshMessage m = (RefreshMessage) message;
 
                 ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers();
@@ -106,12 +106,12 @@ public class ClientListener implements MessageListener<Client> {
             
             Jugador j = game.getJugador();
             j.init(game.getAssetManager(), m.getSpawnPosition(), m.getSpawnView());
-
-            game.createCam();
-            game.createMAM();
             
+            j.setInitialized(true);
             
-            game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
+            // Fins que el món no estigui inicialitzat no continuem.
+            // TODO: ?¿?¿?¿?¿?¿?
+            while(!j.getInitWorld()){}
             
             ConcurrentHashMap<Integer, PlayerClient> list_p = new ConcurrentHashMap<Integer, PlayerClient>();
             
@@ -136,7 +136,8 @@ public class ClientListener implements MessageListener<Client> {
             * */
             game.setListPlayers(list_p);
             
-            j.setInitialized(true);
+            j.setInitWelcome(true);
+            game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             game.createTimer();
         } 
     }

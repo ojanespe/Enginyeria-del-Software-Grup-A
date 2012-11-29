@@ -108,6 +108,7 @@ public class testJoc extends SimpleApplication
   
   private Jugador s;
   
+  
   /* Objecte utilitzat com a connexió amb el Server */
   private Client myClient;
   /* Llistat de clients que juguen a la partida. */
@@ -214,6 +215,15 @@ public class testJoc extends SimpleApplication
     
     
     initMaterials();
+    
+    // Fins que no estigui el jugador inicialitzat no continua
+    // TODO: ?¿?¿?¿?¿?
+    while(!s.getInitialized()){}
+    
+    createCam();
+    createMAM();
+    
+    s.setInitWorld(true);
     
   }
 
@@ -451,7 +461,7 @@ public void initMaterials(){
   @Override
   public void simpleUpdate(float tpf) {
       
-      if(s.getInitialized()){ // sólo actualizamos la vista si el jugador está inicializado
+      if(s.getInitWelcome()){ // sólo actualizamos la vista si el welcome está completado
       
         Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
         Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);

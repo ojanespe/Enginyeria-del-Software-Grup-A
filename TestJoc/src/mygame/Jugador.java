@@ -50,8 +50,13 @@ public class Jugador{
     
     private boolean sniperMode = false;
     
-    /* Inica si el modelo del player se ha inicializado. */
+    /* Indica si el modelo del player se ha inicializado. */
     private boolean initialized = false;
+    
+    /* Ens indiquen si s'ha inicialitzat el món i la info del WelcomeMessage */
+    private boolean initWorld = false;
+    private boolean initWelcome = false;
+    
     
 
     public Jugador(int costume, int team){
@@ -256,4 +261,32 @@ public class Jugador{
     public void setInitialized(boolean init){
         initialized = init;
     }
+    
+    /**
+     * Ens diu si el món de joc ja està inicialitzat.
+     * 
+     * @return 
+     */
+    public boolean getInitWorld(){
+        return initWorld;
+    }
+    
+    public void setInitWorld(boolean i){
+        initWorld = i;
+    }
+    
+    /**
+     * Ens diu si ja s'ha completat el llistat de players online i offine del WelcomeMessage
+     * 
+     * @return 
+     */
+    public boolean getInitWelcome(){
+        return initWelcome;
+    }
+    
+    
+    public void setInitWelcome(boolean i){
+        initWelcome = i;
+    }
+    
 }
