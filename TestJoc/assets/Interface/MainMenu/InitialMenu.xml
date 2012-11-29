@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty>
+ 
+    <screen id="start" controller="menu.MenuPrincipal" >
+        <layer id="background" childLayout="center">
+            <image filename="Interface/MainMenu/selectBackground.jpg" height="100%" width="100%"></image>
+        </layer>
+
+        <layer id="foreground" childLayout="vertical">
+            <panel id="panelStart" height="60%" width="100%" childLayout="horizontal" paddingTop="100px" paddingLeft="100px" paddingRight="100px">              
+                <image id="panelStart" name="panelStart" filename="Interface/MainMenu/start.png" height="100%" width="100%" align="center" valign="center">
+                   <interact onClick="newGame()"/>
+                   <effect>
+                       <onStartScreen name="move" mode="in" direction="top" length="300" startDelay="0" inherit="true"/>
+                       <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                       <onHover name="changeImage" active="Interface/MainMenu/start_on_hover.png" inactive="Interface/MainMenu/start.png" />
+                   </effect>
+                </image>
+            </panel>
+
+            <panel id="panelExit" height="30%" width="100%" childLayout="center" valign="bottom" paddingTop="20px" paddingRight="20px">  
+                <image id="exitB" name="exitB" filename="Interface/MainMenu/exit.png" height="70%" width="30%" align="right" valign="bottom" >
+                    <interact onClick="exit()"/>
+                    <effect>
+                        <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                        <onEndScreen name="move" mode="out" direction="top" length="300" startDelay="0" inherit="true"/>
+                        <onHover name="changeImage" active="Interface/MainMenu/exit_on_hover.png" inactive="Interface/MainMenu/exit.png" />
+                    </effect>
+                </image>
+            </panel>
+        </layer>
+    </screen>
+  
+  
+  
+    <screen id="choosePlayer" controller="menu.MenuPrincipal">    
+        <layer id="background" childLayout="center">
+            <image filename="Interface/MainMenu/selectBackground.jpg" height="100%" width="100%"></image>
+        </layer>
+
+        <layer id="background" childLayout="vertical">
+            <image filename="Interface/PlayersMenu/fondoPlayer.png" height="70%" width="40%" align="center" ></image>
+        </layer>
+
+
+        <layer id="foreground" childLayout="vertical">
+            <panel id="panelPersonaje" height="60%" width="70%" childLayout="horizontal" align="center">              
+                <panel id="panel_izq" height="100%" width="20%" align="left" childLayout="center" paddingLeft="50px">
+                    <image id="prevImage" name="prevImage" filename="Interface/PlayersMenu/menuPrev.png" height="40%" width="100%">
+                        <interact onClick="prevPerson()" />
+                        <effect>
+                            <onStartScreen name="move" mode="in" direction="left" length="300" startDelay="0" inherit="true"/>
+                            <onEndScreen name="move" mode="out" direction="left" length="300" startDelay="0" inherit="true"/>    
+                            <onHover name="changeImage" active="Interface/PlayersMenu/menuPrev_on_hover.png" inactive="Interface/PlayersMenu/menuPrev.png" />
+                        </effect>
+                    </image>
+                </panel>
+
+                <panel id="panel_imagen" height="100%" width="60%" align="center" childLayout="center">       
+                    <image id="personImage" name="personImage" filename="${CALL.getPlayerImage()}" height="90%" width="60%">
+                        <effect>
+                            <onStartScreen name="move" mode="in" direction="top" length="300" startDelay="0" inherit="true"/>
+                            <onEndScreen name="move" mode="out" direction="top" length="300" startDelay="0" inherit="true"/>    
+                        </effect>
+                    </image>
+                </panel> 
+
+                <panel id="panel_dch" height="100%" width="20%" align="right" childLayout="center" paddingRight="50px">       
+                    <image id="nextImage" name="nextImage" filename="Interface/PlayersMenu/menuNext.png" height="40%" width="100%">
+                        <interact onClick="nextPerson()" />
+                        <effect>
+                            <onStartScreen name="move" mode="in" direction="right" length="300" startDelay="0" inherit="true"/>
+                            <onEndScreen name="move" mode="out" direction="right" length="300" startDelay="0" inherit="true"/>
+                            <onHover name="changeImage" active="Interface/PlayersMenu/menuNext_on_hover.png" inactive="Interface/PlayersMenu/menuNext.png" />  
+                        </effect>
+                    </image>
+                </panel>         
+            </panel>
+         
+         
+            <panel id="panelAceptar" height="40%" width="100%" childLayout="center" valign="bottom" paddingRight="20px" paddingBottom="20px">  
+                <image id="aceptarB" name="aceptarB" filename="Interface/MainMenu/start.png" height="30%" width="30%" align="right" valign="bottom" >
+                    <interact onClick="acceptChoosePlayer()" />
+                    <effect>
+                        <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                        <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/> 
+                        <onHover name="changeImage" active="Interface/MainMenu/start_on_hover.png" inactive="Interface/MainMenu/start.png" />   
+                    </effect>
+                </image>
+                
+            </panel>
+           
+        </layer>     
+            -->
+            
+            
+            
+            
+            
+            
+            
+    </screen>
+ 
+  <screen id="end">
+   
+  </screen>
+
+    
+</nifty>
+
+    
