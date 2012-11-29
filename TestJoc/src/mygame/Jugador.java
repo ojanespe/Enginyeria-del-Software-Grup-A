@@ -94,7 +94,6 @@ public class Jugador{
         armas[1].rotate(124.0f, 0.0f, 0.0f);
         armas[1].setScale(0.07f);
         
-        initialized = true;
     }
     
     
@@ -252,5 +251,9 @@ public class Jugador{
     
     public boolean getInitialized(){
         return initialized;
+    }
+    
+    public void setInitialized(boolean init){
+        initialized = init;
     }
 }

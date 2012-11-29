@@ -24,9 +24,10 @@ public class PlayerClient extends Player{
     
     public PlayerClient(){}
     
-    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos, AssetManager am){
+    public PlayerClient(int id, int team, int costume, int gun, Vector3f pos, Vector3f dir, Vector3f view, int a, AssetManager am){
         
-        super(id, team, costume, gun, pos);
+        super(id, team, costume, gun, pos, dir, view);
+        super.setAction(a);
         init(am);
         
     }
@@ -34,7 +35,7 @@ public class PlayerClient extends Player{
     public void init(AssetManager assetManager){
 
         robot = (Node)assetManager.loadModel((String)MultiplayerConstants.COSTUMES.get(super.getCostume()));
-        robot.setName("robot");
+        robot.setName("robot"+super.getID());
         robot.setLocalScale(0.5f);
         robot.setLocalTranslation(new Vector3f(0, 10, 0));
         robot.addControl(player);

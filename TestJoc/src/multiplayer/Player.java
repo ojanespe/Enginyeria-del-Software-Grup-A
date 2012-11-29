@@ -12,7 +12,7 @@ import com.jme3.network.serializing.Serializable;
  * @author Marc Bolaños Solà
  */
 @Serializable
-public abstract class Player {
+public class Player {
     
     private int user_ID;
     private int team;
@@ -34,7 +34,17 @@ public abstract class Player {
         this.costume = costume;
         this.gun = gun;
         this.position = pos;
-        
+
+    }
+    
+    public Player(int id, int team, int costume, int gun, Vector3f position, Vector3f direction, Vector3f view) {
+        user_ID = id;
+        this.team = team;
+        this.costume = costume;
+        this.gun = gun;
+        this.position = position;
+        this.direction = direction;
+        this.view = view;
     }
     
     public int getAction(){

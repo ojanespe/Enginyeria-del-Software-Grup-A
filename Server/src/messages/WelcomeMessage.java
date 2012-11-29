@@ -19,11 +19,12 @@ public class WelcomeMessage extends AbstractMessage {
     private int id;
     private Vector3f spawnPosition;
     private Vector3f spawnView;		// VRP of the camera
-    private ConcurrentHashMap<Integer, Player> players;  // List of players that are in the match
+    //private ConcurrentHashMap<Integer, Player> players;  // List of players that are in the match
+    private ArrayList<Player> players;
     
     public WelcomeMessage(){}
     
-    public WelcomeMessage(int id, Vector3f sp, Vector3f sv, ConcurrentHashMap<Integer, Player> p){
+    public WelcomeMessage(int id, Vector3f sp, Vector3f sv, ArrayList<Player> p/*ConcurrentHashMap<Integer, Player> p*/){
         this.id = id;
         this.spawnPosition = sp;
         this.spawnView = sv;
@@ -38,7 +39,7 @@ public class WelcomeMessage extends AbstractMessage {
         return spawnView;
     }
     
-    public ConcurrentHashMap<Integer, Player> getPlayers(){
+    public /*ConcurrentHashMap<Integer, Player>*/ ArrayList<Player> getPlayers(){
         return players;
     }
     

@@ -9,6 +9,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import messages.*;
@@ -84,16 +85,21 @@ public class ClientListener implements MessageListener<Client> {
 
         // RefreshMessage
         } else if(message instanceof RefreshMessage){
-            RefreshMessage m = (RefreshMessage) message;
             
-            ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers();
-            PlayerClient p_refresh;
-            
-            p_refresh = players.get(m.getUserID());
-            
-            if (p_refresh != null)
-                p_refresh.refresh(m.getAction(), m.getPosition(), m.getView(), m.getDirection());
+            // Només fem els refresh si ja està inicialitzat el player i per tant
+            // tot el joc està inicialitzat al haver rebut el WelcomeMessage
+            if(game.getJugador().getInitialized()){
+                RefreshMessage m = (RefreshMessage) message;
 
+                ConcurrentHashMap<Integer, PlayerClient> players = game.getListPlayers();
+                PlayerClient p_refresh;
+
+                p_refresh = players.get(m.getUserID());
+
+                if (p_refresh != null)
+                    p_refresh.refresh(m.getAction(), m.getPosition(), m.getView(), m.getDirection());
+            }
+                
         // WelcomeMessage
         } else if(message instanceof WelcomeMessage){
             WelcomeMessage m = (WelcomeMessage) message;
@@ -108,13 +114,30 @@ public class ClientListener implements MessageListener<Client> {
             game.mostrarMensajesPantalla("Welcome to the game "+game.getClientConnection().getGameName());
             
             ConcurrentHashMap<Integer, PlayerClient> list_p = new ConcurrentHashMap<Integer, PlayerClient>();
-            ConcurrentHashMap<Integer, Player> list_inter = m.getPlayers();
+            
+            // ADDED
+            ArrayList<Player> p_array = m.getPlayers();
+            int len = p_array.size();
+            PlayerClient pc;
+            Player p;
+            for(int i = 0; i < len; i++){
+                //list_p.put(p_array.get(i).getID(), (PlayerClient)p_array.get(i));
+                p = p_array.get(i);
+                pc = new PlayerClient(p.getID(), p.getTeam(), p.getCostume(), p.getGunId(), p.getPosition(), p.getDirection(), p.getView(), p.getAction(), game.getAssetManager());
+                list_p.put(p.getID(), pc);
+            }
+            ////////////////////////////
+            
+            /*ConcurrentHashMap<Integer, Player> list_inter = m.getPlayers();
             int len = list_inter.size();
             for(int i = 0; i < len; i ++){
                 list_p.put(i, (PlayerClient)list_inter.get(i));
             }
+            * */
             game.setListPlayers(list_p);
             
+            j.setInitialized(true);
+            game.createTimer();
         } 
     }
  

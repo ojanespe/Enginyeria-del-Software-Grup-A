@@ -184,14 +184,14 @@ public class testJoc extends SimpleApplication
     int costume = (Integer)MultiplayerConstants.COSTUMES.get(MultiplayerConstants.OTO);
     int team = ((int) Math.random() * 2); // team selection provisional
     
-    HelloMessage m = new HelloMessage(team, costume);
-    m.setReliable(true); // l'enviem amb TCP per assegurar-nos que arriba
-    myClient.send(m);
-    
     s = new Jugador(team, costume);
     
     // Guardem la id de la connexió proporcionada pel server.
     s.setID(myClient.getId());
+    
+    HelloMessage m = new HelloMessage(team, costume);
+    m.setReliable(true); // l'enviem amb TCP per assegurar-nos que arriba
+    myClient.send(m);
     /********************************************************/
     
     
@@ -214,26 +214,6 @@ public class testJoc extends SimpleApplication
     
     
     initMaterials();
-    
-    
-    /* We initialize the timer. */
-    time = new Timer(true);
-    time.schedule(new TimerTask() {
-
-        @Override
-        public void run() {
-            // TODO: descomentar refresh
-            /*  ENVIEM REFRESHMESSAGE  (NO ELIMINAR) */
-            /*
-            ArrayList r = s.getRefresh();
-            RefreshMessage m = new RefreshMessage((Vector3f)r.get(0), (Vector3f)r.get(1),
-                    (Vector3f)r.get(2), (Integer)r.get(3), (Integer)r.get(4));
-            m.setReliable(false); // enviem per UDP
-            myClient.send(m);*/
-            
-        }
-        
-    }, 0, delay);
     
   }
 
@@ -601,6 +581,31 @@ public void initMaterials(){
 
         bulletAppState.getPhysicsSpace().add(landscape);
         bulletAppState.getPhysicsSpace().add(s.getNode());
+    }
+    
+    
+    /**
+     * Inicialitza el timer que s'encarregarà d'enviar els RefreshMessages
+     */
+    public void createTimer(){
+        /* We initialize the timer. */
+        time = new Timer(true);
+        time.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                // TODO: descomentar refresh
+                /*  ENVIEM REFRESHMESSAGE  (NO ELIMINAR) */
+                /*
+                ArrayList r = s.getRefresh();
+                RefreshMessage m = new RefreshMessage((Vector3f)r.get(0), (Vector3f)r.get(1),
+                        (Vector3f)r.get(2), (Integer)r.get(3), (Integer)r.get(4));
+                m.setReliable(false); // enviem per UDP
+                myClient.send(m);*/
+
+            }
+
+        }, 0, delay);
     }
     
     
