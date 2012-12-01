@@ -43,7 +43,16 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
     private int indexPersonaje = 0;
     private ArrayList<String> playersImages;
     
+    private boolean onPause = false;
+    private Element pausePopup;
+    
+    public static final int STOP = 1;
+    public static final int PLAY = 2;
+    public static final int PAUSE = 3;
+    private int currentState;
+    
     public MenuPrincipal(SimpleApplication app){
+        this.app = app;
         this.rootNode      = app.getRootNode();
         this.viewPort      = app.getViewPort();
         this.guiNode       = app.getGuiNode();
@@ -53,7 +62,9 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app); 
-        this.app = (SimpleApplication)app;   
+        this.app = (SimpleApplication)app;
+        
+        currentState = STOP;
         
         playersImages = new ArrayList<String>();
         playersImages.add("Interface/PlayersMenu/player1.png");
@@ -67,18 +78,15 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
                                                       this.app.getGuiViewPort());
         nifty = niftyDisplay.getNifty();
         nifty.fromXml("Interface/MainMenu/InitialMenu.xml", "start",this);
+        
+        pausePopup = this.nifty.createPopup("pausePopup");
 
         // attach the nifty display to the gui view port as a processor
         app.getGuiViewPort().addProcessor(niftyDisplay);
         this.app.getInputManager().setCursorVisible(true);
-        
    } 
-    
-    /*
-     * 
-     */
+
     public void onAction(String name, boolean isPressed, float tpf) {
-        
     }
     
     public void newGame(){
@@ -89,6 +97,25 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
         nifty.gotoScreen("end");
         this.app.getInputManager().setCursorVisible(false);
         this.setIsRunningMenuPrincipal(false);
+        currentState = PLAY;
+    }
+    
+    /*
+     * Pausar el juego
+     */
+    public void pause() {
+        showPausePopup();
+        this.app.getInputManager().setCursorVisible(true);
+        currentState = PAUSE;
+    }
+
+    /*
+     * Volver a la pantalla de juego despues de pausa
+     */
+    public void goToGame() {
+        closePopup();
+        this.app.getInputManager().setCursorVisible(false);
+        currentState = PLAY;
     }
     
     public void exit(){
@@ -100,12 +127,10 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
         this.screen = screen;
     }
 
-    public void onStartScreen() {
-       
+    public void onStartScreen() {      
     }
 
-    public void onEndScreen() {
-       
+    public void onEndScreen() {     
     }
     
     public String getPlayerImage() {
@@ -140,5 +165,21 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
         NiftyImage newImage = nifty.getRenderEngine().createImage((String) playersImages.get(indexPersonaje), false); // false means don't linear filter the image, true would apply linear filtering
         Element element = screen.findElementByName("personImage");
         element.getRenderer(ImageRenderer.class).setImage(newImage);
+    }
+    
+    public boolean onPause() {
+        return onPause;
+    }
+    
+    public int getCurrentState() {
+        return currentState;
+    }
+    
+    public void showPausePopup() {
+        this.nifty.showPopup(this.nifty.getCurrentScreen(), pausePopup.getId(), null);
+    }
+    
+    public void closePopup() {
+        this.nifty.closePopup( pausePopup.getId());
     }
 }

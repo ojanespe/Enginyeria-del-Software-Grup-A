@@ -403,6 +403,7 @@ public class testJoc extends SimpleApplication
     inputManager.addMapping("CambiarVista3per", new KeyTrigger(KeyInput.KEY_F2));
     inputManager.addMapping("rotateRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
     inputManager.addMapping("rotateLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
+    inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
     inputManager.addListener(this, "shoot");
     inputManager.addListener(this, "scope");
     inputManager.addListener(this, "Left");
@@ -414,87 +415,96 @@ public class testJoc extends SimpleApplication
     inputManager.addListener(this, "rotateRight", "rotateLeft");
     inputManager.addListener(this, "CambiarVista1per");
     inputManager.addListener(this, "CambiarVista3per");
+    inputManager.addListener(this, "pause");
   }
 
   /** These are our custom actions triggered by key presses.
    * We do not walk yet, we just keep track of the direction the user pressed. */
 public void onAction(String binding, boolean isPressed, float tpf) {
-    if (s.getVida() > 0) {
-        if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
-            float b = cam.getFrustumBottom();
-            float t = cam.getFrustumTop();
-            float l = cam.getFrustumLeft();
-            float r = cam.getFrustumRight();
-            float n = cam.getFrustumNear();
-            float f = cam.getFrustumFar();
+    
+    if (menuPrincipal.getCurrentState() == menuPrincipal.PLAY) {
+        
+        if (s.getVida() > 0) {
+            if (binding.equals("scope") && !isPressed && s.getArma().getWeaponType().equals("sniper")) {
+                float b = cam.getFrustumBottom();
+                float t = cam.getFrustumTop();
+                float l = cam.getFrustumLeft();
+                float r = cam.getFrustumRight();
+                float n = cam.getFrustumNear();
+                float f = cam.getFrustumFar();
 
-            if (!s.getSniperMode()) {
-                guiNode.attachChild(ps.getScope());
-                s.setSniperMode(true);
-                cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
-                terceraPersona = false;
-            } 
-            else {
-                guiNode.detachChild(ps.getScope());
-                s.setSniperMode(false);
-                cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
-                if(estadoAnteriorVista){
-                    terceraPersona = true;  
+                if (!s.getSniperMode()) {
+                    guiNode.attachChild(ps.getScope());
+                    s.setSniperMode(true);
+                    cam.setFrustum(n, f, l * 0.25f, r * 0.25f, t * 0.25f, b * 0.25f);
+                    terceraPersona = false;
+                } 
+                else {
+                    guiNode.detachChild(ps.getScope());
+                    s.setSniperMode(false);
+                    cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+                    if(estadoAnteriorVista){
+                        terceraPersona = true;  
+                    }
                 }
-            }
-        } else if (binding.equals("rotateRight")) {
-            // Nada por ahora.. pero necesario??
-        } else if (binding.equals("rotateLeft")) {
-            // Nada por ahora.. pero necesario??
-        } else if (binding.equals("CambiarVista1per")) {
-            terceraPersona = false;
-            estadoAnteriorVista = terceraPersona;
-        } else if (binding.equals("CambiarVista3per")) {
-            terceraPersona = true;
-            estadoAnteriorVista = terceraPersona;
-        } else if (binding.equals("Left")) {
-          if (isPressed) { left = true; } else { left = false; }
-        } else if (binding.equals("Right")) {
-          if (isPressed) { right = true; } else { right = false; }
-        } else if (binding.equals("Up")) {
-          if (isPressed) { up = true; } else { up = false; }
-        } else if (binding.equals("Down")) {
-          if (isPressed) { down = true; } else { down = false; }
-        } else if (binding.equals("Jump")) {
-          s.getPlayer().jump();
-        } else if (binding.equals("shoot")) {
-          /*channel.setAnim("Walk",0.50f);
-          channel.setLoopMode(LoopMode.DontLoop);
-          channel.setSpeed(0.10f);*/
-          if (!click) {
-              click = true;
-          } else {
-            collision.shot(binding, isPressed, tpf, cam );
-            s.incremenDisparos();
-            click = false;
-            soundManager.playInstance(s.getArma().getShotSound(), 1);
-          }
-          if (s.getEscudo() > 0) {
-                s.setEscudo((s.getEscudo()-1));
-          } else {
-            s.setVida(s.getVida()-1);
-          }
+            } else if (binding.equals("rotateRight")) {
+                // Nada por ahora.. pero necesario??
+            } else if (binding.equals("rotateLeft")) {
+                // Nada por ahora.. pero necesario??
+            } else if (binding.equals("CambiarVista1per")) {
+                terceraPersona = false;
+                estadoAnteriorVista = terceraPersona;
+            } else if (binding.equals("CambiarVista3per")) {
+                terceraPersona = true;
+                estadoAnteriorVista = terceraPersona;
+            } else if (binding.equals("Left")) {
+              if (isPressed) { left = true; } else { left = false; }
+            } else if (binding.equals("Right")) {
+              if (isPressed) { right = true; } else { right = false; }
+            } else if (binding.equals("Up")) {
+              if (isPressed) { up = true; } else { up = false; }
+            } else if (binding.equals("Down")) {
+              if (isPressed) { down = true; } else { down = false; }
+            } else if (binding.equals("Jump")) {
+              s.getPlayer().jump();
+            } else if (binding.equals("shoot")) {
+              /*channel.setAnim("Walk",0.50f);
+              channel.setLoopMode(LoopMode.DontLoop);
+              channel.setSpeed(0.10f);*/
+              if (!click) {
+                  click = true;
+              } else {
+                collision.shot(binding, isPressed, tpf, cam );
+                s.incremenDisparos();
+                click = false;
+                soundManager.playInstance(s.getArma().getShotSound(), 1);
+              }
+              if (s.getEscudo() > 0) {
+                    s.setEscudo((s.getEscudo()-1));
+              } else {
+                s.setVida(s.getVida()-1);
+              }
 
-        } else if (binding.equals("Change") && !isPressed) {
-           if (s.getSniperMode()) {
-               guiNode.detachChild(ps.getScope());
-               s.setSniperMode(false);
-               float b = cam.getFrustumBottom();
-               float t = cam.getFrustumTop();
-               float l = cam.getFrustumLeft();
-               float r = cam.getFrustumRight();
-               float n = cam.getFrustumNear();
-               float f = cam.getFrustumFar();
-               cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
-           }
-           s.changeArm();
-           // Sound of weapon change
-           soundManager.playEffectSound(SoundManager.WEAPON_CHANGE);
+            } else if (binding.equals("Change") && !isPressed) {
+               if (s.getSniperMode()) {
+                   guiNode.detachChild(ps.getScope());
+                   s.setSniperMode(false);
+                   float b = cam.getFrustumBottom();
+                   float t = cam.getFrustumTop();
+                   float l = cam.getFrustumLeft();
+                   float r = cam.getFrustumRight();
+                   float n = cam.getFrustumNear();
+                   float f = cam.getFrustumFar();
+                   cam.setFrustum(n, f, l * 4f, r * 4f, t * 4f, b * 4f);
+               }
+               s.changeArm();
+               // Sound of weapon change
+               soundManager.playEffectSound(SoundManager.WEAPON_CHANGE);
+            } else if (binding.equals("pause")) {
+                //stateManager.attach(menuPrincipal);
+                menuPrincipal.pause();
+                soundManager.pauseAmbientSound();
+            }
         }
     }
 }
@@ -600,68 +610,75 @@ public void initMaterials(){
   
   @Override
   public void simpleUpdate(float tpf) {
+      int state = menuPrincipal.getCurrentState();
       
-     if (menuPrincipal.getIsRunningMenuPrincipal()/* && !stateManager.hasState(menuPrincipal)*/){
-        //stateManager.detach(bulletAppState);
-        stateManager.attach(menuPrincipal);
-     } else {
-         //stateManager.attach(bulletAppState);
-        stateManager.detach(menuPrincipal);
-     
-        if(!mundoInicializado) {
-            mundoInicializado = true;
-            attachWorld();
-        }
-        
-        Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
-        Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
-        walkDirection.set(0, 0, 0);
-    
-        if (s.getVida() > 0) {
-            if (left)  { walkDirection.addLocal(camLeft); }
-            if (right) { walkDirection.addLocal(camLeft.negate()); }
-            if (up)    { walkDirection.addLocal(camDir); }
-            if (down)  { walkDirection.addLocal(camDir.negate());}
-            //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
-        }
-        if(!terceraPersona){
-            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
-            //otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.mult(2).x,0,walkDirection.mult(2).z));
-//            otto.getPlayer().setWalkDirection(otto.getPlayer().getWalkDirection().addLocal(0.1f,0.f,0.f));
-//            if(otto.getPlayer().getWalkDirection().x > 5){
-//                otto.getPlayer().setWalkDirection(otto.getPlayer().getWalkDirection().addLocal(-0.2f,0.f,0.f));
-//            } 
-            cameraNode.setLocalRotation(cam.getRotation());
-            Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
-            camara3p.y+=0.9f;
-            cameraNode.setLocalTranslation(camara3p);
+      switch(state) {
+          case MenuPrincipal.STOP:
+              stateManager.attach(menuPrincipal);
+              break;
+              
+          case MenuPrincipal.PLAY:
+              refreshProcess();
+              break;
+      }
+  }
+  
+  public void refreshProcess() {
+      //stateManager.attach(bulletAppState);
+      stateManager.detach(menuPrincipal);
+      if(!mundoInicializado) {
+          mundoInicializado = true;
+          attachWorld();
+      }
 
-            cam.setLocation(s.getPlayer().getPhysicsLocation());
-            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z); // El modelo mira hacia donde esta mirando el jugador
-            s.getPlayer().setViewDirection(viewDirection);
-            //System.out.println(cam.getDirection());
-            //s.getGun().rotateUpTo(cam.getDirection());        
-        
-        }else{ // Vista en 3a persona
-            s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
-            //otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
-            cameraNode.setLocalRotation(cam.getRotation());
-            
-            Vector3f camara3p = s.getPlayer().getPhysicsLocation();
-            camara3p.y+=5;
-            camara3p.z-=6*cam.getDirection().z;
-            camara3p.x-=6*cam.getDirection().x;
-            cameraNode.setLocalTranslation(camara3p);
-            cam.setLocation(camara3p);
-            Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
-            s.getPlayer().setViewDirection(viewDirection);
-        }
-        refrexCrossHairs();
-        // Movement sound
-        if (up || down || right || left) {
-            soundManager.playEffectSound(SoundManager.MOVEMENT);
-        }
-     }
+      Vector3f camDir = cam.getDirection().clone().multLocal(0.6f);
+      Vector3f camLeft = cam.getLeft().clone().multLocal(0.4f);
+      walkDirection.set(0, 0, 0);
+
+      if (s.getVida() > 0) {
+          if (left)  { walkDirection.addLocal(camLeft); }
+          if (right) { walkDirection.addLocal(camLeft.negate()); }
+          if (up)    { walkDirection.addLocal(camDir); }
+          if (down)  { walkDirection.addLocal(camDir.negate());}
+          //if (rotate)  { s.getArma().rotate(0, 5 * tpf, 0); }
+      }
+      if(!terceraPersona){
+          s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z)); //Para no cambiar la Y del modelo
+          //otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.mult(2).x,0,walkDirection.mult(2).z));
+    //            otto.getPlayer().setWalkDirection(otto.getPlayer().getWalkDirection().addLocal(0.1f,0.f,0.f));
+    //            if(otto.getPlayer().getWalkDirection().x > 5){
+    //                otto.getPlayer().setWalkDirection(otto.getPlayer().getWalkDirection().addLocal(-0.2f,0.f,0.f));
+    //            } 
+          cameraNode.setLocalRotation(cam.getRotation());
+          Vector3f camara3p = s.getPlayer().getPhysicsLocation(); // Colocar la camara en vista primera 1a
+          camara3p.y+=0.9f;
+          cameraNode.setLocalTranslation(camara3p);
+
+          cam.setLocation(s.getPlayer().getPhysicsLocation());
+          Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z); // El modelo mira hacia donde esta mirando el jugador
+          s.getPlayer().setViewDirection(viewDirection);
+          //System.out.println(cam.getDirection());
+          //s.getGun().rotateUpTo(cam.getDirection());        
+
+      }else{ // Vista en 3a persona
+          s.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+          //otto.getPlayer().setWalkDirection(new Vector3f(walkDirection.x,0,walkDirection.z));
+          cameraNode.setLocalRotation(cam.getRotation());
+
+          Vector3f camara3p = s.getPlayer().getPhysicsLocation();
+          camara3p.y+=5;
+          camara3p.z-=6*cam.getDirection().z;
+          camara3p.x-=6*cam.getDirection().x;
+          cameraNode.setLocalTranslation(camara3p);
+          cam.setLocation(camara3p);
+          Vector3f viewDirection = new Vector3f(cam.getDirection().x,0,cam.getDirection().z);
+          s.getPlayer().setViewDirection(viewDirection);
+      }
+      refrexCrossHairs();
+      // Movement sound
+      if (up || down || right || left) {
+          soundManager.playEffectSound(SoundManager.MOVEMENT);
+      }
   }
   
   protected Geometry makeCube(String name, float x, float y, float z) {

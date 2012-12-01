@@ -98,6 +98,10 @@ public class SoundManager {
         ambient.play();
     }
     
+    public void pauseAmbientSound() {
+        ambient.pause();
+    }
+    
     public void playEffectSound(int effect) {        
         switch(effect) {
             case WEAPON_CHANGE:
