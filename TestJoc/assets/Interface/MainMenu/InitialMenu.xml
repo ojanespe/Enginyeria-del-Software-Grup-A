@@ -118,12 +118,12 @@
         </layer>
         <layer childLayout="center">
             <panel id="panelAceptar" height="40%" width="100%" childLayout="center" valign="bottom" paddingRight="20px" paddingBottom="20px">  
-                <image id="aceptarB" name="aceptarB" filename="Interface/MainMenu/start.png" height="30%" width="30%" align="right" valign="bottom" >
+                <image id="aceptarB" name="aceptarB" filename="Interface/MainMenu/next.png" height="30%" width="20%" align="right" valign="bottom" >
                     <interact onClick="choosePlayer()" />
                     <effect>
                         <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0" inherit="true"/>
                         <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/> 
-                        <onHover name="changeImage" active="Interface/MainMenu/start_on_hover.png" inactive="Interface/MainMenu/start.png" />   
+                        <onHover name="changeImage" active="Interface/MainMenu/next_on_hover.png" inactive="Interface/MainMenu/next.png" />   
                     </effect>
                 </image>
                 
@@ -133,14 +133,14 @@
     </screen>
     
     <popup id="pausePopup" controller="menu.MenuPrincipal" childLayout="center" backgroundColor="#000a" >
-        <panel width="100%" height="100%" childLayout="vertical">
+        <panel width="100%" height="100%" childLayout="vertical" paddingLeft="30px" paddingRight="30px" paddingTop="30px" paddingBottom="30px">
             <panel id="panelStart" height="60%" width="100%" childLayout="horizontal" paddingTop="0px" paddingLeft="100px" paddingRight="100px">              
-                <image id="panelStart" name="panelStart" filename="Interface/MainMenu/start.png" height="100%" width="100%" align="center" valign="center">
+                <image id="panelStart" name="panelStart" filename="Interface/MainMenu/continue.png" height="100%" width="100%" align="center" valign="center">
                    <interact onClick="goToGame()"/>
                    <effect>
                        <onStartScreen name="move" mode="in" direction="top" length="300" startDelay="0" inherit="true"/>
                        <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
-                       <onHover name="changeImage" active="Interface/MainMenu/start_on_hover.png" inactive="Interface/MainMenu/start.png" />
+                       <onHover name="changeImage" active="Interface/MainMenu/continue_on_hover.png" inactive="Interface/MainMenu/continue.png" />
                    </effect>
                 </image>
             </panel>
