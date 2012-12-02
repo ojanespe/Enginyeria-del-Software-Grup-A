@@ -15,8 +15,13 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.controls.TextFieldChangedEvent;
+import de.lessvoid.nifty.controls.textfield.TextFieldControl;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
+import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -51,8 +56,9 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
     public static final int PAUSE = 3;
     private int currentState;
     
+    private String IP;
+    
     public MenuPrincipal(SimpleApplication app){
-        this.app = app;
         this.rootNode      = app.getRootNode();
         this.viewPort      = app.getViewPort();
         this.guiNode       = app.getGuiNode();
@@ -77,6 +83,7 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
                                                       this.app.getAudioRenderer(),
                                                       this.app.getGuiViewPort());
         nifty = niftyDisplay.getNifty();
+        //screen = new Screen(nifty, "", this, null);
         nifty.fromXml("Interface/MainMenu/InitialMenu.xml", "start",this);
         
         pausePopup = this.nifty.createPopup("pausePopup");
@@ -84,13 +91,26 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
         // attach the nifty display to the gui view port as a processor
         app.getGuiViewPort().addProcessor(niftyDisplay);
         this.app.getInputManager().setCursorVisible(true);
+        
+        IP = "127.0.0.1"; // Default IP
    } 
 
     public void onAction(String name, boolean isPressed, float tpf) {
     }
     
     public void newGame(){
+        nifty.gotoScreen("ipConfig");
+    }
+    
+    public void choosePlayer() {        
+        // Si la ip es correcta, guardarla y pasar a elegir personaje
+        
         nifty.gotoScreen("choosePlayer");
+    }
+    
+    @NiftyEventSubscriber(id = "serverIP")
+    public void onServerNameChanged(final String id, final TextFieldChangedEvent event) {
+        IP = event.getText();
     }
     
     public void acceptChoosePlayer() {
@@ -146,9 +166,10 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
     }
     
     public void prevPerson() {
-        indexPersonaje--;
         if(indexPersonaje == 0) {
             indexPersonaje = playersImages.size()-1;
+        } else {
+            indexPersonaje--;
         }
         cambioImagenPersonaje();
     }
@@ -181,5 +202,9 @@ public class MenuPrincipal extends AbstractAppState implements ScreenController,
     
     public void closePopup() {
         this.nifty.closePopup( pausePopup.getId());
+    }
+    
+    public String getDefaultIP() {
+        return IP;
     }
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nifty>
- 
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+    
     <screen id="start" controller="menu.MenuPrincipal" >
         <layer id="background" childLayout="center">
             <image filename="Interface/MainMenu/selectBackground.jpg" height="100%" width="100%"></image>
@@ -90,6 +92,44 @@
            
         </layer>     
                     
+    </screen>
+    
+    <screen id="ipConfig" controller="menu.MenuPrincipal">
+        <layer id="background" childLayout="center">
+            <image filename="Interface/MainMenu/selectBackground.jpg" height="100%" width="100%"></image>
+        </layer>
+        
+        <layer childLayout="center">
+            
+            <panel width="80%" height="25%" align="center" valign="center" childLayout="vertical" backgroundColor="#55a5" padding="10">
+                <control name="label" text="Client Config" />
+                <panel height="21px" childLayout="horizontal">
+                    <control name="label" text="Client Name: " />
+                    <control id="server" width="230px" name="textfield" text="App Server"/>
+                </panel>
+
+                <panel height="21px" childLayout="horizontal"/>
+
+                <panel height="21px" childLayout="horizontal">
+                    <control name="label" text="IP: " />
+                    <control id="serverIP" width="100px" name="textfield" text="127.0.0.1"/>
+                </panel>
+            </panel>
+        </layer>
+        <layer childLayout="center">
+            <panel id="panelAceptar" height="40%" width="100%" childLayout="center" valign="bottom" paddingRight="20px" paddingBottom="20px">  
+                <image id="aceptarB" name="aceptarB" filename="Interface/MainMenu/start.png" height="30%" width="30%" align="right" valign="bottom" >
+                    <interact onClick="choosePlayer()" />
+                    <effect>
+                        <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                        <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/> 
+                        <onHover name="changeImage" active="Interface/MainMenu/start_on_hover.png" inactive="Interface/MainMenu/start.png" />   
+                    </effect>
+                </image>
+                
+            </panel>
+            
+        </layer>
     </screen>
     
     <popup id="pausePopup" controller="menu.MenuPrincipal" childLayout="center" backgroundColor="#000a" >
