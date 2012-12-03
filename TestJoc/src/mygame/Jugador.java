@@ -38,7 +38,7 @@ public class Jugador implements PlayerInterface{
     
     private CharacterControl player;        
 
-    private int vida, escudo, TOTAL_GUNS=3, actualGuns=0, gun=0;
+    private int vida, escudo, TOTAL_GUNS=4, actualGuns=0, gun=0;
     private float posX, posY, posZ;
     private CapsuleCollisionShape capsuleShape;
     private Arma[] armas= new Arma[TOTAL_GUNS];
@@ -78,6 +78,9 @@ public class Jugador implements PlayerInterface{
         armas[2] = new Arma(assetManager, MultiplayerConstants.GRENADE_WEAPON, new Vector3f(-2.0f,-1.6f,3.5f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
         armas[2].rotate(0.0f,34.3f, 0.0f);
         armas[2].setScale(0.14f);
+        armas[3] = new Arma(assetManager, MultiplayerConstants.GRENADE_WEAPON, new Vector3f(-2.0f,-1.6f,3.5f), "Sounds/Effects/Guns/shotgun-old_school.ogg");
+        armas[3].rotate(0.0f,34.3f, 0.0f);
+        armas[3].setScale(0.14f);
 
         
         robot = (Node)assetManager.loadModel("Oto.mesh.xml");
@@ -104,13 +107,18 @@ public class Jugador implements PlayerInterface{
     }
     
     public void changeArm() {
-        if(gun<(TOTAL_GUNS-1))
+        if(gun<(TOTAL_GUNS-2))
             gun++;
         else
             gun=0;
         
         character.detachAllChildren();        
         character.attachChild(armas[gun].getGun());
+    }
+    
+    public Spatial getGranade()
+    {
+        return armas[3].getGun();
     }
     
     public Spatial getGun() {

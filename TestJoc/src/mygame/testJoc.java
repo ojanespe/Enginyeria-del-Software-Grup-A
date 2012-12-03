@@ -40,7 +40,9 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
 import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.cinematic.MotionPath;
@@ -60,6 +62,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -102,6 +105,7 @@ public class testJoc extends SimpleApplication
   private MenuPrincipal menuPrincipal;
   private boolean mundoInicializado = false;
   private JugadorIA otto;
+  private static SphereCollisionShape bulletCollisionShape;
   
   public static void main(String[] args) {
     testJoc app = new testJoc();
@@ -119,7 +123,15 @@ public class testJoc extends SimpleApplication
     menuPrincipal  = new MenuPrincipal(this);
     stateManager.attach(menuPrincipal);
     inicializarMundo();
+    bulletAppState = new BulletAppState();
+    bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
+    stateManager.attach(bulletAppState);
+    bulletCollisionShape = new SphereCollisionShape(0.4f);
     
+  }
+  
+  private PhysicsSpace getPhysicsSpace() {
+    return bulletAppState.getPhysicsSpace();
   }
   
   public void inicializarMundo() {
@@ -471,6 +483,7 @@ public void onAction(String binding, boolean isPressed, float tpf) {
               /*channel.setAnim("Walk",0.50f);
               channel.setLoopMode(LoopMode.DontLoop);
               channel.setSpeed(0.10f);*/
+              makeCannonBall();
               if (!click) {
                   click = true;
               } else {
@@ -533,18 +546,22 @@ public void initMaterials(){
   
   public void makeCannonBall() {
     /** Create a cannon ball geometry and attach to scene graph. */
-    Geometry ball_geo = new Geometry("cannon ball", sphere);
-    ball_geo.setMaterial(stone_mat);
-    rootNode.attachChild(ball_geo);
-    /** Position the cannon ball  */
-    ball_geo.setLocalTranslation(cam.getLocation());
+    s.getGranade().setLocalTranslation(cam.getLocation());
     /** Make the ball physcial with a mass > 0.0f */
     ball_phy = new RigidBodyControl(1f);
     /** Add physical ball to physics space. */
-    ball_geo.addControl(ball_phy);
+    s.getGranade().addControl(ball_phy);
     bulletAppState.getPhysicsSpace().add(ball_phy);
     /** Accelerate the physcial ball to shoot it. */
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
+    
+    //SphereCollisionShape bulletCollisionShape = new SphereCollisionShape(0.4f);
+    RigidBodyControl bulletNode = new BombControl(assetManager, bulletCollisionShape, 1);
+    bulletNode.setLinearVelocity(cam.getDirection().mult(25));
+    s.getGranade().addControl(bulletNode);
+    rootNode.attachChild(s.getGranade());
+    getPhysicsSpace().add(bulletNode);
+    
   }
  
   /** A plus sign used as crosshairs to help the player with aiming.*/
