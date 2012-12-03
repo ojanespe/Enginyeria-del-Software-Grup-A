@@ -35,10 +35,8 @@ package mygame;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
-import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
-import com.jme3.asset.plugins.ZipLocator;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -53,8 +51,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
@@ -63,7 +59,6 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
@@ -216,14 +211,19 @@ public class testJoc extends SimpleApplication
     
     initMaterials();
     
+    System.out.println(">>>>>> INITIALIZATION");
     // Fins que no estigui el jugador inicialitzat no continua
     // TODO: ?¿?¿?¿?¿?
-    while(!s.getInitialized()){}
+    while(!s.getInitialized()){
+        System.out.print(s.getInitialized());
+    }
     
+    System.out.println(">>>>>> INITIALIZATION 2");
     createCam();
     createMAM();
     
     s.setInitWorld(true);
+    System.out.println(">>>>>> WORLD INITIALIZED!!!!!");
     
   }
 

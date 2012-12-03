@@ -123,7 +123,7 @@ public class ServerMain extends SimpleApplication {
         return players;
     }
     
-    public PlayerServer getByHostedConnection(HostedConnection source) {
+    public Player getByHostedConnection(HostedConnection source) {
         final Collection<Player> refs = players.values();
         PlayerServer pS;
         for(Player p: refs) {
@@ -140,17 +140,19 @@ public class ServerMain extends SimpleApplication {
         players.remove(iD);
     }
     
-    public PlayerServer getPlayer(int id) {
+    public Player getPlayer(int id) {
         Integer i = (Integer)id;
-        return (PlayerServer) players.get(i);
+        return (Player) players.get(i);
     }
 
     public void refreshPlayer(RefreshMessage message) {
-        PlayerServer p = getPlayer(message.getUserID());
-        p.refresh(message);
+        Player p = getPlayer(message.getUserID());
+        p.setView(message.getView());
+        p.setDirection(message.getDirection());
+        p.setAction(message.getAction());
     }
 
-    public HostedConnection getClient(PlayerServer p) {
+    public HostedConnection getClient(Player p) {
         return clients.get(p.getID());
     }
     

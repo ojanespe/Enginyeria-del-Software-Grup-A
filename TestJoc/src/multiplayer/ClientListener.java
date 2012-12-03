@@ -4,8 +4,6 @@
  */
 package multiplayer;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Message;
 import com.jme3.network.MessageListener;
@@ -96,8 +94,9 @@ public class ClientListener implements MessageListener<Client> {
 
                 p_refresh = players.get(m.getUserID());
 
-                if (p_refresh != null)
+                if (p_refresh != null) {
                     p_refresh.refresh(m.getAction(), m.getPosition(), m.getView(), m.getDirection());
+                }
             }
                 
         // WelcomeMessage
@@ -108,10 +107,11 @@ public class ClientListener implements MessageListener<Client> {
             j.init(game.getAssetManager(), m.getSpawnPosition(), m.getSpawnView());
             
             j.setInitialized(true);
+            System.out.println(">>>>>>> Set initilized true");
             
             // Fins que el món no estigui inicialitzat no continuem.
             // TODO: ?¿?¿?¿?¿?¿?
-            while(!j.getInitWorld()){}
+            while(!game.getJugador().getInitWorld()){}//j.getInitWorld()){}
             
             ConcurrentHashMap<Integer, PlayerClient> list_p = new ConcurrentHashMap<Integer, PlayerClient>();
             

@@ -62,20 +62,18 @@ public class ServerListener implements MessageListener<HostedConnection> {
             source.send(wM);
             //myS.broadcast(Filters.equalTo(source), wM);
         } else if (message instanceof ByeMessage) {
-            Player p = (Player)app.getByHostedConnection(source);
+            Player p = (Player)app.getPlayer(source.getId());
             if(p != null) {
                 app.removePlayer(p.getID());
                 DisconnectMessage dM = new DisconnectMessage(p.getID());
                 broadcastExceptOne(source, dM);
             }
         } else if (message instanceof RefreshMessage) {
-            //TODO maybe better in another order
             broadcastExceptOne(source, message);
             app.refreshPlayer((RefreshMessage)message);
         } else if (message instanceof ShootMessage) {
-            //TODO implement
             ShootMessage m = (ShootMessage) message;
-            PlayerServer p = app.getPlayer(m.getIdShooted());
+            Player p = app.getPlayer(m.getIdShooted());
             HitMessage hitM = new HitMessage(m.getLife());
             app.getClient(p).send(hitM);
         }
