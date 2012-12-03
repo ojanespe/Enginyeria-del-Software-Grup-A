@@ -123,9 +123,9 @@ public class testJoc extends SimpleApplication
     menuPrincipal  = new MenuPrincipal(this);
     stateManager.attach(menuPrincipal);
     inicializarMundo();
-    bulletAppState = new BulletAppState();
+    /*bulletAppState = new BulletAppState();
     bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
-    stateManager.attach(bulletAppState);
+    stateManager.attach(bulletAppState);*/
     bulletCollisionShape = new SphereCollisionShape(0.4f);
     
   }
@@ -483,7 +483,10 @@ public void onAction(String binding, boolean isPressed, float tpf) {
               /*channel.setAnim("Walk",0.50f);
               channel.setLoopMode(LoopMode.DontLoop);
               channel.setSpeed(0.10f);*/
-              makeCannonBall();
+              if(s.getSelectedGun()==2)
+              {
+                makeCannonBall();
+              }
               if (!click) {
                   click = true;
               } else {
@@ -543,9 +546,13 @@ public void initMaterials(){
     guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
 }
 
-  
-  public void makeCannonBall() {
+
+public void makeCannonBall1()
+{
     /** Create a cannon ball geometry and attach to scene graph. */
+
+    rootNode.attachChild(s.getGranade());
+    /** Position the cannon ball  */
     s.getGranade().setLocalTranslation(cam.getLocation());
     /** Make the ball physcial with a mass > 0.0f */
     ball_phy = new RigidBodyControl(1f);
@@ -555,12 +562,27 @@ public void initMaterials(){
     /** Accelerate the physcial ball to shoot it. */
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
     
+}
+  
+  public void makeCannonBall() {
+    /** Create a cannon ball geometry and attach to scene graph. */
+    s.getGranade().setLocalTranslation(cam.getLocation());
+    /** Make the ball physcial with a mass > 0.0f */
+    ball_phy = new BombControl(assetManager, bulletCollisionShape, 1f);
+    /** Add physical ball to physics space. */
+    ball_phy.setLinearVelocity(cam.getDirection().mult(55));
+    s.getGranade().addControl(ball_phy);
+    bulletAppState.getPhysicsSpace().add(ball_phy);
+    /** Accelerate the physcial ball to shoot it. */
+    
+    rootNode.attachChild(s.getGranade());
+    
     //SphereCollisionShape bulletCollisionShape = new SphereCollisionShape(0.4f);
-    RigidBodyControl bulletNode = new BombControl(assetManager, bulletCollisionShape, 1);
-    bulletNode.setLinearVelocity(cam.getDirection().mult(25));
+    /*RigidBodyControl bulletNode = new BombControl(assetManager, bulletCollisionShape, 1);
+    bulletNode.setLinearVelocity(cam.getDirection().mult(55));
     s.getGranade().addControl(bulletNode);
     rootNode.attachChild(s.getGranade());
-    getPhysicsSpace().add(bulletNode);
+    getPhysicsSpace().add(bulletNode);*/
     
   }
  

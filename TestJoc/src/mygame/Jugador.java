@@ -121,6 +121,11 @@ public class Jugador implements PlayerInterface{
         return armas[3].getGun();
     }
     
+    public int getSelectedGun()
+    {
+        return gun;
+    }
+    
     public Spatial getGun() {
         return armas[gun].getGun();
     }

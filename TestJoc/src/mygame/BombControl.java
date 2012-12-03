@@ -98,6 +98,9 @@ public class BombControl extends RigidBodyControl implements PhysicsCollisionLis
             space.addTickListener(this);
             if (effect != null && spatial.getParent() != null) {
                 curTime = 0;
+                
+                
+                //effect.setLocalTranslation(new Vector3f(20, 3, 20));
                 effect.setLocalTranslation(spatial.getLocalTranslation());
                 spatial.getParent().attachChild(effect);
                 effect.emitAllParticles();
